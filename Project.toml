@@ -3,6 +3,9 @@ uuid = "5c94114f-5ab1-4d8d-928b-60e06aec4206"
 authors = ["Stephan Sahm <stephan.sahm@jolin.io> and contributors"]
 version = "0.1.0"
 
+[deps]
+JolinWorkspace = "ff89246c-a040-4a00-86f6-c786d8a335d0"
+
 [compat]
 julia = "1.6"
 
