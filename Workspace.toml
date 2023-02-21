@@ -1,0 +1,9 @@
+[setup.dev]
+url = ""
+
+[setup.prod]
+url = ""
+
+# manage environment variables
+[ENV.STAGE]
+valid = ["test", "dev", "prod"]
