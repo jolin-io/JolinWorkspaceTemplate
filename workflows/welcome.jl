@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.26
+# v0.19.28
 
 using Markdown
 using InteractiveUtils
@@ -26,10 +26,15 @@ md"""
 @bind number Slider(1:10)
 
 # ╔═╡ 3133be06-db22-4434-96b9-e99bdea7ba3e
-1 + number
+10 + number
 
 # ╔═╡ 0775396f-2d0a-4276-ae41-aebace0275f9
 error("fail")
+
+# ╔═╡ 528b6ea3-4996-4990-8159-1a9219e5024e
+md"""
+some comment
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -302,5 +307,6 @@ version = "17.4.0+0"
 # ╠═b6fdb8e5-7d33-4d83-b57b-f2f864309a70
 # ╠═3133be06-db22-4434-96b9-e99bdea7ba3e
 # ╠═0775396f-2d0a-4276-ae41-aebace0275f9
+# ╠═528b6ea3-4996-4990-8159-1a9219e5024e
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
