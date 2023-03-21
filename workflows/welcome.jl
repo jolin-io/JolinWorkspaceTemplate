@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.26
+# v0.19.28
 
 using Markdown
 using InteractiveUtils
@@ -26,7 +26,7 @@ md"""
 @bind number Slider(1:10)
 
 # ╔═╡ 3133be06-db22-4434-96b9-e99bdea7ba3e
-1 + number
+10 + number
 
 # ╔═╡ 0775396f-2d0a-4276-ae41-aebace0275f9
 error("fail")
