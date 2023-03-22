@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.28
+# v0.19.29
 
 using Markdown
 using InteractiveUtils
@@ -30,27 +30,6 @@ md"""
 
 # ╔═╡ 0775396f-2d0a-4276-ae41-aebace0275f9
 error("fail")
-
-# ╔═╡ 528b6ea3-4996-4990-8159-1a9219e5024e
-md"""
-some other comment
-
-and even more
-"""
-
-# ╔═╡ 985c26fc-0451-4d5a-86a4-81ecea648db6
-"let's fetz again"
-
-# ╔═╡ 77fb6f9d-50a2-4b17-8e20-936331a6fde4
-md"""
-ohohoh
-"""
-
-# ╔═╡ a4360580-1060-4f8c-b957-ac21f8425c6b
-1/2
-
-# ╔═╡ 06bbdf8b-3dc6-4f57-b84e-c1de2e403667
-
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -323,10 +302,5 @@ version = "17.4.0+0"
 # ╠═b6fdb8e5-7d33-4d83-b57b-f2f864309a70
 # ╠═3133be06-db22-4434-96b9-e99bdea7ba3e
 # ╠═0775396f-2d0a-4276-ae41-aebace0275f9
-# ╠═528b6ea3-4996-4990-8159-1a9219e5024e
-# ╠═985c26fc-0451-4d5a-86a4-81ecea648db6
-# ╠═77fb6f9d-50a2-4b17-8e20-936331a6fde4
-# ╠═a4360580-1060-4f8c-b957-ac21f8425c6b
-# ╠═06bbdf8b-3dc6-4f57-b84e-c1de2e403667
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
