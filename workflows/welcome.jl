@@ -42,7 +42,7 @@ and even more
 "let's fetz again"
 
 # ╔═╡ 77fb6f9d-50a2-4b17-8e20-936331a6fde4
-42
+nothing
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
