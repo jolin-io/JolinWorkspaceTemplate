@@ -25,11 +25,19 @@ md"""
 # ╔═╡ b6fdb8e5-7d33-4d83-b57b-f2f864309a70
 @bind number Slider(1:10)
 
+# ╔═╡ 91b37a3c-772c-4ecc-8ce5-6d6aad85eae9
+number
+
 # ╔═╡ 3133be06-db22-4434-96b9-e99bdea7ba3e
 10 + number
 
+# ╔═╡ 064c3ab8-d96a-4cfa-8306-8553cbe09cf3
+md"""
+# error demonstration
+"""
+
 # ╔═╡ 0775396f-2d0a-4276-ae41-aebace0275f9
-error("fail")
+# error("fail")
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -300,7 +308,9 @@ version = "17.4.0+0"
 # ╟─d7795a36-b1cd-11ed-12e8-210a8bca4b85
 # ╠═a7b9b64a-cf7c-49cf-9b37-5522f0584430
 # ╠═b6fdb8e5-7d33-4d83-b57b-f2f864309a70
+# ╠═91b37a3c-772c-4ecc-8ce5-6d6aad85eae9
 # ╠═3133be06-db22-4434-96b9-e99bdea7ba3e
+# ╟─064c3ab8-d96a-4cfa-8306-8553cbe09cf3
 # ╠═0775396f-2d0a-4276-ae41-aebace0275f9
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
