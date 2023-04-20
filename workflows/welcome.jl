@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.29
+# v0.19.31
 
 using Markdown
 using InteractiveUtils
@@ -16,6 +16,15 @@ end
 
 # ╔═╡ a7b9b64a-cf7c-49cf-9b37-5522f0584430
 using PlutoUI
+
+# ╔═╡ 6b788741-5288-46fe-81bd-7d4d26a82755
+using HTTP
+
+# ╔═╡ 761dab2c-863b-4bad-9b0d-032ae348c23a
+using JWTs
+
+# ╔═╡ 106fffed-66bb-43c6-97e3-579ce436efe6
+using HypertextLiteral, JSON3
 
 # ╔═╡ d7795a36-b1cd-11ed-12e8-210a8bca4b85
 md"""
@@ -36,15 +45,99 @@ md"""
 # error demonstration
 """
 
-# ╔═╡ 0775396f-2d0a-4276-ae41-aebace0275f9
-# error("fail")
+# ╔═╡ 0b134780-f11c-4167-a5e3-87e2834eb661
+serviceaccount_token = readchomp("/var/run/secrets/kubernetes.io/serviceaccount/token")
+
+# ╔═╡ 2190d645-bf49-434d-9f8b-0622d182995a
+print(serviceaccount_token)
+
+# ╔═╡ 45a1df85-b615-4110-89fe-eacbf4a162a3
+ENV
+
+# ╔═╡ 87afcbe9-296c-4411-8072-a1c0c96e15d6
+HTTP.get("http://jolinworkspaceserver-jwts.default/request_jwt",
+	query=["serviceaccount_token" => serviceaccount_token, "workflowpath" => "dummy", "audience" => "aws"])
+
+# ╔═╡ b2f3f419-1b66-4901-b60e-78714f3b9cac
+macro get_jwt(audience="")
+	serviceaccount_token = readchomp("/var/run/secrets/kubernetes.io/serviceaccount/token")
+	project_dir = dirname(Base.current_project())
+	path = split(String(__source__.file),"#==#")[1]
+	@assert startswith(path, project_dir) "invalid workflow location"
+	workflowpath = path[length(project_dir)+2:end]
+	quote
+		response = HTTP.get("http://jolinworkspaceserver-jwts.default/request_jwt",
+			query=["serviceaccount_token" => $serviceaccount_token,
+				   "workflowpath" => $workflowpath,
+				   "audience" => $audience])
+		JSON3.read(response.body).token
+	end
+end
+
+# ╔═╡ ce4f0595-3341-4b89-b1b9-da1388696c18
+token_response = @get_jwt()
+
+# ╔═╡ 8e363846-bb07-4150-bbf0-4f04d5118730
+keyset = begin
+	keyset = JWKSet("https://cloud.jolin.io/jwks")
+	JWTs.refresh!(keyset)
+	keyset
+end
+
+# ╔═╡ 2995e12f-8063-4f17-80e1-a03583172621
+jwt = JWT(jwt=token_response)
+
+# ╔═╡ ca532231-3ea4-4090-a705-0e3652810b45
+JWTs.validate!(jwt, keyset)
+
+# ╔═╡ d51f15f5-2542-4356-bf81-66ae4ba9fe61
+JWTs.isvalid(jwt)
+
+# ╔═╡ c35f3225-2751-45d5-8a16-8a222f92b59e
+swap_output() = @htl """
+<style>
+pluto-notebook[swap_output] pluto-cell {
+	display: flex;
+    flex-direction: column;
+}
+pluto-notebook[swap_output] pluto-cell pluto-output {
+	order: 1;
+}
+pluto-notebook[swap_output] pluto-cell pluto-runarea {
+	top: 5px;
+	/* placing it left to the cell options: */
+	/* right: 14px; */
+	/* placing it right to the cell options: */
+	right: -80px;
+	z-index: 20;
+}
+</style>
+
+<script>
+const plutoNotebook = document.querySelector("pluto-notebook")
+plutoNotebook.setAttribute('swap_output', "")
+/* invalidation is a pluto feature and will be triggered when the cell is deleted */
+invalidation.then(() => cell.removeAttribute("swap_output"))
+</script>
+"""
+
+# ╔═╡ 115ed537-68ea-49af-9bda-2a50c429e709
+swap_output()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+JWTs = "d850fbd6-035d-5a70-a269-1ca2e636ac6c"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+HTTP = "~1.7.4"
+HypertextLiteral = "~0.9.4"
+JSON3 = "~1.12.0"
+JWTs = "~0.2.2"
 PlutoUI = "~0.7.50"
 """
 
@@ -54,7 +147,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "d8b0bbb312600ec81f2769bd72048a77429debd9"
+project_hash = "d6db6a6268b477ba898da05b6bc82b50443f9550"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -71,6 +164,17 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+
+[[deps.BitFlags]]
+git-tree-sha1 = "43b1a4a8f797c1cddadf60499a8a077d4af2cd2d"
+uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
+version = "0.1.7"
+
+[[deps.CodecZlib]]
+deps = ["TranscodingStreams", "Zlib_jll"]
+git-tree-sha1 = "9c209fb7536406834aa938fb149964b985de6c83"
+uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
+version = "0.7.1"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -101,6 +205,12 @@ git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.4"
 
+[[deps.HTTP]]
+deps = ["Base64", "CodecZlib", "Dates", "IniFile", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "37e4657cd56b11abe3d10cd4a1ec5fbdb4180263"
+uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+version = "1.7.4"
+
 [[deps.Hyperscript]]
 deps = ["Test"]
 git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
@@ -119,15 +229,38 @@ git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.2"
 
+[[deps.IniFile]]
+git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
+uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
+version = "0.5.1"
+
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[[deps.JLLWrappers]]
+deps = ["Preferences"]
+git-tree-sha1 = "abc9885a7ca2052a736a600f7fa66209f96506e1"
+uuid = "692b3bcd-3c85-4b1f-b108-f13ce0eb3210"
+version = "1.4.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
 git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.3"
+
+[[deps.JSON3]]
+deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
+git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
+uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+version = "1.12.0"
+
+[[deps.JWTs]]
+deps = ["Base64", "Downloads", "JSON", "MbedTLS", "Random"]
+git-tree-sha1 = "a1f3ded6307ef85cc18dec93d9b993814eb4c1a0"
+uuid = "d850fbd6-035d-5a70-a269-1ca2e636ac6c"
+version = "0.2.2"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -158,6 +291,12 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.LoggingExtras]]
+deps = ["Dates", "Logging"]
+git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
+uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
+version = "1.0.0"
+
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
@@ -166,6 +305,12 @@ version = "0.1.4"
 [[deps.Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
+
+[[deps.MbedTLS]]
+deps = ["Dates", "MbedTLS_jll", "MozillaCACerts_jll", "Random", "Sockets"]
+git-tree-sha1 = "03a9b9718f5682ecb107ac9f7308991db4ce395b"
+uuid = "739be429-bea8-5141-9913-cc70e7f3736d"
+version = "1.1.7"
 
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -187,6 +332,18 @@ version = "1.2.0"
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
 version = "0.3.20+0"
+
+[[deps.OpenSSL]]
+deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
+git-tree-sha1 = "6503b77492fd7fcb9379bf73cd31035670e3c509"
+uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
+version = "1.3.3"
+
+[[deps.OpenSSL_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "9ff31d101d987eb9d66bd8b176ac7c277beccd09"
+uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
+version = "1.1.20+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "SnoopPrecompile"]
@@ -235,6 +392,11 @@ version = "0.7.0"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
+[[deps.SimpleBufferStream]]
+git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
+uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
+version = "1.1.0"
+
 [[deps.SnoopPrecompile]]
 deps = ["Preferences"]
 git-tree-sha1 = "e760a70afdcd461cf01a575947738d359234665c"
@@ -252,6 +414,12 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
+[[deps.StructTypes]]
+deps = ["Dates", "UUIDs"]
+git-tree-sha1 = "ca4bccb03acf9faaf4137a9abc1881ed1841aa70"
+uuid = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
+version = "1.10.0"
+
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
@@ -266,15 +434,21 @@ version = "1.10.1"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+[[deps.TranscodingStreams]]
+deps = ["Random", "Test"]
+git-tree-sha1 = "94f38103c984f89cf77c402f2a68dbd870f8165f"
+uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
+version = "0.9.11"
+
 [[deps.Tricks]]
-git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+git-tree-sha1 = "aadb748be58b492045b4f56166b5188aa63ce549"
 uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
-version = "0.1.6"
+version = "0.1.7"
 
 [[deps.URIs]]
-git-tree-sha1 = "ac00576f90d8a259f2c9d823e91d1de3fd44d348"
+git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
-version = "1.4.1"
+version = "1.4.2"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -311,6 +485,20 @@ version = "17.4.0+0"
 # ╠═91b37a3c-772c-4ecc-8ce5-6d6aad85eae9
 # ╠═3133be06-db22-4434-96b9-e99bdea7ba3e
 # ╟─064c3ab8-d96a-4cfa-8306-8553cbe09cf3
-# ╠═0775396f-2d0a-4276-ae41-aebace0275f9
+# ╠═6b788741-5288-46fe-81bd-7d4d26a82755
+# ╠═0b134780-f11c-4167-a5e3-87e2834eb661
+# ╠═2190d645-bf49-434d-9f8b-0622d182995a
+# ╠═45a1df85-b615-4110-89fe-eacbf4a162a3
+# ╠═87afcbe9-296c-4411-8072-a1c0c96e15d6
+# ╠═b2f3f419-1b66-4901-b60e-78714f3b9cac
+# ╠═ce4f0595-3341-4b89-b1b9-da1388696c18
+# ╠═761dab2c-863b-4bad-9b0d-032ae348c23a
+# ╠═8e363846-bb07-4150-bbf0-4f04d5118730
+# ╠═2995e12f-8063-4f17-80e1-a03583172621
+# ╠═ca532231-3ea4-4090-a705-0e3652810b45
+# ╠═d51f15f5-2542-4356-bf81-66ae4ba9fe61
+# ╠═115ed537-68ea-49af-9bda-2a50c429e709
+# ╠═106fffed-66bb-43c6-97e3-579ce436efe6
+# ╟─c35f3225-2751-45d5-8a16-8a222f92b59e
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
