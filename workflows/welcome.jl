@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.31
+# v0.19.32
 
 using Markdown
 using InteractiveUtils
@@ -55,7 +55,7 @@ print(serviceaccount_token)
 ENV
 
 # ╔═╡ 87afcbe9-296c-4411-8072-a1c0c96e15d6
-HTTP.get("http://jolinworkspaceserver-jwts.default/request_jwt",
+HTTP.get("http://jolin-workspace-server-jwts.default/request_jwt",
 	query=["serviceaccount_token" => serviceaccount_token, "workflowpath" => "dummy", "audience" => "aws"])
 
 # ╔═╡ b2f3f419-1b66-4901-b60e-78714f3b9cac
@@ -66,7 +66,7 @@ macro get_jwt(audience="")
 	@assert startswith(path, project_dir) "invalid workflow location"
 	workflowpath = path[length(project_dir)+2:end]
 	quote
-		response = HTTP.get("http://jolinworkspaceserver-jwts.default/request_jwt",
+		response = HTTP.get("http://jolin-workspace-server-jwts.default/request_jwt",
 			query=["serviceaccount_token" => $serviceaccount_token,
 				   "workflowpath" => $workflowpath,
 				   "audience" => $audience])
@@ -246,9 +246,9 @@ version = "1.4.1"
 
 [[deps.JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
-git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
+git-tree-sha1 = "31e996f0a15c7b280ba9f76636b3ff9e2ae58c9a"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.21.3"
+version = "0.21.4"
 
 [[deps.JSON3]]
 deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
@@ -335,9 +335,9 @@ version = "0.3.20+0"
 
 [[deps.OpenSSL]]
 deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
-git-tree-sha1 = "6503b77492fd7fcb9379bf73cd31035670e3c509"
+git-tree-sha1 = "7fb975217aea8f1bb360cf1dde70bad2530622d2"
 uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
-version = "1.3.3"
+version = "1.4.0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -436,9 +436,9 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.TranscodingStreams]]
 deps = ["Random", "Test"]
-git-tree-sha1 = "94f38103c984f89cf77c402f2a68dbd870f8165f"
+git-tree-sha1 = "0b829474fed270a4b0ab07117dce9b9a2fa7581a"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
-version = "0.9.11"
+version = "0.9.12"
 
 [[deps.Tricks]]
 git-tree-sha1 = "aadb748be58b492045b4f56166b5188aa63ce549"
