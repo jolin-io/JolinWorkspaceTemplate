@@ -19,6 +19,12 @@ using Conda
 # ╔═╡ 772dad6c-ef3b-40b9-bcef-1034750e8d54
 using RDatasets
 
+# ╔═╡ e06bd8ce-16b8-49f5-8523-16c74aabf7d4
+using PlutoUI
+
+# ╔═╡ 2f879507-9b46-4068-91e0-9faac23379ff
+using HypertextLiteral
+
 # ╔═╡ d7795a36-b1cd-11ed-12e8-210a8bca4b85
 md"""
 # First steps with Jolin Workspace.
@@ -40,22 +46,51 @@ ls()
 readdir("/home/jolin_user/conda/lib/")
 
 # ╔═╡ 30f4d100-e81f-4c61-b898-1b57d63f0794
-Conda.add(["r-tidyverse", "numpy", "pandas", "seaborn"])
+Conda.add(["r-tidyverse", "numpy", "pandas", "matplotlib", "plotly"])
+
+# ╔═╡ 2bd26164-0b2c-4bc2-b46a-524b85d1f4d1
+
 
 # ╔═╡ fa188e1d-86a3-4c6d-9f86-91634b3ecb43
 mtcars = dataset("datasets", "mtcars")
+
+# ╔═╡ d5b86664-b696-4ee1-b759-9dd6a889d8c2
+rm("books_read.png")
 
 # ╔═╡ 947a3609-0d61-4782-a078-10d06564ae6f
 Dict(pairs(eachcol(mtcars)))
 
 # ╔═╡ fad7c2c6-b9f0-4e5e-8cfb-07c350fb2deb
+begin
 py"""
-import seaborn as sns
 import pandas as pd
-
 pydf = pd.DataFrame($(pairs(eachcol(mtcars))))
-sns.scatterplot(data=pydf, x="WT", y="MPG")
-""";
+
+# see https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html
+pd.options.plotting.backend = 'matplotlib'
+fig = pydf.plot.scatter(x="WT", y="MPG")
+fig.figure.savefig('py_figure.png')
+
+pd.options.plotting.backend = "plotly"
+fig = pydf.plot.scatter(x="WT", y="MPG")
+fig.write_html('py_figure.html')
+"""
+
+@htl """
+$(LocalResource("py_figure.png"))
+$(HTML(readchomp("py_figure.html")))
+"""
+end
+
+# ╔═╡ 53defda4-ed1e-4514-bb59-4a37a085c613
+@htl "<div style='min-height: 400px'> $(HTML(readchomp("first_figure.html"))) </div>"
+
+# ╔═╡ 850fd545-bf00-4fd4-a7e3-bc9362958152
+
+print(readchomp("first_figure.html"))
+
+# ╔═╡ 7914467f-4385-4a39-ada3-39a46b8e9dc5
+HTML(readchomp("first_figure.html"))
 
 # ╔═╡ a3403fc6-2a0c-4c98-bd4f-976a9f8905f2
 R"""
@@ -73,13 +108,17 @@ ggplot($mtcars, aes(x=WT, y=MPG)) + geom_point()
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
 
 [compat]
 Conda = "~1.8.0"
+HypertextLiteral = "~0.9.4"
+PlutoUI = "~0.7.50"
 PyCall = "~1.95.1"
 RCall = "~0.13.15"
 RDatasets = "~0.7.7"
@@ -91,7 +130,13 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "25fa94cd52f2b812fec7d4a4c945fb2d6464e215"
+project_hash = "45f4925dda9f26811fb8454aeb32f950b8fb0d7f"
+
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -138,6 +183,12 @@ deps = ["TranscodingStreams", "Zlib_jll"]
 git-tree-sha1 = "9c209fb7536406834aa938fb149964b985de6c83"
 uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
 version = "0.7.1"
+
+[[deps.ColorTypes]]
+deps = ["FixedPointNumbers", "Random"]
+git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
+uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
+version = "0.11.4"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
@@ -224,6 +275,12 @@ version = "0.9.20"
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
+[[deps.FixedPointNumbers]]
+deps = ["Statistics"]
+git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
+uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
+version = "0.8.4"
+
 [[deps.Formatting]]
 deps = ["Printf"]
 git-tree-sha1 = "8339d61043228fdd3eb658d86c926cb282ae72a8"
@@ -239,6 +296,24 @@ deps = ["DualNumbers", "LinearAlgebra", "OpenLibm_jll", "SpecialFunctions"]
 git-tree-sha1 = "432b5b03176f8182bd6841fbfc42c718506a2d5f"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
 version = "0.3.15"
+
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[deps.HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.4"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.2"
 
 [[deps.InlineStrings]]
 deps = ["Parsers"]
@@ -327,6 +402,11 @@ version = "0.3.23"
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
+
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
 git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
@@ -402,6 +482,12 @@ version = "2.5.8"
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 version = "1.8.0"
+
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "5bb5129fdd62a2bbbe17c2756932259acf467386"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.50"
 
 [[deps.PooledArrays]]
 deps = ["DataAPI", "Future"]
@@ -606,6 +692,16 @@ git-tree-sha1 = "0b829474fed270a4b0ab07117dce9b9a2fa7581a"
 uuid = "3bb67fe8-82b1-5028-8e26-92a6c54297fa"
 version = "0.9.12"
 
+[[deps.Tricks]]
+git-tree-sha1 = "aadb748be58b492045b4f56166b5188aa63ce549"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.7"
+
+[[deps.URIs]]
+git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
+uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
+version = "1.4.2"
+
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
@@ -667,10 +763,17 @@ version = "17.4.0+0"
 # ╠═6c345ac9-929d-4d70-8c1d-06fbbbe97db9
 # ╠═2e6c3e37-7f1d-4d4c-a278-5a3dbde92330
 # ╠═30f4d100-e81f-4c61-b898-1b57d63f0794
+# ╠═2bd26164-0b2c-4bc2-b46a-524b85d1f4d1
 # ╠═772dad6c-ef3b-40b9-bcef-1034750e8d54
 # ╠═fa188e1d-86a3-4c6d-9f86-91634b3ecb43
+# ╠═d5b86664-b696-4ee1-b759-9dd6a889d8c2
 # ╠═947a3609-0d61-4782-a078-10d06564ae6f
 # ╠═fad7c2c6-b9f0-4e5e-8cfb-07c350fb2deb
+# ╠═e06bd8ce-16b8-49f5-8523-16c74aabf7d4
+# ╠═2f879507-9b46-4068-91e0-9faac23379ff
+# ╠═53defda4-ed1e-4514-bb59-4a37a085c613
+# ╠═850fd545-bf00-4fd4-a7e3-bc9362958152
+# ╠═7914467f-4385-4a39-ada3-39a46b8e9dc5
 # ╠═a3403fc6-2a0c-4c98-bd4f-976a9f8905f2
 # ╠═626776dd-e9af-4388-96ee-12f1c3d39045
 # ╟─00000000-0000-0000-0000-000000000001
