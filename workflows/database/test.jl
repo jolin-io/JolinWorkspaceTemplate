@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.33
+# v0.19.39
 
 using Markdown
 using InteractiveUtils
@@ -16,81 +16,23 @@ end
 
 # ╔═╡ 491fa537-e392-42eb-a71b-e1a2a59fbada
 begin
-using PlutoUI, LibPQ, Tables, DataFrames, Plots
-using Downloads: download
-end
-
-# ╔═╡ 1c52e1c4-e8bd-11ed-1364-3194454407b7
-begin
-using HTTP, JSON3
-macro get_jwt(audience="")
-	serviceaccount_token = readchomp("/var/run/secrets/kubernetes.io/serviceaccount/token")
-	project_dir = dirname(Base.current_project())
-	path = split(String(__source__.file),"#==#")[1]
-	@assert startswith(path, project_dir) "invalid workflow location"
-	workflowpath = path[length(project_dir)+2:end]
-	quote
-		response = HTTP.get("http://jolin-workspace-server-jwts.default/request_jwt",
-			query=["serviceaccount_token" => $serviceaccount_token,
-				   "workflowpath" => $workflowpath,
-				   "audience" => $(esc(audience))])
-		JSON3.read(response.body).token
-	end
-end
-end
-
-# ╔═╡ 36c8540d-5ec6-4256-80d6-f55e7c29b5e9
-using Dates
-
-# ╔═╡ 363f7c91-dd96-4814-b287-ac45f9a09537
-begin
-	using AWS: AWS, AWSServices
-	"""
-	    credentials_from_webtoken()
-	
-	Assume role via web identity.
-	https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
-	"""
-	function jolin_webtoken_authorize_aws(role_arn; audience="", role_session::Union{AbstractString,Nothing}=nothing)
-		if isnothing(role_session)
-			role_session = AWS._role_session_name(
-	            "jolincloud-role-",
-	            basename(role_arn),
-	            "-" * Dates.format(Dates.now(Dates.UTC), dateformat"yyyymmdd\THHMMSS\Z"),
-	        )
-		end
-	    web_identity = @get_jwt(audience)
-	    
-	    response = AWSServices.sts(
-	        "AssumeRoleWithWebIdentity",
-	        Dict(
-	            "RoleArn" => role_arn,
-	            "RoleSessionName" => role_session,  # Required by AssumeRoleWithWebIdentity
-	            "WebIdentityToken" => web_identity,
-	        );
-	        aws_config=AWS.AWSConfig(; creds=nothing),
-	        feature_set=AWS.FeatureSet(; use_response_type=true),
-	    )
-	    dict = parse(response)
-	    role_creds = dict["AssumeRoleWithWebIdentityResult"]["Credentials"]
-	    assumed_role_user = dict["AssumeRoleWithWebIdentityResult"]["AssumedRoleUser"]
-	
-	    return AWS.global_aws_config(creds=AWS.AWSCredentials(
-	        role_creds["AccessKeyId"],
-	        role_creds["SecretAccessKey"],
-	        role_creds["SessionToken"],
-	        assumed_role_user["Arn"];
-	        expiry=Dates.DateTime(rstrip(role_creds["Expiration"], 'Z')),
-	        renew=() -> jolin_webtoken_authorize_aws(role_arn; audience, role_session),
-		))
-	end
+	using PlutoUI
+	using JolinPluto
+	using LibPQ
+	using Tables
+	using DataFrames
+	using Downloads: download
+	using AWS
+	using JSON3
+	using Plots
+	plotly()
 end
 
 # ╔═╡ 38d22582-8e4e-40fc-8d01-149d26cfa471
 begin
 	ENV["AWS_DEFAULT_REGION"] = "eu-central-1"
 	role_arn = "arn:aws:iam::656386802830:role/test-role-to-assume-from-jolin"
-	jolin_webtoken_authorize_aws(role_arn, audience="awsaudience")
+	@authorize_aws(role_arn; audience="awsaudience")
 end
 
 # ╔═╡ c7ebf9d5-2086-4fae-9284-ca7111484487
@@ -178,10 +120,9 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 AWS = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
-HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 LibPQ = "194296ae-ab2e-5f79-8cd4-7183a0a5a0d1"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
@@ -190,8 +131,8 @@ Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 [compat]
 AWS = "~1.84.1"
 DataFrames = "~1.5.0"
-HTTP = "~1.8.0"
 JSON3 = "~1.12.0"
+JolinPluto = "~0.1.0"
 LibPQ = "~1.15.1"
 Plots = "~1.38.11"
 PlutoUI = "~0.7.51"
@@ -204,7 +145,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "4ed508b9a19b7ebaa4e3289788a8ceb597045f97"
+project_hash = "ea0fbe6d62f1d5d4cb9dde2b225b9f202659acb1"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -594,6 +535,12 @@ deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
 git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 version = "1.12.0"
+
+[[deps.JolinPluto]]
+deps = ["AWS", "Dates", "HTTP", "HypertextLiteral", "JSON3"]
+git-tree-sha1 = "34e8a7edafb32469d18b9216b950d79dbb0859bd"
+uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
+version = "0.1.0"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1405,7 +1352,6 @@ version = "1.4.1+0"
 # ╠═ed835353-20c8-4135-8804-f5fe5f80ac8d
 # ╠═38d22582-8e4e-40fc-8d01-149d26cfa471
 # ╠═c7ebf9d5-2086-4fae-9284-ca7111484487
-# ╠═491fa537-e392-42eb-a71b-e1a2a59fbada
 # ╠═f9171736-195a-441d-bbb9-164c60e4ee4d
 # ╠═00058142-8fc3-450f-8183-3bb5ddf47412
 # ╠═2e05e207-012c-4fac-b995-ad15f5698c96
@@ -1415,8 +1361,6 @@ version = "1.4.1+0"
 # ╠═bfb832ab-185a-407f-9207-6bfeb6f3849a
 # ╠═191d9166-599e-40e5-b71e-56eadb1352d7
 # ╠═97144768-c6e2-4f88-a572-c3603ccb4d19
-# ╠═1c52e1c4-e8bd-11ed-1364-3194454407b7
-# ╠═36c8540d-5ec6-4256-80d6-f55e7c29b5e9
-# ╠═363f7c91-dd96-4814-b287-ac45f9a09537
+# ╠═491fa537-e392-42eb-a71b-e1a2a59fbada
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
