@@ -1,64 +1,31 @@
 ### A Pluto.jl notebook ###
-# v0.19.33
+# v0.19.39
 
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 7b776f29-89b7-4278-a8af-aa4e081de6d6
-using Pkg; Pkg.build("RCall") 
-
 # ╔═╡ 2d525595-9b7d-42e8-8663-cc281016a480
-using PyCall
-
-# ╔═╡ 939cfac3-9da5-4029-8ff8-1e3eac5c7dd4
-using RCall
-
-# ╔═╡ c4615d9d-2d05-4fd7-94d9-66fa37b0da0e
-using Conda
+using PyCall, RCall, Conda
 
 # ╔═╡ 772dad6c-ef3b-40b9-bcef-1034750e8d54
 using RDatasets
 
 # ╔═╡ e06bd8ce-16b8-49f5-8523-16c74aabf7d4
+begin
 using PlutoUI
-
-# ╔═╡ 2f879507-9b46-4068-91e0-9faac23379ff
 using HypertextLiteral
+end
 
 # ╔═╡ d7795a36-b1cd-11ed-12e8-210a8bca4b85
 md"""
-# First steps with Jolin Workspace.
+# RCall and PyCall
 """
 
-# ╔═╡ 3133be06-db22-4434-96b9-e99bdea7ba3e
-1 + 1
-
-# ╔═╡ 1f32ecec-3fbf-417c-8b71-3bff4fc8eb8c
-ENV["R_HOME"] = ""
-
-# ╔═╡ e28fd13a-bdc0-4b94-9736-e7d2afab8b6d
-ENV["LD_LIBRARY_PATH"]="$(get(ENV, "LD_LIBRARY_PATH", "")):$(ENV["R_HOME"])/lib"
-
-# ╔═╡ 6c345ac9-929d-4d70-8c1d-06fbbbe97db9
-ls()
-
-# ╔═╡ 2e6c3e37-7f1d-4d4c-a278-5a3dbde92330
-readdir("/home/jolin_user/conda/lib/")
-
 # ╔═╡ 30f4d100-e81f-4c61-b898-1b57d63f0794
-Conda.add(["r-tidyverse", "numpy", "pandas", "matplotlib", "plotly"])
-
-# ╔═╡ 2bd26164-0b2c-4bc2-b46a-524b85d1f4d1
-
+Conda.add(["numpy", "pandas", "matplotlib", "plotly"])
 
 # ╔═╡ fa188e1d-86a3-4c6d-9f86-91634b3ecb43
 mtcars = dataset("datasets", "mtcars")
-
-# ╔═╡ d5b86664-b696-4ee1-b759-9dd6a889d8c2
-rm("books_read.png")
-
-# ╔═╡ 947a3609-0d61-4782-a078-10d06564ae6f
-Dict(pairs(eachcol(mtcars)))
 
 # ╔═╡ fad7c2c6-b9f0-4e5e-8cfb-07c350fb2deb
 begin
@@ -82,34 +49,23 @@ $(HTML(readchomp("py_figure.html")))
 """
 end
 
-# ╔═╡ 53defda4-ed1e-4514-bb59-4a37a085c613
-@htl "<div style='min-height: 400px'> $(HTML(readchomp("first_figure.html"))) </div>"
-
-# ╔═╡ 850fd545-bf00-4fd4-a7e3-bc9362958152
-
-print(readchomp("first_figure.html"))
-
-# ╔═╡ 7914467f-4385-4a39-ada3-39a46b8e9dc5
-HTML(readchomp("first_figure.html"))
-
 # ╔═╡ a3403fc6-2a0c-4c98-bd4f-976a9f8905f2
+begin
 R"""
 library(tidyverse)
-ggplot($mtcars, aes(x=WT, y=MPG)) + geom_point()
+p <- ggplot($mtcars, aes(x=WT, y=MPG)) + geom_point()
+ggsave("r_figure.png", plot=p)
 """
-
-# ╔═╡ 626776dd-e9af-4388-96ee-12f1c3d39045
-R"""
-library(ggplot2)
-ggplot($mtcars, aes(x=WT, y=MPG)) + geom_point()
+@htl """
+$(LocalResource("r_figure.png"))
 """
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
@@ -130,7 +86,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "52fd4bdee7fcb706c2793fa1c7759b66e14c0955"
+project_hash = "8f56fb908116d837098e66885966ddb6a9cdb07b"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -173,10 +129,10 @@ uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 version = "1.15.7"
 
 [[deps.ChangesOfVariables]]
-deps = ["ChainRulesCore", "LinearAlgebra", "Test"]
-git-tree-sha1 = "485193efd2176b88e6622a39a246f8c5b600e74e"
+deps = ["LinearAlgebra", "Test"]
+git-tree-sha1 = "f84967c4497e0e1955f9a582c232b02847c5f589"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
-version = "0.1.6"
+version = "0.1.7"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -327,9 +283,9 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
-git-tree-sha1 = "49510dfcb407e572524ba94aeae2fced1f3feb0f"
+git-tree-sha1 = "6667aadd1cdee2c6cd068128b3d226ebc4fb0c67"
 uuid = "3587e190-3f89-42d0-90ee-14403ec27112"
-version = "0.1.8"
+version = "0.1.9"
 
 [[deps.InvertedIndices]]
 git-tree-sha1 = "0dc7b50b8d436461be01300fd8cd45aa0274b038"
@@ -633,9 +589,9 @@ version = "1.6.0"
 
 [[deps.StatsBase]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "LogExpFunctions", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "StatsAPI"]
-git-tree-sha1 = "d1bf48bfcc554a3761a133fe3a9bb01488e06916"
+git-tree-sha1 = "75ebe04c5bed70b91614d684259b661c9e6274a4"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.33.21"
+version = "0.34.0"
 
 [[deps.StatsFuns]]
 deps = ["ChainRulesCore", "HypergeometricFunctions", "InverseFunctions", "IrrationalConstants", "LogExpFunctions", "Reexport", "Rmath", "SpecialFunctions"]
@@ -645,9 +601,9 @@ version = "1.3.0"
 
 [[deps.StatsModels]]
 deps = ["DataAPI", "DataStructures", "LinearAlgebra", "Printf", "REPL", "ShiftedArrays", "SparseArrays", "StatsBase", "StatsFuns", "Tables"]
-git-tree-sha1 = "51cdf1afd9d78552e7a08536930d7abc3b288a5c"
+git-tree-sha1 = "8cc7a5385ecaa420f0b3426f9b0135d0df0638ed"
 uuid = "3eaba693-59b7-5ba5-a881-562e759f1c8d"
-version = "0.7.1"
+version = "0.7.2"
 
 [[deps.StringManipulation]]
 git-tree-sha1 = "46da2434b41f41ac3594ee9816ce5541c6096123"
@@ -753,28 +709,12 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╠═d7795a36-b1cd-11ed-12e8-210a8bca4b85
-# ╠═3133be06-db22-4434-96b9-e99bdea7ba3e
 # ╠═2d525595-9b7d-42e8-8663-cc281016a480
-# ╠═939cfac3-9da5-4029-8ff8-1e3eac5c7dd4
-# ╠═c4615d9d-2d05-4fd7-94d9-66fa37b0da0e
-# ╠═1f32ecec-3fbf-417c-8b71-3bff4fc8eb8c
-# ╠═e28fd13a-bdc0-4b94-9736-e7d2afab8b6d
-# ╠═7b776f29-89b7-4278-a8af-aa4e081de6d6
-# ╠═6c345ac9-929d-4d70-8c1d-06fbbbe97db9
-# ╠═2e6c3e37-7f1d-4d4c-a278-5a3dbde92330
 # ╠═30f4d100-e81f-4c61-b898-1b57d63f0794
-# ╠═2bd26164-0b2c-4bc2-b46a-524b85d1f4d1
 # ╠═772dad6c-ef3b-40b9-bcef-1034750e8d54
 # ╠═fa188e1d-86a3-4c6d-9f86-91634b3ecb43
-# ╠═d5b86664-b696-4ee1-b759-9dd6a889d8c2
-# ╠═947a3609-0d61-4782-a078-10d06564ae6f
 # ╠═fad7c2c6-b9f0-4e5e-8cfb-07c350fb2deb
 # ╠═e06bd8ce-16b8-49f5-8523-16c74aabf7d4
-# ╠═2f879507-9b46-4068-91e0-9faac23379ff
-# ╠═53defda4-ed1e-4514-bb59-4a37a085c613
-# ╠═850fd545-bf00-4fd4-a7e3-bc9362958152
-# ╠═7914467f-4385-4a39-ada3-39a46b8e9dc5
 # ╠═a3403fc6-2a0c-4c98-bd4f-976a9f8905f2
-# ╠═626776dd-e9af-4388-96ee-12f1c3d39045
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
