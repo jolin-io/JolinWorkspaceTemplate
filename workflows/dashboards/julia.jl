@@ -14,129 +14,99 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 491fa537-e392-42eb-a71b-e1a2a59fbada
+# ╔═╡ 79ce3b86-ea9e-11ed-1cb7-bf8f197cb3a8
 begin
-	using PlutoUI
-	using JolinPluto
-	using LibPQ
-	using Tables
-	using DataFrames
+	using JolinPluto, PlutoUI
 	using Downloads: download
-	using AWS
-	using JSON3
+	using CSV
+	using DataFrames
 	using Plots
 	plotly()
 end
 
-# ╔═╡ 38d22582-8e4e-40fc-8d01-149d26cfa471
-begin
-	ENV["AWS_DEFAULT_REGION"] = "eu-central-1"
-	role_arn = "arn:aws:iam::656386802830:role/test-role-to-assume-from-jolin"
-	@authorize_aws(role_arn; audience="awsaudience")
-end
-
-# ╔═╡ c7ebf9d5-2086-4fae-9284-ca7111484487
-credentials = begin
-	AWS.@service SSM
-	param = SSM.get_parameter("pgdbinstance-credentials", Dict("WithDecryption" => true))
-	JSON3.read(param["Parameter"]["Value"])
-end;
-
-# ╔═╡ f9171736-195a-441d-bbb9-164c60e4ee4d
-conn = LibPQ.Connection("""
-	dbname=$(credentials[:dbname])
-	host=$(credentials[:host])
-	port=$(credentials[:port])
-	user=$(credentials[:username])
-	password=$(credentials[:password])
-	connect_timeout=10
-	target_session_attrs=any""")
-
-# ╔═╡ 00058142-8fc3-450f-8183-3bb5ddf47412
-datafile = download("https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.csv")
-
-# ╔═╡ 2e05e207-012c-4fac-b995-ad15f5698c96
-headerline = readline(datafile)
-
-# ╔═╡ 81d330fb-7e3c-4e4d-b0ee-9ae2dbbe7dc8
-# eachline is stateful, hence we wrap it into a function
-function datalines()
-	_headerline, _datalines = Iterators.peel(eachline(datafile))
-	return _datalines
-end
-
-# ╔═╡ 7c9ca493-77a2-4dc5-9f9e-40b71baefea7
-collect(Iterators.take(datalines(), 5))
-
-# ╔═╡ faa22eda-e127-4400-9b75-f8c89b60899b
-begin
-field_definitions = join(("$col $(col in ("country", "iso_code") ? "varchar" : "real"), " for col in split(headerline, ",")), "\n")
-execute(conn, """
-	DROP TABLE IF EXISTS co2_data;
-    CREATE TEMPORARY TABLE co2_data (
-		$field_definitions
-		PRIMARY KEY (country, year)
-    );
-	SELECT *
-	FROM pg_catalog.pg_tables
-	WHERE schemaname != 'pg_catalog' AND 
-	    schemaname != 'information_schema';
-""")
-end
-
-# ╔═╡ bfb832ab-185a-407f-9207-6bfeb6f3849a
-# fill only if it is not yet filled
-begin
-execute(conn, "TRUNCATE TABLE co2_data;")
-row_strings = ("$line\n" for line in datalines())
-copyin = LibPQ.CopyIn("COPY co2_data FROM STDIN (FORMAT CSV);", row_strings)
-execute(conn, copyin)
-execute(conn, """SELECT year, iso_code from co2_data limit 5""")
-end
-
-# ╔═╡ 191d9166-599e-40e5-b71e-56eadb1352d7
-countries = sort(columntable(execute(conn, """SELECT DISTINCT(country) from co2_data""")).country)
-
-# ╔═╡ 97144768-c6e2-4f88-a572-c3603ccb4d19
-columns = [Symbol(col) for col in split(headerline, ",")]
-
-# ╔═╡ cabb4213-21f5-4dd4-8d31-86df1b00e477
+# ╔═╡ 05ca2710-857d-4cb6-aff9-66cfa173cc53
 md"""
-Choose
-- country = $(@bind country PlutoUI.Select(countries; default="World"))
-- xaxis = $(@bind xaxis PlutoUI.Select(columns; default=:year))
-- yaxis = $(@bind yaxis PlutoUI.Select(columns; default=:co2_per_capita))
-- yscale = $(@bind yscale PlutoUI.Select([:identity, :log10]; default=:identity))
+# Julia Dashboard
+
+We  are going to look at CO2 data.
+
+> 👉 3, 1, 2.  If you build your own dashboard later, remember that you can completely reorder the cells. For a dashboard this often makes sense in that the final plots and input elements could be moved to the top of the workflow.
+
+Here we keep normal ordering so that it is easier to understand what goes on.
 """
 
-# ╔═╡ ed835353-20c8-4135-8804-f5fe5f80ac8d
-data = DataFrame(execute(conn, """SELECT * from co2_data where country='$country'"""))
+# ╔═╡ 2dd702af-2c03-46e7-ae89-4a09dd087f85
+@output_below
 
-# ╔═╡ e0daa0bc-eed0-4dd1-b2b0-c7df1f90f2a7
-plot(data[!, xaxis], data[!, yaxis], yscale = yscale, xlabel=xaxis, ylabel=yaxis)
+# ╔═╡ d57afd02-5181-4696-bb69-153c37ef76b2
+md"""
+Using `Downloads.download` we can conveniently download files from the web. The data is stored in a temporary file.
+"""
+
+# ╔═╡ 14a34832-291c-4fe2-bca5-fe049b6071e1
+datafile = download("https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.csv")
+
+# ╔═╡ 196296b9-a01d-4afb-bc20-b09d457c47c6
+md"""
+The file can then be read using [`CSV`](https://csv.juliadata.org/stable/) and converted to a standard [`DataFrame`](https://csv.juliadata.org/stable/)
+"""
+
+# ╔═╡ c0f970a4-6613-405b-a70f-b08a8174e252
+data = DataFrame(CSV.File(datafile))
+
+# ╔═╡ 4745a6ca-7a43-409c-9cd0-2e2dd543c97a
+md"""
+For some example interactions in order to explore the data we look at columns and countries.
+"""
+
+# ╔═╡ 084ed3a1-089d-4c5e-bad5-925e6fc73945
+columns = names(data)
+
+# ╔═╡ c5b2dfb4-4ccd-4f75-8bbb-8d690486b48b
+countries = unique(data[!, :country])
+
+# ╔═╡ ac931d72-9723-4ced-b048-aa769eeb0196
+md"""
+| Parameter | Choose |
+| --------- | :----- |
+| country | $(@bind country PlutoUI.Select(countries; default="World")) |
+| xaxis | $(@bind xaxis PlutoUI.Select(columns; default="year")) |
+| yaxis | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
+| yscale | $(@bind yscale PlutoUI.Select([:identity, :log10]; default=:identity)) |
+"""
+
+# ╔═╡ 8d48cc04-91c5-4861-b2b2-925157297f71
+subdata = filter(row -> row.country == country, data);
+
+# ╔═╡ 13a5b535-343b-498e-b5ea-99fe2ee443d2
+plot(subdata[!, xaxis], subdata[!, yaxis], yscale = yscale, xlabel=xaxis, ylabel=yaxis)
+
+# ╔═╡ aedb04d7-a69d-4fff-bf03-65d01169ccca
+md"""
+# Next
+- [`CSV.jl`](https://csv.juliadata.org/stable/)
+- [`DataFrames.jl`](https://csv.juliadata.org/stable/)
+- [`PlutoUI.jl`](https://github.com/JuliaPluto/PlutoUI.jl)
+
+Happy dashboarding 📈 📊!
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-AWS = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
-JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-LibPQ = "194296ae-ab2e-5f79-8cd4-7183a0a5a0d1"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 
 [compat]
-AWS = "~1.84.1"
+CSV = "~0.10.9"
 DataFrames = "~1.5.0"
-JSON3 = "~1.12.0"
-JolinPluto = "~0.1.0"
-LibPQ = "~1.15.1"
+JolinPluto = "~0.1.4"
 Plots = "~1.38.11"
 PlutoUI = "~0.7.51"
-Tables = "~1.10.1"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -145,7 +115,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "e1aa97db6f2f7856a4333dae72d2450e4124b27b"
+project_hash = "794bf7d9add9ac125fe6833060714144344c8342"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -158,12 +128,6 @@ deps = ["Pkg"]
 git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
 uuid = "6e696c72-6542-2067-7265-42206c756150"
 version = "1.1.4"
-
-[[deps.Adapt]]
-deps = ["LinearAlgebra", "Requires"]
-git-tree-sha1 = "cc37d689f599e8df4f464b2fa3870ff7db7492ef"
-uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "3.6.1"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -186,10 +150,11 @@ git-tree-sha1 = "19a35467a82e236ff51bc17a3a44b69ef35185a2"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
-[[deps.CEnum]]
-git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
-uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
-version = "0.4.2"
+[[deps.CSV]]
+deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "SentinelArrays", "SnoopPrecompile", "Tables", "Unicode", "WeakRefStrings", "WorkerUtilities"]
+git-tree-sha1 = "c700cce799b51c9045473de751e9319bdd1c6e94"
+uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+version = "0.10.9"
 
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
@@ -292,18 +257,9 @@ version = "1.0.0"
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
-[[deps.Decimals]]
-git-tree-sha1 = "e98abef36d02a0ec385d68cd7dadbce9b28cbd88"
-uuid = "abce61dc-4473-55a0-ba07-351d65e31d42"
-version = "0.4.1"
-
 [[deps.DelimitedFiles]]
 deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
-
-[[deps.Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -344,6 +300,12 @@ deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers",
 git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
+
+[[deps.FilePathsBase]]
+deps = ["Compat", "Dates", "Mmap", "Printf", "Test", "UUIDs"]
+git-tree-sha1 = "e27c4ebe80e8699540f2d6c805cc12203b614f12"
+uuid = "48062228-2e41-5def-b9a4-89aafe57970f"
+version = "0.9.20"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -459,12 +421,6 @@ git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
 uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
 version = "0.2.2"
 
-[[deps.Infinity]]
-deps = ["Dates", "Random", "Requires"]
-git-tree-sha1 = "cf8234411cbeb98676c173f930951ea29dca3b23"
-uuid = "a303e19e-6eb4-11e9-3b09-cd9505f79100"
-version = "0.2.4"
-
 [[deps.IniFile]]
 git-tree-sha1 = "f550e6e32074c939295eb5ea6de31849ac2c9625"
 uuid = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
@@ -479,12 +435,6 @@ version = "1.4.0"
 [[deps.InteractiveUtils]]
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
-
-[[deps.Intervals]]
-deps = ["Dates", "Printf", "RecipesBase", "Serialization", "TimeZones"]
-git-tree-sha1 = "d136858cb539cd6484b15f0e28a761e8d63d6fb3"
-uuid = "d8418881-c3e1-53bb-8760-2df7ec849ed5"
-version = "1.9.0"
 
 [[deps.InverseFunctions]]
 deps = ["Test"]
@@ -538,21 +488,15 @@ version = "1.12.0"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Dates", "HTTP", "HypertextLiteral", "JSON3"]
-git-tree-sha1 = "34e8a7edafb32469d18b9216b950d79dbb0859bd"
+git-tree-sha1 = "d29adc4d4d6a0e885c0ce42fc66e2bd491b3afd5"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.0"
+version = "0.1.4"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "6f2675ef130a300a112286de91973805fcc5ffbc"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "2.1.91+0"
-
-[[deps.Kerberos_krb5_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "60274b4ab38e8d1248216fe6b6ace75ae09b0502"
-uuid = "b39eb1a6-c29a-53d7-8c32-632cd16f18da"
-version = "1.19.3+0"
 
 [[deps.LAME_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -583,15 +527,6 @@ git-tree-sha1 = "099e356f267354f46ba65087981a77da23a279b7"
 uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
 version = "0.16.0"
 
-[[deps.LayerDicts]]
-git-tree-sha1 = "6087ad3521d6278ebe5c27ae55e7bbb15ca312cb"
-uuid = "6f188dcb-512c-564b-bc01-e0f76e72f166"
-version = "1.0.0"
-
-[[deps.LazyArtifacts]]
-deps = ["Artifacts", "Pkg"]
-uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
-
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
@@ -605,18 +540,6 @@ version = "7.84.0+0"
 [[deps.LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
 uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
-
-[[deps.LibPQ]]
-deps = ["CEnum", "Dates", "Decimals", "DocStringExtensions", "FileWatching", "Infinity", "Intervals", "IterTools", "LayerDicts", "LibPQ_jll", "Libdl", "Memento", "OffsetArrays", "SQLStrings", "Tables", "TimeZones", "UTCDateTimes"]
-git-tree-sha1 = "114d9d239ab8e1251354ad6bb97ed38622133114"
-uuid = "194296ae-ab2e-5f79-8cd4-7183a0a5a0d1"
-version = "1.15.1"
-
-[[deps.LibPQ_jll]]
-deps = ["Artifacts", "JLLWrappers", "Kerberos_krb5_jll", "Libdl", "OpenSSL_jll", "Pkg"]
-git-tree-sha1 = "a299629703a93d8efcefccfc16b18ad9a073d131"
-uuid = "08be9ffa-1c94-5ee5-a977-46a84ec9b350"
-version = "14.3.0+1"
 
 [[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
@@ -724,12 +647,6 @@ git-tree-sha1 = "c13304c81eec1ed3af7fc20e75fb6b26092a1102"
 uuid = "442fdcdd-2543-5da2-b0f3-8c86c306513e"
 version = "0.3.2"
 
-[[deps.Memento]]
-deps = ["Dates", "Distributed", "Requires", "Serialization", "Sockets", "Test", "UUIDs"]
-git-tree-sha1 = "bb2e8f4d9f400f6e90d57b34860f6abdc51398e5"
-uuid = "f28f55f0-a522-5efc-85c2-fe41dfb9b2d9"
-version = "1.4.1"
-
 [[deps.Missings]]
 deps = ["DataAPI"]
 git-tree-sha1 = "f66bdc5de519e8f8ae43bdc598782d35a25b1272"
@@ -758,12 +675,6 @@ version = "1.0.2"
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
-
-[[deps.OffsetArrays]]
-deps = ["Adapt"]
-git-tree-sha1 = "82d7c9e310fe55aa54996e6f7f94674e2a38fcb4"
-uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "1.12.9"
 
 [[deps.Ogg_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -869,9 +780,9 @@ version = "1.4.2"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "2e47054ffe7d0a8872e977c0d09eb4b3d162ebde"
+git-tree-sha1 = "0c265aa64283740b9b885348ee52463084de0748"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.0.2"
+version = "1.0.3"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -881,9 +792,9 @@ version = "1.3.0"
 
 [[deps.PrettyTables]]
 deps = ["Crayons", "Formatting", "LaTeXStrings", "Markdown", "Reexport", "StringManipulation", "Tables"]
-git-tree-sha1 = "548793c7859e28ef026dba514752275ee871169f"
+git-tree-sha1 = "213579618ec1f42dea7dd637a42785a608b1ea9c"
 uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
-version = "2.2.3"
+version = "2.2.4"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -935,11 +846,6 @@ version = "1.3.0"
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
-
-[[deps.SQLStrings]]
-git-tree-sha1 = "55de0530689832b1d3d43491ee6b67bd54d3323c"
-uuid = "af517c2e-c243-48fa-aab8-efac3db270f5"
-version = "0.1.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
@@ -1057,12 +963,6 @@ version = "0.1.1"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
-[[deps.TimeZones]]
-deps = ["Dates", "Downloads", "InlineStrings", "LazyArtifacts", "Mocking", "Printf", "RecipesBase", "Scratch", "Unicode"]
-git-tree-sha1 = "a92ec4466fc6e3dd704e2668b5e7f24add36d242"
-uuid = "f269a46b-ccf7-5d73-abea-4c690281aa53"
-version = "1.9.1"
-
 [[deps.TranscodingStreams]]
 deps = ["Random", "Test"]
 git-tree-sha1 = "9a6ae7ed916312b41236fcef7e0af564ef934769"
@@ -1078,12 +978,6 @@ version = "0.1.7"
 git-tree-sha1 = "074f993b0ca030848b897beff716d93aca60f06a"
 uuid = "5c2747f8-b7ea-4ff2-ba2e-563bfd36b1d4"
 version = "1.4.2"
-
-[[deps.UTCDateTimes]]
-deps = ["Dates", "TimeZones"]
-git-tree-sha1 = "4af3552bf0cf4a071bf3d14bd20023ea70f31b62"
-uuid = "0f7cfa37-7abf-4834-b969-a8aa512401c2"
-version = "1.6.1"
 
 [[deps.UUIDs]]
 deps = ["Random", "SHA"]
@@ -1114,6 +1008,17 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
 version = "1.25.0+0"
+
+[[deps.WeakRefStrings]]
+deps = ["DataAPI", "InlineStrings", "Parsers"]
+git-tree-sha1 = "b1be2855ed9ed8eac54e5caff2afcdb442d52c23"
+uuid = "ea10d353-3f73-51f8-a26c-33c1cb351aa5"
+version = "1.4.2"
+
+[[deps.WorkerUtilities]]
+git-tree-sha1 = "cd1659ba0d57b71a464a29e64dbc67cfe83d54e7"
+uuid = "76eceee3-57b5-4d4a-8e66-0e911cebbf60"
+version = "1.6.1"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
@@ -1347,20 +1252,19 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═cabb4213-21f5-4dd4-8d31-86df1b00e477
-# ╠═e0daa0bc-eed0-4dd1-b2b0-c7df1f90f2a7
-# ╠═ed835353-20c8-4135-8804-f5fe5f80ac8d
-# ╠═38d22582-8e4e-40fc-8d01-149d26cfa471
-# ╠═c7ebf9d5-2086-4fae-9284-ca7111484487
-# ╠═f9171736-195a-441d-bbb9-164c60e4ee4d
-# ╠═00058142-8fc3-450f-8183-3bb5ddf47412
-# ╠═2e05e207-012c-4fac-b995-ad15f5698c96
-# ╠═81d330fb-7e3c-4e4d-b0ee-9ae2dbbe7dc8
-# ╠═7c9ca493-77a2-4dc5-9f9e-40b71baefea7
-# ╠═faa22eda-e127-4400-9b75-f8c89b60899b
-# ╠═bfb832ab-185a-407f-9207-6bfeb6f3849a
-# ╠═191d9166-599e-40e5-b71e-56eadb1352d7
-# ╠═97144768-c6e2-4f88-a572-c3603ccb4d19
-# ╠═491fa537-e392-42eb-a71b-e1a2a59fbada
+# ╟─05ca2710-857d-4cb6-aff9-66cfa173cc53
+# ╠═79ce3b86-ea9e-11ed-1cb7-bf8f197cb3a8
+# ╠═2dd702af-2c03-46e7-ae89-4a09dd087f85
+# ╟─d57afd02-5181-4696-bb69-153c37ef76b2
+# ╠═14a34832-291c-4fe2-bca5-fe049b6071e1
+# ╟─196296b9-a01d-4afb-bc20-b09d457c47c6
+# ╠═c0f970a4-6613-405b-a70f-b08a8174e252
+# ╟─4745a6ca-7a43-409c-9cd0-2e2dd543c97a
+# ╠═084ed3a1-089d-4c5e-bad5-925e6fc73945
+# ╠═c5b2dfb4-4ccd-4f75-8bbb-8d690486b48b
+# ╟─ac931d72-9723-4ced-b048-aa769eeb0196
+# ╠═8d48cc04-91c5-4861-b2b2-925157297f71
+# ╠═13a5b535-343b-498e-b5ea-99fe2ee443d2
+# ╟─aedb04d7-a69d-4fff-bf03-65d01169ccca
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
