@@ -48,7 +48,7 @@ The @repeaton macro takes two arguments
 
 In Julia we can specify anonymous functions using the [`do`-syntax](https://docs.julialang.org/en/v1/manual/functions/#Do-Block-Syntax-for-Function-Arguments) like you see above.
 
-In order to specify the next time we use the builtin [Dates.jl](https://docs.julialang.org/en/v1/stdlib/Dates) package. More concretely, we round up to the next 10 Seconds.
+In order to specify the next time we use the builtin [Dates.jl](https://docs.julialang.org/en/v1/stdlib/Dates) package. More concretely, we round up to the next Second.
 """
 
 # ╔═╡ fd3d3a18-11f3-4a4f-92d2-39689ee2159a
