@@ -17,7 +17,6 @@ end
 # ╔═╡ 79ce3b86-ea9e-11ed-1cb7-bf8f197cb3a8
 begin
 	using JolinPluto, PlutoUI
-	using Downloads: download
 	using CSV
 	using DataFrames
 	using Plots
@@ -84,9 +83,10 @@ plot(subdata[!, xaxis], subdata[!, yaxis], yscale = yscale, xlabel=xaxis, ylabel
 # ╔═╡ aedb04d7-a69d-4fff-bf03-65d01169ccca
 md"""
 # Next
-- [`CSV.jl`](https://csv.juliadata.org/stable/)
-- [`DataFrames.jl`](https://csv.juliadata.org/stable/)
-- [`PlutoUI.jl`](https://github.com/JuliaPluto/PlutoUI.jl)
+- [Our World in Data - CO2 Data](https://github.com/owid/co2-data) for more details on the data source
+- [`CSV.jl`](https://csv.juliadata.org/stable/) for more on CSV support
+- [`DataFrames.jl`](https://dataframes.juliadata.org/stable/) for more on Julia's Dataframes, especially its [comparison to python pandas / R Dataframe](https://dataframes.juliadata.org/stable/man/comparisons/)
+- [`PlutoUI.jl`(https://github.com/JuliaPluto/PlutoUI.jl) for more prebuilt input widgets.
 
 Happy dashboarding 📈 📊!
 """
@@ -96,17 +96,9 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
-Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-
-[compat]
-CSV = "~0.10.9"
-DataFrames = "~1.5.0"
-JolinPluto = "~0.1.4"
-Plots = "~1.38.11"
-PlutoUI = "~0.7.51"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -115,7 +107,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "794bf7d9add9ac125fe6833060714144344c8342"
+project_hash = "42998b5ecb39953d129d7f9dc9e2cfbfa64e2fcb"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -488,9 +480,9 @@ version = "1.12.0"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Dates", "HTTP", "HypertextLiteral", "JSON3"]
-git-tree-sha1 = "d29adc4d4d6a0e885c0ce42fc66e2bd491b3afd5"
+git-tree-sha1 = "34e8a7edafb32469d18b9216b950d79dbb0859bd"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.4"
+version = "0.1.0"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -780,9 +772,9 @@ version = "1.4.2"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "0c265aa64283740b9b885348ee52463084de0748"
+git-tree-sha1 = "2e47054ffe7d0a8872e977c0d09eb4b3d162ebde"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.0.3"
+version = "1.0.2"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -792,9 +784,9 @@ version = "1.3.0"
 
 [[deps.PrettyTables]]
 deps = ["Crayons", "Formatting", "LaTeXStrings", "Markdown", "Reexport", "StringManipulation", "Tables"]
-git-tree-sha1 = "213579618ec1f42dea7dd637a42785a608b1ea9c"
+git-tree-sha1 = "548793c7859e28ef026dba514752275ee871169f"
 uuid = "08abe8d2-0d0c-5749-adfa-8a2ac140af0d"
-version = "2.2.4"
+version = "2.2.3"
 
 [[deps.Printf]]
 deps = ["Unicode"]
@@ -1265,6 +1257,6 @@ version = "1.4.1+0"
 # ╟─ac931d72-9723-4ced-b048-aa769eeb0196
 # ╠═8d48cc04-91c5-4861-b2b2-925157297f71
 # ╠═13a5b535-343b-498e-b5ea-99fe2ee443d2
-# ╟─aedb04d7-a69d-4fff-bf03-65d01169ccca
+# ╠═aedb04d7-a69d-4fff-bf03-65d01169ccca
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
