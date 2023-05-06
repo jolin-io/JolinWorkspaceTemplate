@@ -35,13 +35,13 @@ In this Welcome you get to know the basics to get started.
 # ╔═╡ 6c256a72-e3e2-4206-88c1-38be2de6a937
 md"""
 ## What is this?
-A Pluto reactive workflow is divided into **cells** which output is rendered to your browser for lovely interactivity and visualizations.
+A Pluto reactive workflow is divided into **cells** whose output is rendered to your browser for lovely interactivity and visualizations.
 
 The simplest example is this very cell (or the above): They are markdown strings which get printed as highlighted text.
 
 > 👉 👁 The input of the above "Welcome" cell is hidden. You can (un)hide it by clicking on the 👁 symbol right left to the cell (it will appear if you hover over the above cell)
 
-> 👉 ➕ You can create new cells by clicking on the ➕ sign to above or below of an existing cell (left). In the cell you can press `CTRL + M` to make it a Markdown cell.
+> 👉 ➕ You can create new cells by clicking on the ➕ sign to above or below of an existing cell (left). In the cell you can press `CTRL + M` to turn it into a Markdown cell.
 
 > 👉 DELETE To remove a cell, just delete its content and press DELETE once more. The cell will be gone.
 
@@ -54,7 +54,7 @@ That are the basics, so lets see what we can do here.
 md"""
 Jolin Cloud comes with a couple of helper functionalities in its package [`JolinPluto`](https://github.com/jolin-io/JolinPluto.jl). You are going to love them!
 
-The first is `@output_below`. It will enable that the cell's output comes below the cell's input. 
+The first is `@output_below`. It will enable that the cell's output comes below the cell's input.
 
 > BUT WAIT, you are saying, THE OUTPUT IS ALREADY BELOW. Right 🙂, that is because `@output_below` is already activated - try to delete the below cell.
 
@@ -116,11 +116,11 @@ md"""
 Jolin Cloud comes with an overview page which lists all the workflows of the current repository. You opened this very notebook from there.
 
 ### Error Reporting
-The overview page shows a marker for each running workflow - whether it has an error ⚠️ or not ✅. 
+The overview page shows a marker for each running workflow - whether it has an error ⚠️ or not ✅.
 
 > Go back to the overview page and find that the `welcome` workflow is currently green (there should be a ✅).
 
-Now uncomment the following cell by removing the hashtag `#`. 
+Now uncomment the following cell by removing the hashtag `#`.
 This will result in an error.
 
 > When going back to the overview once again, you see that it updated and shows a ⚠️ instead.
