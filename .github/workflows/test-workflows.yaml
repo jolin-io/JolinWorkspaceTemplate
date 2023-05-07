@@ -24,6 +24,7 @@ jobs:
           ' .) >> "$GITHUB_OUTPUT"
 
   job-run:
+    name: ${{ matrix.workflow_path }}
     runs-on: ubuntu-latest
     container: jolincompany/jolin_cloud_cicd:latest
     needs: job-matrix
@@ -34,6 +35,13 @@ jobs:
       id-token: write  # This is required for requesting the JWT
     steps:
     - uses: actions/checkout@v3
+    - run: |
+        julia -e '
+          import Pkg
+          Pkg.Registry.add("General")
+          Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+          Pkg.add("JolinPlutoCICD")
+        '
     - id: create-pluto-env
       run: |
         echo workflow_env=$(julia -e '
