@@ -41,6 +41,18 @@ jobs:
           print(JolinPlutoCICD.create_pluto_env(ARGS[1]))
         ' ${{ matrix.workflow_path }}) >> "$GITHUB_OUTPUT"
 
+    - run: echo ${{ steps.create-pluto-env.outputs.workflow_env }}
+    - run: echo ${{ format('{0}/*', steps.create-pluto-env.outputs.workflow_env) }}
+
+    - run: |
+        echo workflow_env=$(julia -e '
+          using JolinPlutoCICD
+          print(JolinPlutoCICD.create_pluto_env(ARGS[1]))
+        ' ${{ matrix.workflow_path }}) >> "$GITHUB_ENV"
+    - run: echo $workflow_env
+    - run: echo ${{ env.workflow_env }}
+    - run: echo ${{ format('{0}/*', env.workflow_env) }}
+
     - uses: actions/cache@v3
       with:
         path: ~/.julia
