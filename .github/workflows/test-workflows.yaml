@@ -53,4 +53,4 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*', env.workflow_env)) }}
 
     - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
-    - run: julia --project=$workflow_env --compile=min "${{ matrix.prefix }}${{ matrix.workflow_path }}.jl""
+    - run: julia --project=$workflow_env --compile=min "${{ matrix.prefix }}${{ matrix.workflow_path }}.jl"
