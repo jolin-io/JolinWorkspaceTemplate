@@ -1,0 +1,51 @@
+name: Test all reactive workflows
+run-name: 👷🏽‍♀👷 Testing all reactive workflows
+on: [pull_request]
+env:
+  JOLIN_ENVIRONMENT: "test"
+jobs:
+  job-matrix:
+    runs-on: ubuntu-latest
+    container: jolincompany/jolin_cloud_cicd:latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-matrix
+        run: |
+          echo matrix=$(julia -e '
+            import Pkg
+            Pkg.Registry.add("General")
+            Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+            Pkg.add("JolinPlutoCICD")
+            using JolinPlutoCICD
+            all_workflow_paths = JolinPlutoCICD.get_all_workflow_paths(ARGS[1])
+            print("[" * join(repr.(all_workflow_paths), ",") * "]")
+          ' .) >> "$GITHUB_OUTPUT"
+
+  job-run-single:
+    name: testname
+    runs-on: ubuntu-latest
+    container: jolincompany/jolin_cloud_cicd:latest
+    needs: job-matrix
+    strategy:
+      matrix:
+        workflow_path: ${{ fromJSON(needs.job-matrix.outputs.matrix) }}
+    permissions:
+      id-token: write  # This is required for requesting the JWT
+    steps:
+    - uses: actions/checkout@v3
+    - id: create-pluto-env
+      run: |
+        echo workflow_env=$(julia -e '
+          using JolinPlutoCICD
+          print(JolinPlutoCICD.create_pluto_env(ARGS[1]))
+        ' ${{ matrix.workflow_path }}) >> "$GITHUB_ENV"
+
+    - uses: actions/cache@v3
+      with:
+        path: ~/.julia
+        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*', env.workflow_env)) }}
+
+    - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
+    - run: julia --project=$workflow_env --compile=min ${{ matrix.workflow_path }}
