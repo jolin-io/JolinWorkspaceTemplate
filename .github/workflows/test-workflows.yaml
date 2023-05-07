@@ -1,4 +1,4 @@
-name: Test all reactive workflows
+name: Test
 run-name: 👷 Testing all reactive workflows
 on: [pull_request]
 env:
