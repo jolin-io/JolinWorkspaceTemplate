@@ -35,13 +35,13 @@ Here we keep normal ordering so that it is easier to understand what goes on.
 md"""
 R does not come with prebuilt binaries for Linux ARM64 architectures. Hence R package need to be compiled from source. All compilation tools are available, but compilation takes a long time. 
 
-As a compromise, the `tidyverse` package was already precompiled and is readily available on this system.
+As a compromise, the `tidyverse` and `plotly` packages were already precompiled and are readily available on this system. Still, for reproducability and automated testing, always run `install.packages` for *all* your dependencies, including `tidyverse` or `plotly` explicitly.
 
-If you want to compile/install other packages than `tidyverse`, just call
-```julia
-R"install.packages('yourpackage')"
-```
+⚠️ Installation of dependencies **must be done** via `Rscript`. Using the R string macro won't work for `install.packages`.
 """
+
+# ╔═╡ 2f873bd7-437a-4547-ac2f-13b0dd2fa4b9
+run(`Rscript -e "install.packages(c('tidyverse', 'plotly'))"`)
 
 # ╔═╡ 3e1cf25c-9157-49fc-8d47-f7ac73227798
 md"""
@@ -864,6 +864,7 @@ version = "17.4.0+0"
 # ╠═0058d8f2-eaac-11ed-1b10-7fcdeb83d83a
 # ╠═97f5fd46-aa22-4bf8-8066-28600db4ad50
 # ╟─f7b267a6-2322-4c0c-a3f4-314ae35afc12
+# ╠═2f873bd7-437a-4547-ac2f-13b0dd2fa4b9
 # ╟─3e1cf25c-9157-49fc-8d47-f7ac73227798
 # ╠═ba11c397-de55-4e68-b191-6a18d13afb74
 # ╟─07987d99-fa13-4d5e-a4fb-2b850ae6d575
