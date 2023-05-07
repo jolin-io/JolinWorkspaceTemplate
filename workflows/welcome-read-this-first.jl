@@ -415,10 +415,10 @@ uuid = "d850fbd6-035d-5a70-a269-1ca2e636ac6c"
 version = "0.2.2"
 
 [[deps.JolinPluto]]
-deps = ["AWS", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3"]
-git-tree-sha1 = "1d329ba56f4b4d81bed4d3ed6794efeab86d08bc"
+deps = ["AWS", "Base64", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs"]
+git-tree-sha1 = "e379e77f92f907ac0fd5e6821351cb4028b91650"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.6"
+version = "0.1.8"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -544,9 +544,9 @@ version = "0.7.51"
 
 [[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "47e5f437cc0e7ef2ce8406ce1e7e24d44915f88d"
+git-tree-sha1 = "7eb1686b4f04b82f96ed7a4ea5890a4f0c7a09f1"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.3.0"
+version = "1.4.0"
 
 [[deps.Printf]]
 deps = ["Unicode"]
