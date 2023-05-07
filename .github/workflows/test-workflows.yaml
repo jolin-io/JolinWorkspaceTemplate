@@ -45,7 +45,7 @@ jobs:
         echo workflow_env=$(julia -e '
           using JolinPlutoCICD
           print(JolinPlutoCICD.create_pluto_env(ARGS[1]))
-        ' "${{ matrix.prefix }}${{ matrix.workflow_path }}") >> "$GITHUB_ENV"
+        ' "${{ matrix.prefix }}${{ matrix.workflow_path }}.jl") >> "$GITHUB_ENV"
 
     - uses: actions/cache@v3
       with:
@@ -53,4 +53,4 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*', env.workflow_env)) }}
 
     - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
-    - run: julia --project=$workflow_env --compile=min "${{ matrix.prefix }}${{ matrix.workflow_path }}""
+    - run: julia --project=$workflow_env --compile=min "${{ matrix.prefix }}${{ matrix.workflow_path }}.jl""
