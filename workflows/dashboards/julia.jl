@@ -17,7 +17,7 @@ end
 # ╔═╡ 79ce3b86-ea9e-11ed-1cb7-bf8f197cb3a8
 begin
 	using JolinPluto, PlutoUI
-	using CSV
+	using DelimitedFiles: readdlm
 	using DataFrames
 	using Plots
 	plotly()
@@ -47,11 +47,19 @@ datafile = download("https://nyc3.digitaloceanspaces.com/owid-public/data/co2/ow
 
 # ╔═╡ 196296b9-a01d-4afb-bc20-b09d457c47c6
 md"""
-The file can then be read using [`CSV`](https://csv.juliadata.org/stable/) and converted to a standard [`DataFrame`](https://csv.juliadata.org/stable/)
+The file can then be read using [`CSV`](https://csv.juliadata.org/stable/) and converted to a standard [`DataFrame`](https://csv.juliadata.org/stable/). 
+
+However, CSV needs extra precompilation for ARM64 in order to be conveniently used, which is currently on our TODO list, but not yet done. Until that is ready, we recommend to use the builtin DelimitedFiles.readdlm method as follows. It has the best precompilation support, as it is a julia builtin package.
 """
 
-# ╔═╡ c0f970a4-6613-405b-a70f-b08a8174e252
-data = DataFrame(CSV.File(datafile))
+# ╔═╡ 85a88dee-c945-444b-a6a7-bead3403ef11
+begin
+	mat, head = readdlm(datafile, ',', header=true)
+	mat[findall(x -> x=="", mat)] .= missing
+	df_untyped = DataFrame(mat, vec(head))
+	df_typed = identity.(df_untyped)
+	data = df_typed
+end
 
 # ╔═╡ 4745a6ca-7a43-409c-9cd0-2e2dd543c97a
 md"""
@@ -94,16 +102,15 @@ Happy dashboarding 📈 📊!
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
-CSV = "~0.10.9"
 DataFrames = "~1.5.0"
-JolinPluto = "~0.1.0"
+JolinPluto = "~0.1.8"
 Plots = "~1.38.11"
 PlutoUI = "~0.7.51"
 """
@@ -114,7 +121,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "d419fbabdc3d5c6c35d8339e4b507f097d0691a1"
+project_hash = "2a01dc40d3691753e949d1e05a18c4211eea0e6f"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -149,12 +156,6 @@ git-tree-sha1 = "19a35467a82e236ff51bc17a3a44b69ef35185a2"
 uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
-[[deps.CSV]]
-deps = ["CodecZlib", "Dates", "FilePathsBase", "InlineStrings", "Mmap", "Parsers", "PooledArrays", "SentinelArrays", "SnoopPrecompile", "Tables", "Unicode", "WeakRefStrings", "WorkerUtilities"]
-git-tree-sha1 = "c700cce799b51c9045473de751e9319bdd1c6e94"
-uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
-version = "0.10.9"
-
 [[deps.Cairo_jll]]
 deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
@@ -163,9 +164,9 @@ version = "1.16.1+1"
 
 [[deps.ChainRulesCore]]
 deps = ["Compat", "LinearAlgebra", "SparseArrays"]
-git-tree-sha1 = "c6d890a52d2c4d55d326439580c3b8d0875a77d9"
+git-tree-sha1 = "e30f2f4e20f7f186dc36529910beaedc60cfa644"
 uuid = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
-version = "1.15.7"
+version = "1.16.0"
 
 [[deps.ChangesOfVariables]]
 deps = ["LinearAlgebra", "Test"]
@@ -299,12 +300,6 @@ deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers",
 git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
 version = "4.4.2+2"
-
-[[deps.FilePathsBase]]
-deps = ["Compat", "Dates", "Mmap", "Printf", "Test", "UUIDs"]
-git-tree-sha1 = "e27c4ebe80e8699540f2d6c805cc12203b614f12"
-uuid = "48062228-2e41-5def-b9a4-89aafe57970f"
-version = "0.9.20"
 
 [[deps.FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -711,9 +706,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL]]
 deps = ["BitFlags", "Dates", "MozillaCACerts_jll", "OpenSSL_jll", "Sockets"]
-git-tree-sha1 = "7fb975217aea8f1bb360cf1dde70bad2530622d2"
+git-tree-sha1 = "51901a49222b09e3743c65b8847687ae5fc78eb2"
 uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
-version = "1.4.0"
+version = "1.4.1"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -797,9 +792,9 @@ version = "1.4.2"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "d0984cc886c48e5a165705ce65236dc2ec467b91"
+git-tree-sha1 = "259e206946c293698122f63e2b513a7c99a244e8"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -1025,17 +1020,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
 version = "1.25.0+0"
-
-[[deps.WeakRefStrings]]
-deps = ["DataAPI", "InlineStrings", "Parsers"]
-git-tree-sha1 = "b1be2855ed9ed8eac54e5caff2afcdb442d52c23"
-uuid = "ea10d353-3f73-51f8-a26c-33c1cb351aa5"
-version = "1.4.2"
-
-[[deps.WorkerUtilities]]
-git-tree-sha1 = "cd1659ba0d57b71a464a29e64dbc67cfe83d54e7"
-uuid = "76eceee3-57b5-4d4a-8e66-0e911cebbf60"
-version = "1.6.1"
 
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
@@ -1275,13 +1259,13 @@ version = "1.4.1+0"
 # ╟─d57afd02-5181-4696-bb69-153c37ef76b2
 # ╠═14a34832-291c-4fe2-bca5-fe049b6071e1
 # ╟─196296b9-a01d-4afb-bc20-b09d457c47c6
-# ╠═c0f970a4-6613-405b-a70f-b08a8174e252
+# ╠═85a88dee-c945-444b-a6a7-bead3403ef11
 # ╟─4745a6ca-7a43-409c-9cd0-2e2dd543c97a
 # ╠═084ed3a1-089d-4c5e-bad5-925e6fc73945
 # ╠═c5b2dfb4-4ccd-4f75-8bbb-8d690486b48b
 # ╟─ac931d72-9723-4ced-b048-aa769eeb0196
 # ╠═8d48cc04-91c5-4861-b2b2-925157297f71
 # ╠═13a5b535-343b-498e-b5ea-99fe2ee443d2
-# ╠═aedb04d7-a69d-4fff-bf03-65d01169ccca
+# ╟─aedb04d7-a69d-4fff-bf03-65d01169ccca
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
