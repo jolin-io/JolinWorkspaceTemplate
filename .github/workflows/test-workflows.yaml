@@ -54,4 +54,4 @@ jobs:
 
     - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
     - working-directory: ${{ env.workflow_env }}
-      run: julia --project=$workflow_env --compile=min "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}"
+      run: julia --project=$workflow_env "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}"
