@@ -17,12 +17,8 @@ end
 # ╔═╡ 709da6de-e873-4fa6-8065-9ac8c03be1b7
 using PyCall, Conda, JolinPluto, PlutoUI, HypertextLiteral
 
-# ╔═╡ b7e5d932-e66c-4ea6-881f-c94bd8def560
-begin
-	using DataFrames
-	julia_df = DataFrame(x=[1,2,3], y=["a", "b", "c"])
-	python_df = py"$pd.DataFrame($(pairs(eachcol(julia_df))))"
-end
+# ╔═╡ 9b3e674f-d7e0-41f2-94fe-b884e3220f37
+using DataFrames  # place imports always on their own line
 
 # ╔═╡ 3fa2cf9e-eaa3-11ed-29ac-6de296b44861
 md"""
@@ -170,7 +166,7 @@ end
 np_sin(1)
 
 # ╔═╡ cd21cf39-a251-4dad-8d65-c8bb249a073a
-py"np_sin"
+py"np_sin"  # if re-executed this gives an error
 
 # ╔═╡ ade02e99-8ecc-45e4-83dd-28376f236574
 md"""
@@ -181,6 +177,12 @@ If you follow the approach outlined in this workflow, everything should work fin
 md"""
 Last note: if you want to transfer a julia DataFrame to Python, you need to use `pairs(eachcol(df))`
 """
+
+# ╔═╡ b7e5d932-e66c-4ea6-881f-c94bd8def560
+begin
+	julia_df = DataFrame(x=[1,2,3], y=["a", "b", "c"])
+	python_df = py"$pd.DataFrame($(pairs(eachcol(julia_df))))"
+end
 
 # ╔═╡ b27cd066-84e4-4e56-b9ae-864cb2fd50be
 md"""
@@ -815,7 +817,8 @@ version = "17.4.0+0"
 # ╠═cd21cf39-a251-4dad-8d65-c8bb249a073a
 # ╟─ade02e99-8ecc-45e4-83dd-28376f236574
 # ╟─97d534c9-e0d5-4a65-9eda-531adb4afc36
+# ╠═9b3e674f-d7e0-41f2-94fe-b884e3220f37
 # ╠═b7e5d932-e66c-4ea6-881f-c94bd8def560
-# ╠═b27cd066-84e4-4e56-b9ae-864cb2fd50be
+# ╟─b27cd066-84e4-4e56-b9ae-864cb2fd50be
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
