@@ -47,14 +47,16 @@ jobs:
         echo workflow_env=$(julia -e '
           using JolinPlutoCICD
           print(JolinPlutoCICD.create_pluto_env(ARGS[1],
-            tempdir_parent=ENV["GITHUB_WORKSPACE"] * "/tmp_envs",
+            tempdir_parent=ENV["GITHUB_WORKSPACE"],
+            prefix="_tmp_envs/jl_",
             return_relative_path=true))
         ' "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
     - uses: actions/cache@v3
       with:
         path: ~/.julia
-        key: ${{ runner.os }}-${{ hashFiles(format('{0}/Manifest.toml', env.workflow_env), format('{0}/Project.toml', env.workflow_env)) }}
+        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.workflow_env)) }}
+        # key: ${{ runner.os }}-${{ hashFiles(format('{0}/Manifest.toml', env.workflow_env), format('{0}/Project.toml', env.workflow_env)) }}
         restore-keys: ${{ runner.os }}-
 
     - run: julia --project=$GITHUB_WORKSPACE/$workflow_env -e 'import Pkg; Pkg.instantiate()'
