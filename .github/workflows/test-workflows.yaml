@@ -50,7 +50,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: ~/.julia
-        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*', env.workflow_env)) }}
+        key: ${{ runner.os }}-${{ hashFiles(format('{0}/**/*.toml', env.workflow_env)) }}
 
     - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
     - working-directory: ${{ env.workflow_env }}
