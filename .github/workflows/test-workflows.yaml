@@ -52,6 +52,10 @@ jobs:
             return_relative_path=true))
         ' "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
+    # trying permission error for hashfiles
+    # https://github.com/cypress-io/github-action/issues/446#issuecomment-968192021
+    - run: chown -R 1001:1001 $GITHUB_WORKSPACE
+
     - uses: actions/cache@v3
       with:
         path: ~/.julia
