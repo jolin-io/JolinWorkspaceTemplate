@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.40
+# v0.19.42
 
 using Markdown
 using InteractiveUtils
@@ -62,7 +62,7 @@ Pluto's default is actually the oppositie, output ABOVE input, which for many, i
 """
 
 # ╔═╡ 58aee9fc-c0b3-4683-8c2c-a0444a02f14b
-@output_below #hi
+@output_below
 
 # ╔═╡ 418886cc-1aa0-47f9-8fcf-9539c8534bf7
 md"""
@@ -206,6 +206,18 @@ You will need:
 }
 ```
 - IMPORTANT: You need to replace `YOUR_AWS_ACCOUNT_NUMBER`, `YOUR_ORGANIZATION`, and `YOUR_REPO`. You may also want to change the audience `cloud.jolin.io:aud` and subject `cloud.jolin.io:sub` to match your particular context or workflow path.
+"""
+
+# ╔═╡ 1b476c0c-efbb-4659-8201-d90a60a281b9
+md"""
+### Authorization Helpers
+For AWS authentication there exist a helper
+```julia
+JolinPluto.@authorize_aws(role_arn; audience="awsaudience")
+```
+which will setup the respective AWS credentials for you.
+
+Helpers for Azure and Google Cloud are planned. Please reach out to [hello@jolin.io](mailto:hello@jolin.io) if you need them.
 """
 
 # ╔═╡ 0ec8ec29-4609-4997-91b5-a126e813c182
@@ -722,6 +734,7 @@ version = "17.4.0+0"
 # ╠═3b084963-25d5-4448-ab7f-47cebd2a2e24
 # ╠═78e5c37b-4dfd-4b5d-942b-2d81d4519307
 # ╟─17a61a15-1241-4b14-9f64-4a161645510b
+# ╟─1b476c0c-efbb-4659-8201-d90a60a281b9
 # ╟─0ec8ec29-4609-4997-91b5-a126e813c182
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
