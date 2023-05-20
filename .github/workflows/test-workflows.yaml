@@ -54,10 +54,10 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: ~/.julia
-        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.workflow_env)) }}
+        key: ${{ runner.os }}-${{ hashFiles(format('{0}/Manifest.toml', env.workflow_env), format('{0}/Project.toml', env.workflow_env)) }}
         restore-keys: ${{ runner.os }}-
 
-    - run: julia --project=$workflow_env -e 'import Pkg; Pkg.instantiate()'
+    - run: julia --project=$GITHUB_WORKSPACE/$workflow_env -e 'import Pkg; Pkg.instantiate()'
 
     - working-directory: ./workflows
-      run: julia --project=$workflow_env "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}"
+      run: julia --project=$GITHUB_WORKSPACE/$workflow_env "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}"
