@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.40
+# v0.19.42
 
 using Markdown
 using InteractiveUtils
@@ -26,13 +26,18 @@ md"""
 
 We  are going to look at CO2 data.
 
-> 👉 3, 1, 2.  If you build your own dashboard later, remember that you can completely reorder the cells. For a dashboard this often makes sense in that the final plots and input elements could be moved to the top of the workflow.
+> 👉 3, 1, 2.  If you build your own dashboard later, remember that you can completely reorder the cells. For a dashboard this often makes sense in that the final plots and input elements could be moved to the top of the notebook.
 
 Here we keep normal ordering so that it is easier to understand what goes on.
 """
 
 # ╔═╡ e11fa66a-7ec5-47de-b05e-e45227f36a46
 @output_below
+
+# ╔═╡ b504e1e3-a358-4ba7-a72a-ef5d0cddc5ea
+md"""
+## Installing Python dependencies
+"""
 
 # ╔═╡ b80fc25b-9fcb-482e-91c2-2d731e5dca4c
 md"""
@@ -44,7 +49,7 @@ Conda.add(["numpy", "pandas", "matplotlib", "plotly"])
 
 # ╔═╡ afa20ae0-e7e0-46c8-9b96-3811feb33a78
 md"""
-Accessing python modules from reactive workflows is best done via `PyCall.pyimport`, which binds the python package to a julia variable.
+Accessing python modules from reactive notebooks is best done via `PyCall.pyimport`, which binds the python package to a julia variable.
 """
 
 # ╔═╡ 397dc3a8-561f-44ca-b36e-cdf3fcebda95
@@ -85,7 +90,7 @@ countries = unique(df["country"])
 
 # ╔═╡ 1bc2f0e4-42db-42c0-ab98-3b333fe46181
 md"""
-## Interactive Visualizations
+## Interactive visualizations
 
 The reactivity comes from Pluto. Hence to define our little input widgets, we do things in Julia. The plotting then can happen on python side. Even plotly works well. 
 """
@@ -94,9 +99,9 @@ The reactivity comes from Pluto. Hence to define our little input widgets, we do
 md"""
 | Parameter | Choose |
 | --------- | :----- |
-| country | $(@bind country PlutoUI.Select(countries; default="World")) |
-| xaxis | $(@bind xaxis PlutoUI.Select(columns; default="year")) |
-| yaxis | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
+| country   | $(@bind country PlutoUI.Select(countries; default="World")) |
+| xaxis     | $(@bind xaxis PlutoUI.Select(columns; default="year")) |
+| yaxis     | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
 | log scale | $(@bind logy PlutoUI.CheckBox()) |
 """
 
@@ -170,7 +175,7 @@ py"np_sin"  # if re-executed this gives an error
 
 # ╔═╡ ade02e99-8ecc-45e4-83dd-28376f236574
 md"""
-If you follow the approach outlined in this workflow, everything should work fine for you. It is the recommended way. For updates in the future, [this is the issue](https://github.com/fonsp/Pluto.jl/issues/1108) which tracks the improvement for PyCall-Pluto-interaction.
+If you follow the approach outlined in this notebook, everything should work fine for you. It is the recommended way. For updates in the future, [this is the issue](https://github.com/fonsp/Pluto.jl/issues/1108) which tracks the improvement for PyCall-Pluto-interaction.
 """
 
 # ╔═╡ 97d534c9-e0d5-4a65-9eda-531adb4afc36
@@ -195,6 +200,9 @@ md"""
 Happy dashboarding 📈 📊!
 """
 
+# ╔═╡ ddf6fbed-84e0-4697-a40c-8f7f6102e693
+PlutoUI.TableOfContents()
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -206,10 +214,10 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 
 [compat]
-Conda = "~1.8.0"
+Conda = "~1.9.0"
 DataFrames = "~1.5.0"
 HypertextLiteral = "~0.9.4"
-JolinPluto = "~0.1.10"
+JolinPluto = "~0.1.15"
 PlutoUI = "~0.7.51"
 PyCall = "~1.95.1"
 """
@@ -218,15 +226,15 @@ PyCall = "~1.95.1"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.0"
+julia_version = "1.9.1"
 manifest_format = "2.0"
 project_hash = "94593c369a3aabb2b8917367b2bbeacc43ebcf8a"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
-git-tree-sha1 = "2b82cf89e8a028dec40fcd6f6d9c0406a25907d7"
+git-tree-sha1 = "e113452555312a7d220214229479045daeaa7ac6"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
-version = "1.87.0"
+version = "1.88.0"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -284,9 +292,9 @@ version = "2.2.0"
 
 [[deps.Conda]]
 deps = ["Downloads", "JSON", "VersionParsing"]
-git-tree-sha1 = "e32a90da027ca45d84678b826fffd3110bb3fc90"
+git-tree-sha1 = "915ebe6f0e7302693bdd8eac985797dba1d25662"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.8.0"
+version = "1.9.0"
 
 [[deps.Crayons]]
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
@@ -380,9 +388,9 @@ version = "2.36.1+2"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "ba9eca9f8bdb787c6f3cf52cb4a404c0e349a0d1"
+git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.5"
+version = "1.9.6"
 
 [[deps.Hyperscript]]
 deps = ["Test"]
@@ -423,9 +431,9 @@ uuid = "41ab1584-1d38-5bbf-9106-f11c6c58b48f"
 version = "1.3.0"
 
 [[deps.IterTools]]
-git-tree-sha1 = "fa6287a4469f5e048d763df38279ee729fbd44e5"
+git-tree-sha1 = "4ced6667f9974fc5c5943fa5e2ef1ca43ea9e450"
 uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
-version = "1.4.0"
+version = "1.8.0"
 
 [[deps.IteratorInterfaceExtensions]]
 git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
@@ -445,10 +453,10 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.4"
 
 [[deps.JSON3]]
-deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
-git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
+deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
+git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-version = "1.12.0"
+version = "1.13.1"
 
 [[deps.JWTs]]
 deps = ["Base64", "Downloads", "JSON", "MbedTLS", "Random"]
@@ -458,9 +466,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs"]
-git-tree-sha1 = "7b68b5f40239d0363c538b8faab9076cf94a3660"
+git-tree-sha1 = "9954911367f23c7bdb4716a506b37d2ceb0e5975"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.10"
+version = "0.1.15"
 
 [[deps.LaTeXStrings]]
 git-tree-sha1 = "f2355693d6778a178ade15952b7ac47a4ff97996"
@@ -545,9 +553,9 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.Mocking]]
 deps = ["Compat", "ExprTools"]
-git-tree-sha1 = "782e258e80d68a73d8c916e55f8ced1de00c2cea"
+git-tree-sha1 = "4cc0c5a83933648b615c36c2b956d94fda70641e"
 uuid = "78c3b35d-d492-501b-9361-3d52fe80e533"
-version = "0.7.6"
+version = "0.7.7"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
@@ -569,10 +577,10 @@ uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
 version = "1.4.1"
 
 [[deps.OpenSSL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9ff31d101d987eb9d66bd8b176ac7c277beccd09"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "1aa4b74f80b01c6bc2b89992b861b5f210e665b5"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.20+0"
+version = "1.1.21+0"
 
 [[deps.OrderedCollections]]
 git-tree-sha1 = "d321bf2de576bf25ec4d3e4360faca399afca282"
@@ -586,9 +594,9 @@ version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "a5aef8d4a6e8d81f171b2bd4be5265b01384c74c"
+git-tree-sha1 = "b32107a634205cdcc64e2a3070c3eb0d56d54181"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.5.10"
+version = "2.6.0"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -609,9 +617,9 @@ version = "1.4.2"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "259e206946c293698122f63e2b513a7c99a244e8"
+git-tree-sha1 = "9673d39decc5feece56ef3940e5dafba15ba0f81"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -654,9 +662,9 @@ version = "0.7.0"
 
 [[deps.SentinelArrays]]
 deps = ["Dates", "Random"]
-git-tree-sha1 = "77d3c4726515dca71f6d80fbb5e251088defe305"
+git-tree-sha1 = "04bdff0b09c65ff3e06a05e3eb7b120223da3d39"
 uuid = "91c51154-3ec4-41a3-a24f-3f23e20d615c"
-version = "1.3.18"
+version = "1.4.0"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -786,7 +794,7 @@ version = "1.2.13+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.7.0+0"
+version = "5.8.0+0"
 
 [[deps.libsodium_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -809,6 +817,7 @@ version = "17.4.0+0"
 # ╟─3fa2cf9e-eaa3-11ed-29ac-6de296b44861
 # ╠═709da6de-e873-4fa6-8065-9ac8c03be1b7
 # ╠═e11fa66a-7ec5-47de-b05e-e45227f36a46
+# ╟─b504e1e3-a358-4ba7-a72a-ef5d0cddc5ea
 # ╟─b80fc25b-9fcb-482e-91c2-2d731e5dca4c
 # ╠═8587f3ab-9563-491d-bae7-790688eb4283
 # ╟─afa20ae0-e7e0-46c8-9b96-3811feb33a78
@@ -826,7 +835,7 @@ version = "17.4.0+0"
 # ╟─162713e1-7411-464b-a674-426fad2713dc
 # ╠═77b12b2f-5f85-48db-82d1-d2b65e986f47
 # ╟─7a9108c9-fb68-4680-a56c-de5cd770974c
-# ╟─1bd78259-af92-49f4-8115-3881cabca87d
+# ╠═1bd78259-af92-49f4-8115-3881cabca87d
 # ╟─97347c11-8200-4bf7-9329-8675d02e7a30
 # ╠═4f5ba7e8-a147-46f2-8114-474db75e7ff5
 # ╠═6cb12ea6-ca09-42b8-850e-2fcdbdb745ba
@@ -836,5 +845,6 @@ version = "17.4.0+0"
 # ╠═9b3e674f-d7e0-41f2-94fe-b884e3220f37
 # ╠═b7e5d932-e66c-4ea6-881f-c94bd8def560
 # ╟─b27cd066-84e4-4e56-b9ae-864cb2fd50be
+# ╟─ddf6fbed-84e0-4697-a40c-8f7f6102e693
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

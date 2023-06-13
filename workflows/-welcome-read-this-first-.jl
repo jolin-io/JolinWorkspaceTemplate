@@ -25,7 +25,7 @@ using JWTs
 
 # ╔═╡ d7795a36-b1cd-11ed-12e8-210a8bca4b85
 md"""
-# Welcome to Reactive Workflows.
+# Welcome to Reactive Notebooks
 
 This is a [Pluto.jl](https://github.com/fonsp/Pluto.jl) notebook, pimped up to be ready to use for production.
 
@@ -35,17 +35,20 @@ In this Welcome you get to know the basics to get started.
 # ╔═╡ 6c256a72-e3e2-4206-88c1-38be2de6a937
 md"""
 ## What is this?
-A Pluto reactive workflow is divided into **cells** whose output is rendered to your browser for lovely interactivity and visualizations.
+A Pluto reactive notebook is divided into **cells** whose output is rendered to your browser for lovely interactivity and visualizations.
+"""
 
+# ╔═╡ ebaf63ab-d8cb-411b-b381-0e2c4e076358
+md"""
 The simplest example is this very cell (or the above): They are markdown strings which get printed as highlighted text.
 
-> 👉 👁 The input of the above "Welcome" cell is hidden. You can (un)hide it by clicking on the 👁 symbol right left to the cell (it will appear if you hover over the above cell)
+> 👉 👁 The input of this cell is hidden. You can (un)hide it by clicking on the 👁 symbol right left to the cell (it will appear if you hover over the respective cell)
 
-> 👉 ➕ You can create new cells by clicking on the ➕ sign to above or below of an existing cell (left). In the cell you can press `CTRL + M` to turn it into a Markdown cell.
+> 👉 ➕ You can create new cells by clicking on the ➕ sign above or below of an existing cell (left). In the cell you can press `CTRL + M` to turn it into a Markdown cell.
 
-> 👉 DELETE To remove a cell, just delete its content and press DELETE once more. The cell will be gone.
+> 👉 **DELETE** To remove a cell, just delete its content and press DELETE once more. The cell will be gone.
 
-> 👉 RUN To actually run cells, either press `SHIFT + ENTER`, which will save and run the current cell, or save and run the entire file with `CTRL + S`. (The default language is Julia, but we can also use Python or R as you can see in the other example workflows.)
+> 👉 **RUN** To actually run cells, either press `SHIFT + ENTER`, which will save and run the current cell, or save and run the entire file with `CTRL + S`. (The default language is Julia, but we can also use Python or R as you can see in the other example notebooks.)
 
 That are the basics, so lets see what we can do here.
 """
@@ -104,7 +107,7 @@ Welcome. I hope you played a little with the input widgets above.
 
 > 👉 `@bind` makes a variable reactive to interactive input elements (consisting of HTML, CSS and JavaScript, and e.g. defined by helpers like `PlutoUI.Slider`)
 
-> 👉 🔄 (REACTIVITY) when changing anything in this reactive workflow, everything else which explicitly depends on it will be reevaluated. This enables interactivity 📊. Your workflow is always up to date.
+> 👉 🔄 (REACTIVITY) when changing anything in this reactive notebook, everything else which explicitly depends on it will be reevaluated. This enables interactivity 📊. Your notebook is always up to date.
 
 Now you can create your first dashboards.
 """
@@ -113,12 +116,12 @@ Now you can create your first dashboards.
 md"""
 ## Overview page
 
-Jolin Cloud comes with an overview page which lists all the workflows of the current repository. You opened this very notebook from there.
+Jolin Cloud comes with an overview page which lists all notebooks of the current repository. You opened this very notebook from there.
 
-### Error Reporting
-The overview page shows a marker for each running workflow - whether it has an error ⚠️ or not ✅.
+### Error reporting
+The overview page shows a marker for each running notebook - whether it has an error ⚠️ or not ✅.
 
-> Go back to the overview page and find that the `welcome` workflow is currently green (there should be a ✅).
+> Go back to the overview page and find that the `welcome` notebook is currently green (there should be a ✅).
 
 Now uncomment the following cell by removing the hashtag `#`.
 This will result in an error.
@@ -144,9 +147,38 @@ md"""
 Clicking **request update** will open a pullrequest including all the current changes.
 
 If you delete your environment before requesting an update, the current state is still stored inside your github and will be restored when the environment is recreated. Outputs are never stored, which simplifies security concerns.
+"""
 
+# ╔═╡ f6bf4135-e92c-4f16-94da-4381f0873214
+md"""
+#### Git integration - Automatic tests
+After requesting an update via the Git integration, automatic tests are run for you inside the pull-request (using GitHub Actions with similar token authentication as seen in the next Authentication sections).
 
-### Featured Notebooks
+In a test run, no interactivity/reactivity takes place. Instead, default values are used.
+"""
+
+# ╔═╡ 515e330e-9f0a-4db2-962d-3a0805d322df
+Slider(1:10).default
+
+# ╔═╡ 2f63060e-c49f-4a28-aad8-533e162efefc
+md"""
+If you want to access different data dependening on whether your code is run on `dev` / `test` / `prod` you can use a simple if-else on `ENV["JOLIN_ENVIRONMENT"]`:
+"""
+
+# ╔═╡ ea276a93-7bde-4e13-af11-06a9f163dbc4
+mydata = if ENV["JOLIN_ENVIRONMENT"] == "test"
+	"testdata"
+elseif ENV["JOLIN_ENVIRONMENT"] == "dev"
+	"devdata"
+elseif ENV["JOLIN_ENVIRONMENT"] == "prod"
+	"proddata"
+else
+	error("I don't know about this environment: '$(ENV["JOLIN_ENVIRONMENT"])'")
+end
+
+# ╔═╡ d05385d4-34ab-46b0-bb6b-f6a67dc79625
+md"""
+### Featured notebooks
 You also find a section with valuable example notebooks from the community.
 """
 
@@ -169,10 +201,12 @@ token = JolinPluto.@get_jwt(audience)
 md"""
 Tokens, or more precisely JSON WEB TOKENS (short JWT, sometimes also referred to as OIDC) are like a fancy ticket. Unlike paper tickets, you can actually prove that `cloud.jolin.io` handed out this very ticket.
 
+> Note, if the notebook is run within the automatic tests, the JWT will come from GitHub itself and be signed by GitHub respectively.
+
 There are two information which you can and should use for authorization:
 > `audience` (corresponds to claim `aud`): This can be set by the user and makes sure that this token is only used for its intended purpose.
 
-> `sub` claim: This is set by cloud.jolin.io based on the running notebook. It is guaranteed to be like `/env/YOUR_ENVIRONMENT/github.com/YOUR_ORGANIZATION/YOUR_REPO/PATH_WITHIN_REPO`
+> `sub` claim: This is set by cloud.jolin.io based on the running notebook. It is guaranteed to be like `/env/YOUR_ENVIRONMENT/github.com/YOUR_ORGANIZATION/YOUR_REPO/PATH_WITHIN_REPO`. (For the automated testing, see GitHub's [different sub claim structure](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#filtering-for-a-specific-environment).)
 """
 
 # ╔═╡ 78e5c37b-4dfd-4b5d-942b-2d81d4519307
@@ -180,7 +214,7 @@ claims(JWT(jwt=token))
 
 # ╔═╡ 17a61a15-1241-4b14-9f64-4a161645510b
 md"""
-This information can also be used by clouds like AWS to authenticate you. For AWS follow [the documentaion to setup an OIDC provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).
+This information is then used by clouds like AWS to authenticate you. For AWS follow the [documentaion to setup an OIDC provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html).
 
 You will need:
 - Identity Provider URL (IdP URL): `https://cloud.jolin.io`
@@ -205,33 +239,34 @@ You will need:
     ]
 }
 ```
-- IMPORTANT: You need to replace `YOUR_AWS_ACCOUNT_NUMBER`, `YOUR_ORGANIZATION`, and `YOUR_REPO`. You may also want to change the audience `cloud.jolin.io:aud` and subject `cloud.jolin.io:sub` to match your particular context or workflow path.
+- IMPORTANT: You need to replace `YOUR_AWS_ACCOUNT_NUMBER`, `YOUR_ORGANIZATION`, and `YOUR_REPO`. You may also want to change the audience `cloud.jolin.io:aud` and subject `cloud.jolin.io:sub` to match your particular repository or notebook path.
+- For authorizing the automated testing, [follow similar steps](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-the-identity-provider-to-aws) using github's IdP url `https://token.actions.githubusercontent.com` and github's [sub claim structure](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#filtering-for-a-specific-environment).
 """
 
 # ╔═╡ 1b476c0c-efbb-4659-8201-d90a60a281b9
 md"""
-### Authorization Helpers
-For AWS authentication there exist a helper
+### Authorization helpers
+As soon as you have setup your AWS role with the trust relationship, you can use the following helper to authenticate your notebook.
 ```julia
 JolinPluto.@authorize_aws(role_arn; audience="awsaudience")
 ```
-which will setup the respective AWS credentials for you.
+This will setup the respective AWS credentials for you and works everywhere: On production, development and within the automatic tests.
 
 Helpers for Azure and Google Cloud are planned. Please reach out to [hello@jolin.io](mailto:hello@jolin.io) if you need them.
 """
 
 # ╔═╡ 0ec8ec29-4609-4997-91b5-a126e813c182
 md"""
-## Next
+# Next
 
-- take a look at the other example workflows. Use julia's `rm(...)` function to delete files you don't want.
+- Take a look at the other example notebooks. Use julia's `rm(...)` function to delete files you don't want.
 - [plutojl.org](https://plutojl.org/) gives a colourful overview of Pluto
 - [Pluto Wiki](https://github.com/fonsp/Pluto.jl/wiki) has some Q&A
 - [julialang.org/learning](https://julialang.org/learning/) for tutorials on julia
 - [youtube](https://www.youtube.com/c/jolin-io) julia material by [jolin.io](https://www.jolin.io)
 - [meetup](https://www.meetup.com/julia-user-group-munich/) - join julia meetup group
 
-Enjoy using reactive workflows.
+Enjoy using reactive notebooks.
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -243,7 +278,7 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 JWTs = "~0.2.2"
-JolinPluto = "~0.1.10"
+JolinPluto = "~0.1.15"
 PlutoUI = "~0.7.51"
 """
 
@@ -253,9 +288,9 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 [[AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
-git-tree-sha1 = "2b82cf89e8a028dec40fcd6f6d9c0406a25907d7"
+git-tree-sha1 = "e113452555312a7d220214229479045daeaa7ac6"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
-version = "1.87.0"
+version = "1.88.0"
 
 [[AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -366,9 +401,9 @@ version = "2.36.1+2"
 
 [[HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "ba9eca9f8bdb787c6f3cf52cb4a404c0e349a0d1"
+git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.5"
+version = "1.9.6"
 
 [[Hyperscript]]
 deps = ["Test"]
@@ -398,9 +433,9 @@ deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[IterTools]]
-git-tree-sha1 = "fa6287a4469f5e048d763df38279ee729fbd44e5"
+git-tree-sha1 = "4ced6667f9974fc5c5943fa5e2ef1ca43ea9e450"
 uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
-version = "1.4.0"
+version = "1.8.0"
 
 [[JLLWrappers]]
 deps = ["Preferences"]
@@ -415,10 +450,10 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.4"
 
 [[JSON3]]
-deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
-git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
+deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
+git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-version = "1.12.0"
+version = "1.13.1"
 
 [[JWTs]]
 deps = ["Base64", "Downloads", "JSON", "MbedTLS", "Random"]
@@ -428,9 +463,9 @@ version = "0.2.2"
 
 [[JolinPluto]]
 deps = ["AWS", "Base64", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs"]
-git-tree-sha1 = "7b68b5f40239d0363c538b8faab9076cf94a3660"
+git-tree-sha1 = "9954911367f23c7bdb4716a506b37d2ceb0e5975"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.10"
+version = "0.1.15"
 
 [[LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -498,9 +533,9 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[Mocking]]
 deps = ["Compat", "ExprTools"]
-git-tree-sha1 = "782e258e80d68a73d8c916e55f8ced1de00c2cea"
+git-tree-sha1 = "4cc0c5a83933648b615c36c2b956d94fda70641e"
 uuid = "78c3b35d-d492-501b-9361-3d52fe80e533"
-version = "0.7.6"
+version = "0.7.7"
 
 [[MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
@@ -522,10 +557,10 @@ uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
 version = "1.4.1"
 
 [[OpenSSL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9ff31d101d987eb9d66bd8b176ac7c277beccd09"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "1aa4b74f80b01c6bc2b89992b861b5f210e665b5"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.20+0"
+version = "1.1.21+0"
 
 [[OrderedCollections]]
 git-tree-sha1 = "d321bf2de576bf25ec4d3e4360faca399afca282"
@@ -539,9 +574,9 @@ version = "10.42.0+0"
 
 [[Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "a5aef8d4a6e8d81f171b2bd4be5265b01384c74c"
+git-tree-sha1 = "b32107a634205cdcc64e2a3070c3eb0d56d54181"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.5.10"
+version = "2.6.0"
 
 [[Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -556,9 +591,9 @@ version = "0.7.51"
 
 [[PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "259e206946c293698122f63e2b513a7c99a244e8"
+git-tree-sha1 = "9673d39decc5feece56ef3940e5dafba15ba0f81"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.1.1"
+version = "1.1.2"
 
 [[Preferences]]
 deps = ["TOML"]
@@ -594,12 +629,6 @@ uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
 uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
 version = "1.1.0"
-
-[[SnoopPrecompile]]
-deps = ["Preferences"]
-git-tree-sha1 = "e760a70afdcd461cf01a575947738d359234665c"
-uuid = "66db9d55-30c0-4569-8b51-7e840670fc0c"
-version = "1.0.3"
 
 [[Sockets]]
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
@@ -687,7 +716,7 @@ version = "1.2.13+0"
 [[libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.7.0+0"
+version = "5.8.0+0"
 
 [[libsodium_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -709,6 +738,7 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╟─d7795a36-b1cd-11ed-12e8-210a8bca4b85
 # ╠═6c256a72-e3e2-4206-88c1-38be2de6a937
+# ╟─ebaf63ab-d8cb-411b-b381-0e2c4e076358
 # ╠═673500ae-e2c4-453f-bdbc-367810412781
 # ╟─f34b31a0-ed98-49e8-8ffa-c4c81e3b8f30
 # ╠═58aee9fc-c0b3-4683-8c2c-a0444a02f14b
@@ -727,6 +757,11 @@ version = "17.4.0+0"
 # ╟─12f32990-afcb-4fdd-86c3-c9728b4d59ac
 # ╟─405a76f1-62aa-4962-8118-5d84b2d229b9
 # ╟─97f76fdc-7a18-4a3a-bc6a-732fb4c0295f
+# ╟─f6bf4135-e92c-4f16-94da-4381f0873214
+# ╠═515e330e-9f0a-4db2-962d-3a0805d322df
+# ╟─2f63060e-c49f-4a28-aad8-533e162efefc
+# ╠═ea276a93-7bde-4e13-af11-06a9f163dbc4
+# ╟─d05385d4-34ab-46b0-bb6b-f6a67dc79625
 # ╟─5dc3d3a8-637b-486e-9138-40d227e5ba3d
 # ╠═82d655a9-0441-49d6-8488-f8624a378b33
 # ╠═c80136a6-440d-4462-b5b9-b219ba789629
