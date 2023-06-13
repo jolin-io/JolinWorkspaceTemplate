@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.40
+# v0.19.42
 
 using Markdown
 using InteractiveUtils
@@ -23,13 +23,18 @@ md"""
 
 We  are going to look at CO2 data.
 
-> 👉 3, 1, 2.  If you build your own dashboard later, remember that you can completely reorder the cells. For a dashboard this often makes sense in that the final plots and input elements could be moved to the top of the workflow.
+> 👉 3, 1, 2.  If you build your own dashboard later, remember that you can completely reorder the cells. For a dashboard this often makes sense in that the final plots and input elements could be moved to the top of the notebook.
 
 Here we keep normal ordering so that it is easier to understand what goes on.
 """
 
 # ╔═╡ 97f5fd46-aa22-4bf8-8066-28600db4ad50
 @output_below
+
+# ╔═╡ 45e5fe58-a4b8-41d7-bfd8-f2e18926d068
+md"""
+## Installing R dependencies
+"""
 
 # ╔═╡ f7b267a6-2322-4c0c-a3f4-314ae35afc12
 md"""
@@ -79,7 +84,7 @@ countries = unique([rcopy(col) for col in R"pull($df, country)"])
 
 # ╔═╡ 6dd1a7e4-f42d-4400-adb8-0436f5f7bd51
 md"""
-## Interactive Visualizations
+## Interactive visualizations
 
 The reactivity comes from Pluto. Hence to define our little input widgets, we do things in Julia. The plotting then can happen on R side.
 """
@@ -128,7 +133,7 @@ ply = ggplotly(p)
 htmlwidgets::saveWidget(ply, "r_figure.html")
 """
 
-JolinPluto.embedLargeHTML(readchomp("r_figure.html"); width=600, height=400)
+JolinPluto.embedLargeHTML(read("r_figure.html", String); width="100%", height=400)
 end
 
 # ╔═╡ e77ae33b-6f2f-416e-ad73-e5682e122900
@@ -141,6 +146,9 @@ md"""
 Happy dashboarding 📈 📊!
 """
 
+# ╔═╡ d3d65f1f-5c78-40bf-9664-8565319d7597
+PlutoUI.TableOfContents()
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -151,7 +159,7 @@ RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 [compat]
 DataFrames = "~1.5.0"
-JolinPluto = "~0.1.10"
+JolinPluto = "~0.1.15"
 PlutoUI = "~0.7.51"
 RCall = "~0.13.15"
 """
@@ -160,15 +168,15 @@ RCall = "~0.13.15"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.0"
+julia_version = "1.9.1"
 manifest_format = "2.0"
 project_hash = "4382b8414e01bc1f75202300601d380821c2f648"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
-git-tree-sha1 = "2b82cf89e8a028dec40fcd6f6d9c0406a25907d7"
+git-tree-sha1 = "e113452555312a7d220214229479045daeaa7ac6"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
-version = "1.87.0"
+version = "1.88.0"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -250,9 +258,9 @@ version = "2.2.0"
 
 [[deps.Conda]]
 deps = ["Downloads", "JSON", "VersionParsing"]
-git-tree-sha1 = "e32a90da027ca45d84678b826fffd3110bb3fc90"
+git-tree-sha1 = "915ebe6f0e7302693bdd8eac985797dba1d25662"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.8.0"
+version = "1.9.0"
 
 [[deps.Crayons]]
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
@@ -358,15 +366,15 @@ version = "2.36.1+2"
 
 [[deps.HTTP]]
 deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "ba9eca9f8bdb787c6f3cf52cb4a404c0e349a0d1"
+git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.5"
+version = "1.9.6"
 
 [[deps.HypergeometricFunctions]]
 deps = ["DualNumbers", "LinearAlgebra", "OpenLibm_jll", "SpecialFunctions"]
-git-tree-sha1 = "84204eae2dd237500835990bcade263e27674a93"
+git-tree-sha1 = "0ec02c648befc2f94156eaef13b0f38106212f3f"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
-version = "0.3.16"
+version = "0.3.17"
 
 [[deps.Hyperscript]]
 deps = ["Test"]
@@ -412,9 +420,9 @@ uuid = "92d709cd-6900-40b7-9082-c6be49f344b6"
 version = "0.2.2"
 
 [[deps.IterTools]]
-git-tree-sha1 = "fa6287a4469f5e048d763df38279ee729fbd44e5"
+git-tree-sha1 = "4ced6667f9974fc5c5943fa5e2ef1ca43ea9e450"
 uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
-version = "1.4.0"
+version = "1.8.0"
 
 [[deps.IteratorInterfaceExtensions]]
 git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
@@ -434,10 +442,10 @@ uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.4"
 
 [[deps.JSON3]]
-deps = ["Dates", "Mmap", "Parsers", "SnoopPrecompile", "StructTypes", "UUIDs"]
-git-tree-sha1 = "84b10656a41ef564c39d2d477d7236966d2b5683"
+deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
+git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-version = "1.12.0"
+version = "1.13.1"
 
 [[deps.JWTs]]
 deps = ["Base64", "Downloads", "JSON", "MbedTLS", "Random"]
@@ -447,9 +455,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs"]
-git-tree-sha1 = "7b68b5f40239d0363c538b8faab9076cf94a3660"
+git-tree-sha1 = "9954911367f23c7bdb4716a506b37d2ceb0e5975"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.10"
+version = "0.1.15"
 
 [[deps.LaTeXStrings]]
 git-tree-sha1 = "f2355693d6778a178ade15952b7ac47a4ff97996"
@@ -490,9 +498,9 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
 deps = ["DocStringExtensions", "IrrationalConstants", "LinearAlgebra"]
-git-tree-sha1 = "0a1b7c2863e44523180fdb3146534e265a91870b"
+git-tree-sha1 = "c3ce8e7420b3a6e071e0fe4745f5d4300e37b13f"
 uuid = "2ab3a3ac-af41-5b50-aa03-7779005ae688"
-version = "0.3.23"
+version = "0.3.24"
 
     [deps.LogExpFunctions.extensions]
     LogExpFunctionsChainRulesCoreExt = "ChainRulesCore"
@@ -544,9 +552,9 @@ uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.Mocking]]
 deps = ["Compat", "ExprTools"]
-git-tree-sha1 = "782e258e80d68a73d8c916e55f8ced1de00c2cea"
+git-tree-sha1 = "4cc0c5a83933648b615c36c2b956d94fda70641e"
 uuid = "78c3b35d-d492-501b-9361-3d52fe80e533"
-version = "0.7.6"
+version = "0.7.7"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
@@ -579,10 +587,10 @@ uuid = "4d8831e6-92b7-49fb-bdf8-b643e874388c"
 version = "1.4.1"
 
 [[deps.OpenSSL_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "9ff31d101d987eb9d66bd8b176ac7c277beccd09"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "1aa4b74f80b01c6bc2b89992b861b5f210e665b5"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.20+0"
+version = "1.1.21+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -602,9 +610,9 @@ version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "a5aef8d4a6e8d81f171b2bd4be5265b01384c74c"
+git-tree-sha1 = "b32107a634205cdcc64e2a3070c3eb0d56d54181"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.5.10"
+version = "2.6.0"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -625,9 +633,9 @@ version = "1.4.2"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
-git-tree-sha1 = "259e206946c293698122f63e2b513a7c99a244e8"
+git-tree-sha1 = "9673d39decc5feece56ef3940e5dafba15ba0f81"
 uuid = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Preferences]]
 deps = ["TOML"]
@@ -688,9 +696,9 @@ version = "0.7.0"
 
 [[deps.SentinelArrays]]
 deps = ["Dates", "Random"]
-git-tree-sha1 = "77d3c4726515dca71f6d80fbb5e251088defe305"
+git-tree-sha1 = "04bdff0b09c65ff3e06a05e3eb7b120223da3d39"
 uuid = "91c51154-3ec4-41a3-a24f-3f23e20d615c"
-version = "1.3.18"
+version = "1.4.0"
 
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -874,7 +882,7 @@ version = "1.2.13+0"
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.7.0+0"
+version = "5.8.0+0"
 
 [[deps.libsodium_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -897,6 +905,7 @@ version = "17.4.0+0"
 # ╟─7d64d3df-fdd0-4ca8-978d-81bf5de5f67e
 # ╠═0058d8f2-eaac-11ed-1b10-7fcdeb83d83a
 # ╠═97f5fd46-aa22-4bf8-8066-28600db4ad50
+# ╟─45e5fe58-a4b8-41d7-bfd8-f2e18926d068
 # ╟─f7b267a6-2322-4c0c-a3f4-314ae35afc12
 # ╠═2f873bd7-437a-4547-ac2f-13b0dd2fa4b9
 # ╟─3e1cf25c-9157-49fc-8d47-f7ac73227798
@@ -913,5 +922,6 @@ version = "17.4.0+0"
 # ╟─7fa31165-3ec4-4fa1-b551-4885cbe4e6e4
 # ╠═549518e0-45d5-4754-a414-26c02491989c
 # ╟─e77ae33b-6f2f-416e-ad73-e5682e122900
+# ╟─d3d65f1f-5c78-40bf-9664-8565319d7597
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
