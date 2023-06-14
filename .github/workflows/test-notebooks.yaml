@@ -1,5 +1,5 @@
 name: Test
-run-name: 👷 Testing all reactive workflows
+run-name: 👷 Testing all reactive notebooks
 on: [pull_request]
 env:
   JOLIN_ENVIRONMENT: "test"
@@ -19,11 +19,11 @@ jobs:
             Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
             Pkg.add("JolinPlutoCICD")
             using JolinPlutoCICD
-            print(JolinPlutoCICD.json_common_prefix_common_suffix_and_all_workflow_paths(ARGS[1]))
+            print(JolinPlutoCICD.json_common_prefix_common_suffix_and_all_notebook_paths(ARGS[1]))
           ' .) >> "$GITHUB_OUTPUT"
 
   job-run:
-    name: ${{ matrix.workflow_path }}
+    name: ${{ matrix.notebook_path }}
     runs-on: ubuntu-latest
     container: jolincompany/jolin_cloud_cicd:latest
     needs: job-matrix
@@ -45,25 +45,25 @@ jobs:
 
     # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory will be cached
     - run: |
-        echo workflow_env=$(julia -e '
+        echo notebook_env=$(julia -e '
           using JolinPlutoCICD
           print(JolinPlutoCICD.create_pluto_env(ARGS[1],
             tempdir_parent=ENV["GITHUB_WORKSPACE"],
             prefix="_tmp_envs/jl_",
             return_relative_path=true))
-        ' "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
+        ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
     # fixing permission error for hashfiles (actually works)
     # adapted from https://github.com/cypress-io/github-action/issues/446#issuecomment-968192021
-    - run: chown -R 1001:1001 $GITHUB_WORKSPACE/$workflow_env
+    - run: chown -R 1001:1001 $GITHUB_WORKSPACE/$notebook_env
 
     - uses: actions/cache@v3
       with:
         path: ~/.julia
-        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.workflow_env)) }}
+        key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
-    - run: julia --project=$GITHUB_WORKSPACE/$workflow_env -e 'import Pkg; Pkg.instantiate()'
+    - run: julia --project=$GITHUB_WORKSPACE/$notebook_env -e 'import Pkg; Pkg.instantiate()'
 
-    - working-directory: ./workflows
-      run: julia --project=$GITHUB_WORKSPACE/$workflow_env "${{ matrix.prefix }}${{ matrix.workflow_path }}${{ matrix.suffix }}"
+    - working-directory: ./notebooks
+      run: julia --project=$GITHUB_WORKSPACE/$notebook_env "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
