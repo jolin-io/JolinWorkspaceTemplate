@@ -17,6 +17,9 @@ end
 # ╔═╡ 861ffdcc-0ea5-11ee-1fe9-6923ac20472c
 using JolinPluto, PlutoUI, PlutoHooks, PlutoLinks
 
+# ╔═╡ 06b75224-35a6-43b7-a9be-8c4a4147dbf8
+using Continuables
+
 # ╔═╡ e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
 using Dates
 
@@ -54,11 +57,16 @@ end
 # ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
 a = 4
 
-# ╔═╡ 06b75224-35a6-43b7-a9be-8c4a4147dbf8
-
-
 # ╔═╡ 96bbe442-7e9d-4524-b3e0-243a91b0b30a
-
+@cont function _list_free_symbols(expr::Expr)
+    for arg in expr.args
+        if isa(arg, Symbol)
+            isdefined(Main, arg) && cont(arg)
+        elseif isa(arg, Expr)
+            foreach(cont, _list_free_symbols(arg))
+        end
+    end
+end
 
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
 macro newtake_repeatedly!(expr)
@@ -122,6 +130,7 @@ end
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+Continuables = "79afa230-ca09-11e8-120b-5decf7bf5e25"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 PlutoHooks = "0ff47ea0-7a50-410d-8455-4348d5de0774"
@@ -129,6 +138,7 @@ PlutoLinks = "0ff47ea0-7a50-410d-8455-4348d5de0420"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+Continuables = "~1.0.2"
 JolinPluto = "~0.1.15"
 PlutoHooks = "~0.0.5"
 PlutoLinks = "~0.1.6"
@@ -141,7 +151,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "dfa3c6278c3c817aa582bbcfda653ee117f72738"
+project_hash = "e2e8b8e0c3f30cea7fac93a39f11ff113d766b44"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -189,14 +199,10 @@ uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
 version = "0.11.4"
 
 [[deps.Compat]]
-deps = ["UUIDs"]
-git-tree-sha1 = "7a60c856b9fa189eb34f5f8a6f6b5529b7942957"
+deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
+git-tree-sha1 = "6c0100a8cf4ed66f66e2039af7cde3357814bad2"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.6.1"
-weakdeps = ["Dates", "LinearAlgebra"]
-
-    [deps.Compat.extensions]
-    CompatLinearAlgebraExt = "LinearAlgebra"
+version = "3.46.2"
 
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -209,9 +215,27 @@ git-tree-sha1 = "96d823b94ba8d187a6d8f0826e731195a74b90e9"
 uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
 version = "2.2.0"
 
+[[deps.Continuables]]
+deps = ["Compat", "DataTypesBasic", "ExprParsers", "OrderedCollections", "SimpleMatch"]
+git-tree-sha1 = "7fe9b96bc6252b28b2b35a6eb52e45baac8af973"
+uuid = "79afa230-ca09-11e8-120b-5decf7bf5e25"
+version = "1.0.2"
+
+[[deps.DataTypesBasic]]
+deps = ["Compat"]
+git-tree-sha1 = "42a4d97dcdb982e7ca5570cb813adf15e9035e72"
+uuid = "83eed652-29e8-11e9-12da-a7c29d64ffc9"
+version = "2.0.2"
+
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[deps.DelimitedFiles]]
+deps = ["Mmap"]
+git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
+uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+version = "1.9.1"
 
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
@@ -227,6 +251,12 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
 version = "2.4.8+0"
+
+[[deps.ExprParsers]]
+deps = ["Compat", "ProxyInterfaces", "SimpleMatch", "StructEquality"]
+git-tree-sha1 = "2ca8dc5db1df63e1e55eba9f06de7a8ce695e636"
+uuid = "c5caad1f-83bd-4ce8-ac8e-4b29921e994e"
+version = "1.2.0"
 
 [[deps.ExprTools]]
 git-tree-sha1 = "c1d06d129da9f55715c6c212866f5b1bddc5fa00"
@@ -496,6 +526,12 @@ version = "1.4.0"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
+[[deps.ProxyInterfaces]]
+deps = ["Compat"]
+git-tree-sha1 = "d85fef4db37288bd756c71d223e34406055b7414"
+uuid = "9b3bf0c4-f070-48bc-ae01-f2584e9c23bc"
+version = "1.0.0"
+
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
@@ -528,9 +564,18 @@ version = "0.7.0"
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
+[[deps.SharedArrays]]
+deps = ["Distributed", "Mmap", "Random", "Serialization"]
+uuid = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
+
 [[deps.SimpleBufferStream]]
 git-tree-sha1 = "874e8867b33a00e784c8a7e4b60afe9e037b74e1"
 uuid = "777ac1f9-54b0-4bf8-805c-2214025038e7"
+version = "1.1.0"
+
+[[deps.SimpleMatch]]
+git-tree-sha1 = "78750b67a6cb3b6140be99f2fb56ae26ad28104b"
+uuid = "a3ae8450-d22f-11e9-3fe0-77240e25996f"
 version = "1.1.0"
 
 [[deps.Sockets]]
@@ -550,6 +595,12 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 version = "1.9.0"
+
+[[deps.StructEquality]]
+deps = ["Compat"]
+git-tree-sha1 = "192a9f1de3cfef80ab1a4ba7b150bb0e11ceedcf"
+uuid = "6ec83bb0-ed9f-11e9-3b4c-2b04cb4e219c"
+version = "2.1.0"
 
 [[deps.StructTypes]]
 deps = ["Dates", "UUIDs"]
@@ -644,6 +695,7 @@ version = "17.4.0+0"
 # ╠═6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
 # ╠═06b75224-35a6-43b7-a9be-8c4a4147dbf8
 # ╠═96bbe442-7e9d-4524-b3e0-243a91b0b30a
+# ╠═ff6cefb6-0bae-45ff-9d21-4f303a4f5212
 # ╠═05fa4a63-dacf-4660-8bfd-3dd42f75172b
 # ╠═802f02d1-fb68-473f-9627-efe71664ebbd
 # ╠═b41fa075-4bc6-499d-9a44-0458d536804d
