@@ -4,12 +4,6 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
-using HTTP
-
-# ╔═╡ 0834e6ee-d9ab-4720-90c9-637bbb9afbc7
-using JolinPluto
-
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 
 
@@ -19,14 +13,22 @@ using JolinPluto
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
 
 
+# ╔═╡ 0834e6ee-d9ab-4720-90c9-637bbb9afbc7
+using JolinPluto
+
+# ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
+using HTTP, JolinPluto, JSON3
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 
 [compat]
 HTTP = "~1.9.6"
+JSON3 = "~1.13.1"
 JolinPluto = "~0.1.5"
 """
 
@@ -36,7 +38,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "2a07d85140ae92f4540c0e7b77ad722aff7ed8e6"
+project_hash = "3508a886be38ecbea3e499a1a01146c648ddeb89"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
