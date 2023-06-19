@@ -63,9 +63,6 @@ channel2 = @Channel(1) do channel
 	end
 end
 
-# ╔═╡ ee5e7303-1aaa-4ae7-9518-dbfdd5687971
-myvalue2 = @newtake_repeatedly! channel2
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -592,6 +589,5 @@ version = "17.4.0+0"
 # ╠═1efbef47-1991-41b1-acc6-033784cc6902
 # ╠═16ed0226-94d1-40f4-9085-288c89e356a8
 # ╠═094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
-# ╠═ee5e7303-1aaa-4ae7-9518-dbfdd5687971
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
