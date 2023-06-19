@@ -23,7 +23,7 @@ channel = @Channel(10) do channel
 end
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-update = take!(channel)
+update = @take_repeatedly! channel
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
