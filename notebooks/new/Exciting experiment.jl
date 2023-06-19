@@ -60,8 +60,8 @@ end
 # ╔═╡ 1b63f8ed-010c-4eb5-af37-a88204989947
 for name in readdir("../../../.julia/artifacts")
 	dir = "../../../.julia/artifacts/" * name
-	isdir(dir * "/bin") || @show readdir(dir); continue
-	@show readdir(dir * "/bin")
+	isdir(dir * "/lib") || @show readdir(dir); continue
+	@show readdir(dir * "/lib")
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
