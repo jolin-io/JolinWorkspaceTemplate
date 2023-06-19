@@ -58,7 +58,7 @@ function mypush!(x)
 end
 
 # ╔═╡ e8ed6724-9729-493c-a842-795401390116
-
+rm("../../../.julia/artifacts/e5fa81bc2d21a13a3f71b1c9b5501bb79d693e33")
 
 # ╔═╡ 956a90de-262b-4746-b58c-5c5521366158
 
