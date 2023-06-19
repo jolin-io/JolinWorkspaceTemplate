@@ -30,12 +30,6 @@ channel = @Channel(10) do channel
 	end
 end
 
-# ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-update = @take_repeatedly! channel
-
-# ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
-price_current = parse(Float64, update.c)
-
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 begin
 	n_raw = 100
@@ -69,13 +63,19 @@ end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
-	push_sliding!(buffer_raw_prices, update, n=n_raw)
-	resetted = push_resetting!(buffer_raw_prices_for_mean, update, n=n_mean)
+	push_sliding!(buffer_raw_prices, price_current, n=n_raw)
+	resetted = push_resetting!(buffer_raw_prices_for_mean, price_current, n=n_mean)
 	if resetted !== nothing
 		push!(resetted)
 	end
 	plot(last_n_values)
 end
+
+# ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
+price_current = @take_repeatedly! channel
+
+# ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
+price_current = parse(Float64, update.c)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
