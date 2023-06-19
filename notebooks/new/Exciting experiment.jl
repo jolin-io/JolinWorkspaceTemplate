@@ -14,7 +14,7 @@ using HTTP, JolinPluto, JSON3, Plots
 trading = "btcusdt"
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
-BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
+BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@kline_1s"
 
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
 channel = @Channel(10) do channel
