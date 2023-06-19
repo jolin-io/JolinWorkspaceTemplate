@@ -40,7 +40,11 @@ last_n_values = []
 collect(1:0)
 
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
-
+function mypush!(x)
+	too_many = max(0, length(last_n_values) - n)
+	deleteat!(last_n_values, 1:too_many)
+	push!(last_n_values, x)
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
