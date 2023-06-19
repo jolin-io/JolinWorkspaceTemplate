@@ -22,7 +22,7 @@ macro newtake_repeatedly!(expr)
 	quote
 		let
 			channel = $(esc(expr))
-			_update, set_update = @use_state(nothing)
+			_update, set_update = @use_state(take!(channel))
 			@use_task([channel]) do
 				inner_channel = channel
 				for update in inner_channel
@@ -52,6 +52,9 @@ myvalue = @newtake_repeatedly! channel
 
 # ╔═╡ 16ed0226-94d1-40f4-9085-288c89e356a8
 12312number
+
+# ╔═╡ 094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
+
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -578,5 +581,6 @@ version = "17.4.0+0"
 # ╠═b41fa075-4bc6-499d-9a44-0458d536804d
 # ╠═1efbef47-1991-41b1-acc6-033784cc6902
 # ╠═16ed0226-94d1-40f4-9085-288c89e356a8
+# ╠═094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
