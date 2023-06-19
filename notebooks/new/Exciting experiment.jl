@@ -51,6 +51,9 @@ function mypush!(x)
 	push!(last_n_values, x)
 end
 
+# ╔═╡ d49fbc66-1496-48e0-a8be-d0e9cf065b7b
+
+
 # ╔═╡ 1b63f8ed-010c-4eb5-af37-a88204989947
 readdir("../../../.julia")
 
@@ -1017,6 +1020,7 @@ version = "3.5.0+0"
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
+# ╠═d49fbc66-1496-48e0-a8be-d0e9cf065b7b
 # ╠═1b63f8ed-010c-4eb5-af37-a88204989947
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 # ╟─00000000-0000-0000-0000-000000000001
