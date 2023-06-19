@@ -42,6 +42,9 @@ begin
 	n_mean = 10
 end
 
+# ╔═╡ 51941c69-9108-4a5e-82e8-49203830d854
+
+
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
 	buffer_raw_prices = Float64[]
@@ -1277,6 +1280,7 @@ version = "1.4.1+0"
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
 # ╠═bc14465c-e671-46db-b040-f120398eccbd
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
+# ╠═51941c69-9108-4a5e-82e8-49203830d854
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
