@@ -23,6 +23,9 @@ end
 # ╔═╡ 1efbef47-1991-41b1-acc6-033784cc6902
 number = Slider(1:10)
 
+# ╔═╡ 16ed0226-94d1-40f4-9085-288c89e356a8
+12312number
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
