@@ -14,7 +14,7 @@ using HTTP, JolinPluto, JSON3, Plots
 trading = "btcusdt"
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
-BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@kline_1s"
+BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@kline_1m"
 
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
 channel = @Channel(10) do channel
@@ -75,7 +75,7 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 [compat]
 HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
-JolinPluto = "~0.1.15"
+JolinPluto = "~0.1.5"
 Plots = "~1.38.16"
 """
 
@@ -85,7 +85,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "1a985f02ffc8a1c3b83ccff541e885bb6c1041cb"
+project_hash = "0e2e774e0c3659ce9ada75c7f0fe3d854fd62dfe"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -308,23 +308,11 @@ git-tree-sha1 = "9b02998aba7bf074d14de89f9d37ca24a1a0b046"
 uuid = "78b55507-aeef-58d4-861c-77aaff3498b1"
 version = "0.21.0+0"
 
-[[deps.Git]]
-deps = ["Git_jll"]
-git-tree-sha1 = "51764e6c2e84c37055e846c516e9015b4a291c7d"
-uuid = "d7ba0133-e1db-5d97-8f8c-041e4b3a1eb2"
-version = "1.3.0"
-
 [[deps.GitHub]]
 deps = ["Base64", "Dates", "HTTP", "JSON", "MbedTLS", "Sockets", "SodiumSeal", "URIs"]
 git-tree-sha1 = "5688002de970b9eee14b7af7bbbd1fdac10c9bbe"
 uuid = "bc5e4493-9b4d-5f90-b8aa-2b2bcaad7a26"
 version = "5.8.2"
-
-[[deps.Git_jll]]
-deps = ["Artifacts", "Expat_jll", "JLLWrappers", "LibCURL_jll", "Libdl", "Libiconv_jll", "OpenSSL_jll", "PCRE2_jll", "Zlib_jll"]
-git-tree-sha1 = "d8be4aab0f4e043cc40984e9097417307cce4c03"
-uuid = "f8c6e375-362e-5223-8a59-34ff63f689eb"
-version = "2.36.1+2"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
@@ -404,17 +392,11 @@ git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 version = "1.13.1"
 
-[[deps.JWTs]]
-deps = ["Base64", "Downloads", "JSON", "MbedTLS", "Random"]
-git-tree-sha1 = "a1f3ded6307ef85cc18dec93d9b993814eb4c1a0"
-uuid = "d850fbd6-035d-5a70-a269-1ca2e636ac6c"
-version = "0.2.2"
-
 [[deps.JolinPluto]]
-deps = ["AWS", "Base64", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs"]
-git-tree-sha1 = "9954911367f23c7bdb4716a506b37d2ceb0e5975"
+deps = ["AWS", "Dates", "HTTP", "HypertextLiteral", "JSON3"]
+git-tree-sha1 = "5242b215c8d8d8a4ed95367fd96bc11feee1a1f7"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.15"
+version = "0.1.5"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
