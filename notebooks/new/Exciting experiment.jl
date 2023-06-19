@@ -34,7 +34,7 @@ n = 100
 last_n_values = []
 
 # ╔═╡ bfcad111-8e1d-4836-9edd-11effa377349
-collect(10:-1:11)
+max(0, 1)
 
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
 
