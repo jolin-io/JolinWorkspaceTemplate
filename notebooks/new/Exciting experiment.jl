@@ -7,7 +7,7 @@ using InteractiveUtils
 # ╔═╡ d49fbc66-1496-48e0-a8be-d0e9cf065b7b
 begin
 	import Pkg
-	Pkg.build("GR")
+	Pkg.build("Plots")
 end
 
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
