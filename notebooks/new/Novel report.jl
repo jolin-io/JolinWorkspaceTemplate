@@ -23,9 +23,6 @@ using Continuables
 # ╔═╡ e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
 using Dates
 
-# ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
-a = 4
-
 # ╔═╡ 96bbe442-7e9d-4524-b3e0-243a91b0b30a
 @cont function _list_free_symbols(expr::Expr)
     for arg in expr.args
@@ -122,6 +119,9 @@ end
 
 # ╔═╡ 1a4df7f9-7926-4c82-85ff-49f37d148a06
 myvalue2 = @newtake_repeatedly! channel2
+
+# ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
+a = -10
 
 # ╔═╡ f7df2956-87ed-4fea-9e82-f7569cf8efc9
 @newrepeaton ceil(Dates.now(), Dates.Second(2)) begin
