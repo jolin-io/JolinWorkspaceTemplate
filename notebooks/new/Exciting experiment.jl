@@ -10,15 +10,6 @@ using HTTP, JolinPluto, JSON3
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/btcusdt@ticker"
 
-# ╔═╡ 2f4b7fa1-3701-4c7f-90bd-95c0ac3044eb
-@Channel(10) do channel
-	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do io
-	    while !eof(io);
-			put!(channel, JSON2.read(readavailable(io)))
-	    end
-	end
-end
-
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
 
 
@@ -390,7 +381,6 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
-# ╠═2f4b7fa1-3701-4c7f-90bd-95c0ac3044eb
 # ╠═190f50eb-4cea-4770-8170-ca508653e235
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
