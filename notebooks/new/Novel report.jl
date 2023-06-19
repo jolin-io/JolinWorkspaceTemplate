@@ -25,14 +25,14 @@ macro newtake_repeatedly!(expr)
 	quote
 		let
 			channel = $(esc(expr))
-			outer_update, set_update = @use_state(nothing)
+			_update, set_update = @use_state(nothing)
 			@use_task([channel]) do
 				inner_channel = channel
-				for inner_update in inner_channel
-					set_count(new_count) # <- update the value of count (this will trigger a re-run)
+				for update in inner_channel
+					set_update(update)
 				end
 			end
-			outer_update
+			_update
 		end
 	end
 end
