@@ -63,6 +63,7 @@ for name in readdir("../../../.julia/artifacts")
 	isdir(dir * "/lib") || continue
 	if any(f -> contains(lowercase(f), "gr"), readdir(dir * "/lib"))
 		@show name readdir(dir * "/lib")
+	end
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
