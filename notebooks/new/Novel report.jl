@@ -123,6 +123,9 @@ end
 # ╔═╡ 1a4df7f9-7926-4c82-85ff-49f37d148a06
 myvalue2 = @newtake_repeatedly! channel2
 
+# ╔═╡ f7df2956-87ed-4fea-9e82-f7569cf8efc9
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -700,5 +703,6 @@ version = "17.4.0+0"
 # ╠═094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
 # ╠═1a4df7f9-7926-4c82-85ff-49f37d148a06
 # ╠═e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
+# ╠═f7df2956-87ed-4fea-9e82-f7569cf8efc9
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
