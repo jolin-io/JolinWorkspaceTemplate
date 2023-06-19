@@ -67,7 +67,7 @@ end
 myvalue2 = @newtake_repeatedly! channel2
 
 # ╔═╡ d8b58774-d094-47ec-b7a1-c89a1f2aebc3
-
+@newtake_repeatedly! channel2
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
