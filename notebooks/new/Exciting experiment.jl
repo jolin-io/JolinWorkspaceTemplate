@@ -77,9 +77,6 @@ begin
 	plot(buffer_raw_prices)
 end
 
-# ╔═╡ 542f5a2f-2ddc-4719-af84-938b1c31692b
-update_price_mean = @take_repeatedly! channel_mean
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1209,6 +1206,5 @@ version = "1.4.1+0"
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-# ╠═542f5a2f-2ddc-4719-af84-938b1c31692b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
