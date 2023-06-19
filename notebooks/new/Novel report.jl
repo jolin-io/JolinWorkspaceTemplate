@@ -15,7 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 861ffdcc-0ea5-11ee-1fe9-6923ac20472c
-using JolinPluto, PlutoUI
+using JolinPluto, PlutoUI, PlutoHooks, PlutoLinks
 
 # ╔═╡ 802f02d1-fb68-473f-9627-efe71664ebbd
 channel = @Channel(1) do channel
@@ -40,10 +40,14 @@ end
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
+PlutoHooks = "0ff47ea0-7a50-410d-8455-4348d5de0774"
+PlutoLinks = "0ff47ea0-7a50-410d-8455-4348d5de0420"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
 JolinPluto = "~0.1.15"
+PlutoHooks = "~0.0.5"
+PlutoLinks = "~0.1.6"
 PlutoUI = "~0.7.51"
 """
 
@@ -53,7 +57,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "c6c422d72c6d1bedb2a95ddffc9a078847e793d3"
+project_hash = "236a3522719f6a604cd8f406a5255bb9be957bf0"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -81,6 +85,12 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 git-tree-sha1 = "43b1a4a8f797c1cddadf60499a8a077d4af2cd2d"
 uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
 version = "0.1.7"
+
+[[deps.CodeTracking]]
+deps = ["InteractiveUtils", "UUIDs"]
+git-tree-sha1 = "d730914ef30a06732bdd9f763f6cc32e92ffbff1"
+uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
+version = "1.3.1"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -118,6 +128,10 @@ version = "2.2.0"
 [[deps.Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[deps.Distributed]]
+deps = ["Random", "Serialization", "Sockets"]
+uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Downloads]]
 deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
@@ -236,6 +250,12 @@ git-tree-sha1 = "9954911367f23c7bdb4716a506b37d2ceb0e5975"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 version = "0.1.15"
 
+[[deps.JuliaInterpreter]]
+deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
+git-tree-sha1 = "6a125e6a4cb391e0b9adbd1afa9e771c2179f8ef"
+uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
+version = "0.9.23"
+
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
@@ -276,6 +296,12 @@ deps = ["Dates", "Logging"]
 git-tree-sha1 = "cedb76b37bc5a6c702ade66be44f831fa23c681e"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "1.0.0"
+
+[[deps.LoweredCodeUtils]]
+deps = ["JuliaInterpreter"]
+git-tree-sha1 = "60168780555f3e663c536500aa790b6368adc02a"
+uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
+version = "2.3.0"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
@@ -352,6 +378,18 @@ deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 version = "1.9.0"
 
+[[deps.PlutoHooks]]
+deps = ["InteractiveUtils", "Markdown", "UUIDs"]
+git-tree-sha1 = "072cdf20c9b0507fdd977d7d246d90030609674b"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0774"
+version = "0.0.5"
+
+[[deps.PlutoLinks]]
+deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", "UUIDs"]
+git-tree-sha1 = "8f5fa7056e6dcfb23ac5211de38e6c03f6367794"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
+version = "0.1.6"
+
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
 git-tree-sha1 = "b478a748be27bd2f2c73a7690da219d0844db305"
@@ -386,6 +424,18 @@ uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
+
+[[deps.Requires]]
+deps = ["UUIDs"]
+git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
+uuid = "ae029012-a4dd-5104-9daa-d747884805df"
+version = "1.3.0"
+
+[[deps.Revise]]
+deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Pkg", "REPL", "Requires", "UUIDs", "Unicode"]
+git-tree-sha1 = "1e597b93700fa4045d7189afa7c004e0584ea548"
+uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
+version = "3.5.3"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -506,6 +556,8 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╠═861ffdcc-0ea5-11ee-1fe9-6923ac20472c
+# ╠═7a0a10ab-06e3-4b63-9cf2-35041570b40e
+# ╠═05fa4a63-dacf-4660-8bfd-3dd42f75172b
 # ╠═802f02d1-fb68-473f-9627-efe71664ebbd
 # ╠═b41fa075-4bc6-499d-9a44-0458d536804d
 # ╠═1efbef47-1991-41b1-acc6-033784cc6902
