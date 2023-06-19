@@ -17,7 +17,6 @@ trading = "btcusdt"
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
-# ╠═╡ disabled = true
 #=╠═╡
 channel = @Channel(10) do channel
 	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
