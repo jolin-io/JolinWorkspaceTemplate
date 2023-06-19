@@ -63,15 +63,6 @@ function push_resetting!(array, x; n)
 	return old
 end
 
-# ╔═╡ 1b63f8ed-010c-4eb5-af37-a88204989947
-for name in readdir("../../../.julia/artifacts")
-	dir = "../../../.julia/artifacts/" * name
-	isdir(dir * "/lib") || continue
-	if any(f -> contains(lowercase(f), "gr"), readdir(dir * "/lib"))
-		@show name readdir(dir * "/lib")
-	end
-end
-
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
 	mypush!(update)
@@ -1206,7 +1197,6 @@ version = "1.4.1+0"
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
-# ╠═1b63f8ed-010c-4eb5-af37-a88204989947
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
