@@ -51,9 +51,6 @@ function mypush!(x)
 	push!(last_n_values, x)
 end
 
-# ╔═╡ e8ed6724-9729-493c-a842-795401390116
-rm("../../../.julia/artifacts/e5fa81bc2d21a13a3f71b1c9b5501bb79d693e33", recursive=true)
-
 # ╔═╡ 956a90de-262b-4746-b58c-5c5521366158
 
 
@@ -1029,7 +1026,6 @@ version = "3.5.0+0"
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
-# ╠═e8ed6724-9729-493c-a842-795401390116
 # ╠═956a90de-262b-4746-b58c-5c5521366158
 # ╠═1b63f8ed-010c-4eb5-af37-a88204989947
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
