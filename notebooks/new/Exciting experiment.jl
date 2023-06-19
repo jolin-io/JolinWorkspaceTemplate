@@ -11,11 +11,13 @@ using HTTP, JolinPluto, JSON3
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/btcusdt@ticker"
 
 # ╔═╡ 2f4b7fa1-3701-4c7f-90bd-95c0ac3044eb
-@Channel(1) do channel
+@Channel(10) do channel
 	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do io
-      while !eof(io);
-        put!(channel, r2j(readavailable(io)))
-    end
+	    while !eof(io);
+			put!(channel, JSON2.read(readavailable(io)))
+	    end
+	end
+end
 
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
 
