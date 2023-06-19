@@ -61,7 +61,7 @@ a = 4
 @cont function _list_free_symbols(expr::Expr)
     for arg in expr.args
         if isa(arg, Symbol)
-            isdefined(Main, arg) && cont(arg)
+            isdefined(Main, arg) || cont(arg)
         elseif isa(arg, Expr)
             foreach(cont, _list_free_symbols(arg))
         end
