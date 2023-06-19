@@ -52,7 +52,7 @@ macro newrepeaton(
 end
 
 # ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
-
+a = 4
 
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
 macro newtake_repeatedly!(expr)
