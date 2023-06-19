@@ -23,14 +23,13 @@ macro newtake_repeatedly!(expr)
 		let
 			channel = $(esc(expr))
 			_update, set_update = @use_state(nothing)
-			returnthis = isnothing(_update) ? take!(channel) : _update
 			@use_task([channel]) do
 				inner_channel = channel
 				for update in inner_channel
 					set_update(update)
 				end
 			end
-			returnthis
+			_update
 		end
 	end
 end
