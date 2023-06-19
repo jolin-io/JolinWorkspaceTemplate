@@ -17,9 +17,6 @@ end
 # ╔═╡ 861ffdcc-0ea5-11ee-1fe9-6923ac20472c
 using JolinPluto, PlutoUI, PlutoHooks, PlutoLinks
 
-# ╔═╡ 7a0a10ab-06e3-4b63-9cf2-35041570b40e
-
-
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
 macro newtake_repeatedly!(expr)
 	quote
@@ -577,7 +574,6 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╠═861ffdcc-0ea5-11ee-1fe9-6923ac20472c
-# ╠═7a0a10ab-06e3-4b63-9cf2-35041570b40e
 # ╠═05fa4a63-dacf-4660-8bfd-3dd42f75172b
 # ╠═802f02d1-fb68-473f-9627-efe71664ebbd
 # ╠═b41fa075-4bc6-499d-9a44-0458d536804d
