@@ -46,6 +46,7 @@ end
 begin
 	buffer_raw_prices = Float64[]
 	buffer_raw_prices_for_mean = Float64[]
+	channel_mean = Channel{Float64}(4)
 end
 
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
