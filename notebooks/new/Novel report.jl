@@ -34,6 +34,15 @@ macro newtake_repeatedly!(expr)
 	end
 end
 
+# ╔═╡ 1efbef47-1991-41b1-acc6-033784cc6902
+@bind number Slider(1:10)
+
+# ╔═╡ 16ed0226-94d1-40f4-9085-288c89e356a8
+12312number
+
+# ╔═╡ b41fa075-4bc6-499d-9a44-0458d536804d
+myvalue = @newtake_repeatedly! channel
+
 # ╔═╡ 802f02d1-fb68-473f-9627-efe71664ebbd
 channel = @Channel(1) do channel
 	i = 0
@@ -44,17 +53,15 @@ channel = @Channel(1) do channel
 	end
 end
 
-# ╔═╡ b41fa075-4bc6-499d-9a44-0458d536804d
-myvalue = @newtake_repeatedly! channel
-
-# ╔═╡ 1efbef47-1991-41b1-acc6-033784cc6902
-@bind number Slider(1:10)
-
-# ╔═╡ 16ed0226-94d1-40f4-9085-288c89e356a8
-12312number
-
 # ╔═╡ 094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
-
+channel = @Channel(1) do channel
+	i = 100
+	while true
+		push!(channel, i)
+		i += 1
+		sleep(4)
+	end
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
