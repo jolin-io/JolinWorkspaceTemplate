@@ -7,6 +7,9 @@ using InteractiveUtils
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, JSON3, Plots
 
+# ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
+@output_below
+
 # ╔═╡ 76e44c4d-6be9-410a-b31a-83c21053e364
 trading = "btcusdt"
 
