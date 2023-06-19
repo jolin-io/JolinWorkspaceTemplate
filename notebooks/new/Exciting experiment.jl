@@ -16,6 +16,28 @@ trading = "btcusdt"
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
+# ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
+# ╠═╡ disabled = true
+#=╠═╡
+channel = @Channel(10) do channel
+	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
+	    for message in ws
+			if ws == "ping frame"
+				send(ws, "pong frame")
+			else
+				close_price = parse(Float64, JSON3.read(message).c)
+				put!(channel, close_price)
+			end
+		end
+	end
+end
+  ╠═╡ =#
+
+# ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
+#=╠═╡
+update = @take_repeatedly! channel
+  ╠═╡ =#
+
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 n = 100
 
@@ -30,7 +52,7 @@ function mypush!(x)
 end
 
 # ╔═╡ 956a90de-262b-4746-b58c-5c5521366158
-
+plot(1:10)
 
 # ╔═╡ 1b63f8ed-010c-4eb5-af37-a88204989947
 for name in readdir("../../../.julia/artifacts")
@@ -40,6 +62,14 @@ for name in readdir("../../../.julia/artifacts")
 		@show name readdir(dir * "/lib")
 	end
 end
+
+# ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+#=╠═╡
+begin
+	mypush!(update)
+	plot(last_n_values)
+end
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
