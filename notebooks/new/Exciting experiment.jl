@@ -78,7 +78,7 @@ begin
 end
 
 # ╔═╡ 542f5a2f-2ddc-4719-af84-938b1c31692b
-
+update_price_mean = @take_repeatedly! channel_meany
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
