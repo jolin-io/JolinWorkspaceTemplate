@@ -69,7 +69,7 @@ a = 4
 end
 
 # ╔═╡ ff6cefb6-0bae-45ff-9d21-4f303a4f5212
-deps.(collect(_list_free_symbols(quote
+esc.(collect(_list_free_symbols(quote
 	a + 5 + b * Vector{Int}(4)
 end)))
 
