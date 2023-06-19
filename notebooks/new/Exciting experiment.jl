@@ -31,7 +31,7 @@ update = @take_repeatedly! channel
 n = 100
 
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
-
+last_n_values = []
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
