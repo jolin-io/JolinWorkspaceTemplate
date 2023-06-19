@@ -23,13 +23,34 @@ using Continuables
 # ╔═╡ e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
 using Dates
 
+# ╔═╡ 778676f6-0b5d-4bd7-a92a-a431088e963e
+dump(:(() -> "hi"))
+
 # ╔═╡ 96bbe442-7e9d-4524-b3e0-243a91b0b30a
-@cont function _list_free_symbols(expr::Expr)
+@cont function _free_symbols(expr::Expr)
     for arg in expr.args
         if isa(arg, Symbol)
             isdefined(Main, arg) || cont(arg)
+			
         elseif isa(arg, Expr)
-            foreach(cont, _list_free_symbols(arg))
+			if arg.head ∈ (:function, :->)
+				call = arg.args[1]
+				body = arg.args[2]
+				
+				func_args = if isa(call, Symbol)
+					(call,)
+				elseif call.head === :tuple
+					call.args
+				elseif call.head === :call
+					call.args[2:end]
+				end
+				
+				foreach(_free_symbols(body)) do sym
+					sym ∈ func_args || cont(sym)
+				end
+			else
+            	foreach(cont, _free_symbols(arg))
+			end
         end
     end
 end
@@ -40,16 +61,26 @@ macro newrepeaton(
 	expr,
 	sleeptime_from_diff = diff -> max(div(diff,2), Dates.Millisecond(5))
 )
-    nexttime = esc(nexttime_from_now)
+    # if the first argument is a function, we interpret the args reversed
     if Meta.isexpr(nexttime_from_now, (:->, :function))
-        nexttime = Expr(:call, nexttime)
-    end
-    runme = esc(expr)
-    deps = esc.(collect(_list_free_symbols(expr)))
+		time_as_arg = true
+        nexttime = esc(expr)
+		runme = esc(nexttime_from_now)
+	else
+		time_as_arg = false
+		nexttime = esc(nexttime_from_now)
+		if Meta.isexpr(expr, (:->, :function))
+			# if function syntax is used explicitly we assume that the user knows about the functionality
+			runme = esc(expr)
+		else
+			runme = esc(Expr(:->, gensym("t"), expr))
+		end
+	end
+    deps = esc.(unique!(collect(_free_symbols(runme))))
 
 	quote
 		let
-			_update, set_update = @use_state($runme)
+			_update, set_update = @use_state($runme($Dates.now()))
 			@use_task([$(deps...)]) do
                 while true
                     nexttime = $nexttime
@@ -58,7 +89,7 @@ macro newrepeaton(
                         sleep($(esc(sleeptime_from_diff))(diff))
                         diff = nexttime - $Dates.now()
                     end
-                    set_update($runme)
+                    set_update($runme(nexttime))
                 end
 			end
 			_update
@@ -66,10 +97,22 @@ macro newrepeaton(
 	end
 end
 
+# ╔═╡ 84f74095-dfeb-4e17-b9bb-91b0b94a8c71
+expr = quote
+	function (t)
+		t
+	end
+end
+
+# ╔═╡ d5b4e2be-bf08-4941-8def-6d0ee9dfc09e
+dump(expr.args[2].args[1])
+
 # ╔═╡ ff6cefb6-0bae-45ff-9d21-4f303a4f5212
-esc.(collect(_list_free_symbols(quote
-	a + 5 + b * Vector{Int}(4)
-end)))
+unique!(collect(_free_symbols(esc(quote
+	function (b)
+	a + 5 + b * a * Vector{Int}(4)
+	end
+end))))
 
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
 macro newtake_repeatedly!(expr)
@@ -121,11 +164,11 @@ end
 myvalue2 = @newtake_repeatedly! channel2
 
 # ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
-a = 20
+a = -50
 
-# ╔═╡ f7df2956-87ed-4fea-9e82-f7569cf8efc9
-@newrepeaton ceil(Dates.now(), Dates.Second(2)) begin
-	Dates.now() + Dates.Day(a)
+# ╔═╡ 67732fb2-c3f4-4aeb-8686-6e26039a1138
+@newrepeaton(ceil(Dates.now(), Dates.Second(2))) do t
+	t + Dates.Day(a)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -693,8 +736,11 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╠═861ffdcc-0ea5-11ee-1fe9-6923ac20472c
 # ╠═a57d2362-7a86-45af-b996-5af70a1f6659
+# ╠═778676f6-0b5d-4bd7-a92a-a431088e963e
 # ╠═06b75224-35a6-43b7-a9be-8c4a4147dbf8
 # ╠═96bbe442-7e9d-4524-b3e0-243a91b0b30a
+# ╠═84f74095-dfeb-4e17-b9bb-91b0b94a8c71
+# ╠═d5b4e2be-bf08-4941-8def-6d0ee9dfc09e
 # ╠═ff6cefb6-0bae-45ff-9d21-4f303a4f5212
 # ╠═05fa4a63-dacf-4660-8bfd-3dd42f75172b
 # ╠═802f02d1-fb68-473f-9627-efe71664ebbd
@@ -704,7 +750,7 @@ version = "17.4.0+0"
 # ╠═094c6db9-e6ab-41ec-b114-d3cfd7eef8d7
 # ╠═1a4df7f9-7926-4c82-85ff-49f37d148a06
 # ╠═e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
-# ╠═f7df2956-87ed-4fea-9e82-f7569cf8efc9
+# ╠═67732fb2-c3f4-4aeb-8686-6e26039a1138
 # ╠═6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -34,18 +34,23 @@ end
 update = @take_repeatedly! channel
 
 # ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
-raw_price = parse(Float64, update.c)
+price_current = parse(Float64, update.c)
 
 # ╔═╡ 2519387c-c882-450b-8830-015706c499d1
-raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
+eventtime_current = Dates.unix2datetime(div(update.E, 1000))
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
-raw_n = 100
+begin
+	n_raw = 100
+	n_mean = 10
+end
 
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
-	raw_prices = Float64[]
-	raw_eventtimes = DateTime[]
+	buffer_raw_prices = Float64[]
+	buffer_raw_eventtimes = DateTime[]
+	buffer_raw_prices_for_mean = Float64[]
+	channel_mean = Channel{Float64}(4)
 end
 
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
@@ -55,38 +60,75 @@ function push_sliding!(array, x; n)
 	push!(array, x)
 end
 
+# ╔═╡ e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
+function push_resetting!(array, x; n)
+	old = nothing
+	if length(array) >= n
+		old = copy(array)
+		empty!(array)
+	end
+	push!(array, x)
+	return old
+end
+
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
-	push_sliding!(raw_prices, raw_price, n=raw_n)
-	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
-	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
+	push_sliding!(buffer_raw_prices, price_current, n=n_raw)
+	push_sliding!(buffer_raw_eventtimes, eventtime_current, n=n_raw)
+	# resetted = push_resetting!(buffer_raw_prices_for_mean, price_current, n=n_mean)
+	# if resetted !== nothing
+	# 	push!(resetted)
+	# end
+	plot(buffer_raw_eventtimes, buffer_raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
-# ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
-md"""
-# Regular
-"""
+# ╔═╡ 77cc0761-8d22-4344-bda9-0c5f0a20f3de
+@eval JolinPluto @cont function _free_symbols(expr::Expr)
+    for arg in expr.args
+        if isa(arg, Symbol)
+            isdefined(Main, arg) || cont(arg)
+
+        elseif isa(arg, Expr)
+			if arg.head ∈ (:function, :->)
+				call = arg.args[1]
+				body = arg.args[2]
+
+				func_args = if isa(call, Symbol)
+					(call,)
+				elseif call.head === :tuple
+					call.args
+				elseif call.head === :call
+					call.args[2:end]
+				end
+
+				foreach(_free_symbols(body)) do sym
+					sym ∈ func_args || cont(sym)
+				end
+			elseif arg.head === :ref
+				# this is indexing, where the symbols :end and :begin have special meaning
+				foreach(_free_symbols(arg)) do sym
+					sym ∈ (:begin, :end) || cont(sym)
+				end
+			else
+            	foreach(cont, _free_symbols(arg))
+			end
+        end
+    end
+end
+
+# ╔═╡ 64441321-d42b-4400-82b1-628220e577b5
+expr = :(a[begin:end])
+
+# ╔═╡ 46a9bfaf-3e44-49fa-949e-90346cd07340
+dump(expr)
 
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
-regular_price, regular_eventtime = @repeaton(ceil(now(), Second(10))) do t
-	raw_prices[end], t
+regular_price, regular_time = @repeaton(ceil(now(), Second(30))) do t
+	buffer_raw_prices[end], t
 end
-
-# ╔═╡ bdbd2410-cc41-42c6-a3c1-4d5aa746b775
-regular_n = 100
 
 # ╔═╡ dfdb1bed-c8cb-4b65-be15-1f74f4104497
-begin
-	regular_prices = Float64[]
-	regular_eventtimes = DateTime[]
-end
-
-# ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
-begin
-	push_sliding!(regular_prices, regular_price, n=regular_n)
-	push_sliding!(regular_eventtimes, regular_eventtime, n=regular_n)
-	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
-end
+now()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -100,7 +142,7 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 [compat]
 HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
-JolinPluto = "~0.1.18"
+JolinPluto = "~0.1.17"
 Plots = "~1.38.16"
 """
 
@@ -266,10 +308,10 @@ uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
 
 [[deps.Expat_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "4558ab818dcceaab612d1bb8c19cee87eda2b83c"
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.5.0+0"
+version = "2.4.8+0"
 
 [[deps.ExprParsers]]
 deps = ["Compat", "ProxyInterfaces", "SimpleMatch", "StructEquality"]
@@ -461,9 +503,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Continuables", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs", "PlutoHooks", "PlutoLinks"]
-git-tree-sha1 = "0e7086d3b6df41fa1266607b9d278a72287b65a6"
+git-tree-sha1 = "7197a521675cdb8218a623c77ea81cac4fdeea43"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.18"
+version = "0.1.17"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1292,11 +1334,12 @@ version = "1.4.1+0"
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
+# ╠═e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-# ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
+# ╠═77cc0761-8d22-4344-bda9-0c5f0a20f3de
+# ╠═64441321-d42b-4400-82b1-628220e577b5
+# ╠═46a9bfaf-3e44-49fa-949e-90346cd07340
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
-# ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
-# ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
