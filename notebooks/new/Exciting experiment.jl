@@ -37,7 +37,7 @@ update = @take_repeatedly! channel
 price_current = parse(Float64, update.c)
 
 # ╔═╡ 2519387c-c882-450b-8830-015706c499d1
-eventtime_current = 
+eventtime_current = Dates.unix2datetime(div(update.E, 1000))
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 begin
