@@ -79,7 +79,7 @@ begin
 	# if resetted !== nothing
 	# 	push!(resetted)
 	# end
-	plot(buffer_raw_eventtimes, buffer_raw_prices, xrotation = 20)
+	plot(buffer_raw_eventtimes, buffer_raw_prices)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
