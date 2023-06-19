@@ -52,7 +52,7 @@ begin
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-@mypush! x
+@mypush! update
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
