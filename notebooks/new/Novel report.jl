@@ -64,7 +64,7 @@ channel2 = @Channel(1) do channel
 end
 
 # ╔═╡ ee5e7303-1aaa-4ae7-9518-dbfdd5687971
-
+myvalue2 = @newtake_repeatedly! channel2
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
