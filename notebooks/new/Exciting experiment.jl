@@ -37,7 +37,8 @@ update = @take_repeatedly! channel
 price_current = parse(Float64, update.c)
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
-n = 100
+n_raw = 100
+n_mean = 10
 
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
