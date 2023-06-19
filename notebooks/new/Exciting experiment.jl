@@ -45,6 +45,9 @@ function mypush!(x)
 	deleteat!(last_n_values, 1:too_many)
 	push!(last_n_values, x)
 end
+macro mypush!(x)
+	esc(:($mypush!($x)))
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
