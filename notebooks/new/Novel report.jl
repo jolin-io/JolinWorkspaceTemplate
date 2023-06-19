@@ -70,7 +70,7 @@ end
 
 # ╔═╡ ff6cefb6-0bae-45ff-9d21-4f303a4f5212
 _list_free_symbols(quote
-	a + 5 + Vector{Int}(4)
+	a + 5 + b Vector{Int}(4)
 end) |> collect
 
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
