@@ -37,8 +37,10 @@ update = @take_repeatedly! channel
 price_current = parse(Float64, update.c)
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
-n_raw = 100
-n_mean = 10
+begin
+	n_raw = 100
+	n_mean = 10
+end
 
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
@@ -66,7 +68,8 @@ end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
-	mypush!(update)
+	push_sliding!(buffer_raw_prices, update, n=n_raw)
+	push_resetting!()
 	plot(last_n_values)
 end
 
