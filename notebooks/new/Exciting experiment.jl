@@ -37,7 +37,7 @@ update = @take_repeatedly! channel
 price_current = parse(Float64, update.c)
 
 # ╔═╡ 2519387c-c882-450b-8830-015706c499d1
-
+eventtime_current = 
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 begin
@@ -48,7 +48,7 @@ end
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
 	buffer_raw_prices = Float64[]
-	buffer_raw_times = DateTime[]
+	buffer_raw_eventtimes = DateTime[]
 	buffer_raw_prices_for_mean = Float64[]
 	channel_mean = Channel{Float64}(4)
 end
@@ -74,10 +74,11 @@ end
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
 	push_sliding!(buffer_raw_prices, price_current, n=n_raw)
-	resetted = push_resetting!(buffer_raw_prices_for_mean, price_current, n=n_mean)
-	if resetted !== nothing
-		push!(resetted)
-	end
+	push_sliding!(buffer_raw_eventtimes, eventtime_current, n=n_raw)
+	# resetted = push_resetting!(buffer_raw_prices_for_mean, price_current, n=n_mean)
+	# if resetted !== nothing
+	# 	push!(resetted)
+	# end
 	plot(buffer_raw_times, buffer_raw_prices, xrotation = 20)
 end
 
