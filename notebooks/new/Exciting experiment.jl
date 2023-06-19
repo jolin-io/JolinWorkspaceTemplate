@@ -34,7 +34,9 @@ end
   ╠═╡ =#
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
+#=╠═╡
 update = @take_repeatedly! channel
+  ╠═╡ =#
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 n = 100
@@ -50,10 +52,12 @@ function mypush!(x)
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+#=╠═╡
 begin
 	mypush!(update)
 	plot(last_n_values)
 end
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
