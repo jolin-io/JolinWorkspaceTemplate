@@ -17,6 +17,32 @@ end
 # ╔═╡ 861ffdcc-0ea5-11ee-1fe9-6923ac20472c
 using JolinPluto, PlutoUI, PlutoHooks, PlutoLinks
 
+# ╔═╡ 7a0a10ab-06e3-4b63-9cf2-35041570b40e
+
+
+# ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
+macro newtake_repeatedly!(expr)
+	quote
+		let
+			channel = $(esc(expr))
+			result, set_result = @use_state(nothing)
+			@use_task([]) do
+				take!()
+				# capture the value of count in a new variable
+				new_count = count
+
+				# start the event loop
+				while new_count < 10
+					wait_until_event()
+					new_count += 1
+					set_count(new_count) # <- update the value of count (this will trigger a re-run)
+				end
+			end
+			result
+		end
+	end
+end
+
 # ╔═╡ 802f02d1-fb68-473f-9627-efe71664ebbd
 channel = @Channel(1) do channel
 	i = 0
