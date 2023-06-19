@@ -74,7 +74,7 @@ begin
 	if resetted !== nothing
 		push!(resetted)
 	end
-	plot(last_n_values)
+	plot(buffer_raw_prices)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
