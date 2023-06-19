@@ -70,7 +70,10 @@ end
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 begin
 	push_sliding!(buffer_raw_prices, update, n=n_raw)
-	push_resetting!()
+	resetted = push_resetting!(buffer_raw_prices_for_mean, update, n=n_mean)
+	if resetted !== nothing
+		push!(resetted)
+	end
 	plot(last_n_values)
 end
 
