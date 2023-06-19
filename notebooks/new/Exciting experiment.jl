@@ -14,7 +14,13 @@ trading = "btcusdt"
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@ticker"
 
 # ╔═╡ 190f50eb-4cea-4770-8170-ca508653e235
-
+channel = @Channel(10) do channel
+	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do io
+	    while !eof(io);
+			put!(channel, JSON2.read(readavailable(io)))
+	    end
+	end
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
