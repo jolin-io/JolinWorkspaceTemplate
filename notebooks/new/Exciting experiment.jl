@@ -62,7 +62,7 @@ for name in readdir("../../../.julia/artifacts")
 	dir = "../../../.julia/artifacts/" * name
 	isdir(dir * "/lib") || continue
 	if any(f -> contains(lowercase(f), "gr"), readdir(dir * "/lib"))
-		@show readdir(dir * "/lib")
+		@show name
 	end
 end
 
