@@ -17,6 +17,9 @@ channel = @Channel(1) do channel
 	end
 end
 
+# ╔═╡ b41fa075-4bc6-499d-9a44-0458d536804d
+@take_repeatedly! channel
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
