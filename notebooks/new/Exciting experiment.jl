@@ -42,12 +42,10 @@ begin
 	n_mean = 10
 end
 
-# ╔═╡ 51941c69-9108-4a5e-82e8-49203830d854
-
-
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
 	buffer_raw_prices = Float64[]
+	buffer_raw_times = DateTime[]
 	buffer_raw_prices_for_mean = Float64[]
 	channel_mean = Channel{Float64}(4)
 end
@@ -77,7 +75,7 @@ begin
 	if resetted !== nothing
 		push!(resetted)
 	end
-	plot(buffer_raw_prices)
+	plot(buffer_raw_times, buffer_raw_prices, xrotation = 20)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
