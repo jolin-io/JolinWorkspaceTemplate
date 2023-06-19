@@ -17,7 +17,8 @@ BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 channel = @Channel(10) do channel
 	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
 	    for message in ws
-			put!(channel, JSON3.read(message))
+			ws == "ping frame" && send(ws, "pong frame")
+			put!(channel, JSON3.read(message).c)
 		end
 	end
 end
