@@ -56,13 +56,12 @@ for name in readdir("../../../.julia/artifacts")
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+#=╠═╡
 begin
 	mypush!(update)
 	plot(last_n_values)
 end
-
-# ╔═╡ d1bf82b6-a0ee-4559-953c-25c9bc666fd0
-
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -85,7 +84,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "0e2e774e0c3659ce9ada75c7f0fe3d854fd62dfe"
+project_hash = "1a985f02ffc8a1c3b83ccff541e885bb6c1041cb"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1174,6 +1173,5 @@ version = "1.4.1+0"
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═1b63f8ed-010c-4eb5-af37-a88204989947
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-# ╠═d1bf82b6-a0ee-4559-953c-25c9bc666fd0
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
