@@ -23,7 +23,7 @@ channel = @Channel(10) do channel
 			if ws == "ping frame"
 				send(ws, "pong frame")
 			else
-				close_price = parse(Float64, JSON3.read(message).c)
+				close_price = parse(Float64, JSON3.read(message).k.c)
 				put!(channel, close_price)
 			end
 		end
