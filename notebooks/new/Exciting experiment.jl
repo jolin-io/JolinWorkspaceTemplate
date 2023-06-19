@@ -42,7 +42,7 @@ collect(1:0)
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
 begin
 	function mypush!(x)
-		too_many = max(0, length(last_n_values) - n)
+		too_many = max(0, length(last_n_values) - n + 1)
 		@show too_many length(last_n_values)
 		deleteat!(last_n_values, 1:too_many)
 		push!(last_n_values, x)
