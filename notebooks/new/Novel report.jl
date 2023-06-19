@@ -48,7 +48,7 @@ channel = @Channel(1) do channel
 end
 
 # ╔═╡ b41fa075-4bc6-499d-9a44-0458d536804d
-@take_repeatedly! channel
+@newtake_repeatedly! channel
 
 # ╔═╡ 1efbef47-1991-41b1-acc6-033784cc6902
 @bind number Slider(1:10)
