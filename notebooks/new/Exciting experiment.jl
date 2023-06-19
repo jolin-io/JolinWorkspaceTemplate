@@ -47,7 +47,9 @@ begin
 		push!(last_n_values, x)
 	end
 	macro mypush!(x)
-		esc(:($mypush!($x)))
+		esc(quote
+			$mypush!($x)
+		end)
 	end
 end
 
