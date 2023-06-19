@@ -128,11 +128,6 @@ myvalue2 = @newtake_repeatedly! channel2
 	Dates.now() + a
 end
 
-# ╔═╡ 69de804a-66a7-46fc-bb0e-4622774eb5b6
-@newrepeaton ceil(Dates.now(), Dates.Second(2)) begin
-	Dates.now()
-end
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -711,6 +706,5 @@ version = "17.4.0+0"
 # ╠═1a4df7f9-7926-4c82-85ff-49f37d148a06
 # ╠═e4340a89-9a4c-4198-8ccc-9b6ac6000ff1
 # ╠═ca730ac5-2a0e-408c-ab05-5330d012d329
-# ╠═69de804a-66a7-46fc-bb0e-4622774eb5b6
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
