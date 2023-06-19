@@ -53,7 +53,15 @@ function push_sliding!(array, x; n)
 end
 
 # ╔═╡ e0b55499-470b-4dc9-8bb5-e3cd39ce23d6
-
+function push_resetting!(array, x; n)
+	old = nothing
+	if length(array) >= n
+		old = copy(array)
+		empty!(array)
+	end
+	push!(array, x)
+	return old
+end
 
 # ╔═╡ 1b63f8ed-010c-4eb5-af37-a88204989947
 for name in readdir("../../../.julia/artifacts")
