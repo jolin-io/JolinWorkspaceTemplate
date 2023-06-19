@@ -18,7 +18,35 @@ end
 using JolinPluto, PlutoUI, PlutoHooks, PlutoLinks
 
 # ╔═╡ a57d2362-7a86-45af-b996-5af70a1f6659
+macro newrepeaton(
+    nexttime_from_now,
+	expr,
+	sleeptime_from_diff = diff -> max(div(diff,2), Dates.Millisecond(5))
+)
+    nexttime = esc(nexttime_from_now)
+    if Meta.isexpr(nexttime_from_now, (:->, :function))
+        nexttime = Expr(:call, nexttime)
+    end
+    runme = esc(expr)
 
+	quote
+		let
+			_update, set_update = @use_state($runme)
+			@use_task([channel]) do
+                while true
+                    nexttime = $nexttime
+                    diff = nexttime - $Dates.now()
+                    while diff > $Dates.Millisecond(0)
+                        sleep($(esc(sleeptime_from_diff))(diff))
+                        diff = nexttime - $Dates.now()
+                    end
+                    set_update($runme)
+                end
+			end
+			_update
+		end
+	end
+end
 
 # ╔═╡ 05fa4a63-dacf-4660-8bfd-3dd42f75172b
 macro newtake_repeatedly!(expr)
