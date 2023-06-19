@@ -31,9 +31,7 @@ channel = @Channel(10) do channel
 end
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-#=╠═╡
 update = @take_repeatedly! channel
-  ╠═╡ =#
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 n = 100
