@@ -25,20 +25,14 @@ macro newtake_repeatedly!(expr)
 	quote
 		let
 			channel = $(esc(expr))
-			result, set_result = @use_state(nothing)
-			@use_task([]) do
-				take!()
-				# capture the value of count in a new variable
-				new_count = count
-
-				# start the event loop
-				while new_count < 10
-					wait_until_event()
-					new_count += 1
+			outer_update, set_update = @use_state(nothing)
+			@use_task([channel]) do
+				inner_channel = channel
+				for inner_update in inner_channel
 					set_count(new_count) # <- update the value of count (this will trigger a re-run)
 				end
 			end
-			result
+			outer_update
 		end
 	end
 end
