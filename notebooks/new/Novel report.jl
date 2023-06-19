@@ -124,7 +124,9 @@ end
 myvalue2 = @newtake_repeatedly! channel2
 
 # ╔═╡ f7df2956-87ed-4fea-9e82-f7569cf8efc9
-
+@newrepeaton ceil(Dates.now(), Dates.Second(2)) begin
+	Dates.now() + a
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
