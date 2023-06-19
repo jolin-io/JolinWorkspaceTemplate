@@ -7,6 +7,9 @@ using InteractiveUtils
 # ╔═╡ 861ffdcc-0ea5-11ee-1fe9-6923ac20472c
 using JolinPluto
 
+# ╔═╡ 802f02d1-fb68-473f-9627-efe71664ebbd
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -399,5 +402,6 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╠═861ffdcc-0ea5-11ee-1fe9-6923ac20472c
+# ╠═802f02d1-fb68-473f-9627-efe71664ebbd
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
