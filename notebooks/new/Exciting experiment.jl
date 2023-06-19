@@ -36,6 +36,9 @@ update = @take_repeatedly! channel
 # ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
 price_current = parse(Float64, update.c)
 
+# ╔═╡ 2519387c-c882-450b-8830-015706c499d1
+
+
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 begin
 	n_raw = 100
@@ -1278,6 +1281,7 @@ version = "1.4.1+0"
 # ╠═190f50eb-4cea-4770-8170-ca508653e235
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
 # ╠═bc14465c-e671-46db-b040-f120398eccbd
+# ╠═2519387c-c882-450b-8830-015706c499d1
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
