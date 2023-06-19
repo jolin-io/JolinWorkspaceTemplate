@@ -8,7 +8,7 @@ using InteractiveUtils
 using HTTP, JolinPluto, JSON3
 
 # ╔═╡ 76e44c4d-6be9-410a-b31a-83c21053e364
-
+stream = "btcusdt"
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/btcusdt@ticker"
