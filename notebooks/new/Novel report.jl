@@ -121,7 +121,7 @@ end
 myvalue2 = @newtake_repeatedly! channel2
 
 # ╔═╡ 6e1e7cfa-3136-4be5-b53f-0d0e14f06e5f
-a = -10
+a = 20
 
 # ╔═╡ f7df2956-87ed-4fea-9e82-f7569cf8efc9
 @newrepeaton ceil(Dates.now(), Dates.Second(2)) begin
