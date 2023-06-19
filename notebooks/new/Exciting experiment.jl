@@ -4,12 +4,6 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ d49fbc66-1496-48e0-a8be-d0e9cf065b7b
-begin
-	import Pkg
-	Pkg.build("Plots")
-end
-
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, JSON3, Plots
 
@@ -86,7 +80,6 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 
 [compat]
@@ -102,7 +95,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "ce5370bf99bc356bd715f05aae4291e68f8b08d3"
+project_hash = "880ede3b8e64f0d220a6c6847fb373876ae76c39"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1036,7 +1029,6 @@ version = "3.5.0+0"
 # ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
-# ╠═d49fbc66-1496-48e0-a8be-d0e9cf065b7b
 # ╠═e8ed6724-9729-493c-a842-795401390116
 # ╠═956a90de-262b-4746-b58c-5c5521366158
 # ╠═1b63f8ed-010c-4eb5-af37-a88204989947
