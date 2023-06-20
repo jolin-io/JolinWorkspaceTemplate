@@ -118,7 +118,7 @@ end
 begin
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
 	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)
-	prior_x_current = Ref(NormalMeanVariance(_x_mean, _x_var))
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 end
 
 # ╔═╡ 6999be60-339b-470c-a5a3-d9c43b66f9a1
@@ -133,14 +133,14 @@ end
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	result = inference(
-		model = kalman_filter(mean_var(prior_x_current[])..., shape(prior_τ[]), rate(prior_τ[])),
+		model = kalman_filter(mean_var(prior_x[])..., shape(prior_τ[]), rate(prior_τ[])),
 		data = (y = regular_price,),
 		constraints = filter_constraints(),
-		initmarginals = (x_current = prior_x_current[], τ = prior_τ[]),
+		initmarginals = (x_current = prior_x[], τ = prior_τ[]),
 	    free_energy = true
 	)
 	prior_τ[] = result.posteriors[:τ]
-	prior_x_current[] = result.posteriors[:x_current]
+	prior_x[] = result.posteriors[:x_current]
 end
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
