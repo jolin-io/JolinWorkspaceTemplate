@@ -34,13 +34,19 @@ end
   ╠═╡ =#
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
+#=╠═╡
 update = @take_repeatedly! channel
+  ╠═╡ =#
 
 # ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
+#=╠═╡
 raw_price = parse(Float64, update.c)
+  ╠═╡ =#
 
 # ╔═╡ 2519387c-c882-450b-8830-015706c499d1
+#=╠═╡
 raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
+  ╠═╡ =#
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 raw_n = 100
@@ -59,11 +65,13 @@ function push_sliding!(array, x; n)
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+#=╠═╡
 begin
 	push_sliding!(raw_prices, raw_price, n=raw_n)
 	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
+  ╠═╡ =#
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
