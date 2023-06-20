@@ -115,17 +115,17 @@ begin
 end
 
 # ╔═╡ ba8824e0-9ecb-465d-97f8-01f7efa5c218
-prior_mean = Ref(isempty(regular_prices) ? 0.0 : regular_prices[end])
+prior_x_mean = Ref(isempty(regular_prices) ? 0.0 : regular_prices[end])
 
 # ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
-prior_var = Ref(isempty(regular_prices) ? 1.0 : var(regular_prices))
+prior_x_var = Ref(isempty(regular_prices) ? 1.0 : var(regular_prices))
 
 # ╔═╡ 00576912-5742-42ee-8e7d-2e580d35e2e5
 prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
-	model = kalman_filter(prior_mean[], prior_var[], prior_τ_shape[], prior_τ_rate[]),
+	model = kalman_filter(prior_x_mean[], prior_x_var[], prior_τ_shape[], prior_τ_rate[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 )
