@@ -125,7 +125,7 @@ end
 prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 
 # ╔═╡ 452d0b1e-b442-4ad6-b69e-c300ca7c612f
-
+mean_var(prior_x_current[])
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
