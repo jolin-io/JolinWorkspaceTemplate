@@ -127,7 +127,7 @@ prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 prior_x_current = Ref(NormalMeanVariance(prior_x_mean[], prior_x_var[]))
 
 # ╔═╡ 6999be60-339b-470c-a5a3-d9c43b66f9a1
-prior_τ = GammaShapeRate(1.0, 1.0)
+prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
