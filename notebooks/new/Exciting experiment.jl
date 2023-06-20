@@ -155,9 +155,6 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_y, label = "Observations")
 end
 
-# ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
-fieldnames(typeof(result))
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1812,6 +1809,5 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
-# ╠═140691bc-765d-448d-ac33-90cc9b86b1b4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
