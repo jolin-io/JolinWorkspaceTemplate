@@ -134,7 +134,7 @@ prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
-	model = kalman_filter(prior_mean[], prior_var[]),
+	model = kalman_filter(prior_mean[], prior_var[], prior_τ_shape[], prior_τ_rate[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 )
