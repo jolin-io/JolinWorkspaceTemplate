@@ -96,11 +96,6 @@ begin
 	@model function kalman_filter(x_prev_mean, x_prev_var, τ_shape, τ_rate)
 
 		x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
-	    
-	    # Prior for the observation noise
-	    τ_shape = datavar(Float64)
-	    τ_rate  = datavar(Float64)
-	    
 	    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
 	    
 	    # Random walk with fixed precision
