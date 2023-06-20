@@ -145,8 +145,8 @@ begin
 	prior_τ[] = result.posteriors[:τ]
 	prior_x[] = result.posteriors[:x_current]
 
-	push!(posteriors_x, result.posteriors[:x_current])
-	push!(posteriors_eventtimes, regular_eventtime)
+	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
+	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 end
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
