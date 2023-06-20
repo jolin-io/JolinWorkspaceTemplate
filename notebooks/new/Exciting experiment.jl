@@ -117,7 +117,7 @@ end
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)
+	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 end
 
