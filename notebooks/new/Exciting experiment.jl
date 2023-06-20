@@ -130,6 +130,9 @@ begin
 	posteriors_eventtimes = DateTime[]
 end
 
+# ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	result = inference(
@@ -1802,6 +1805,7 @@ version = "1.4.1+0"
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═6999be60-339b-470c-a5a3-d9c43b66f9a1
 # ╠═4cb74f51-4274-466e-a29f-077dfaff9b3d
+# ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═140691bc-765d-448d-ac33-90cc9b86b1b4
 # ╟─00000000-0000-0000-0000-000000000001
