@@ -102,16 +102,15 @@ begin
 	    x_current ~ Normal(mean = x_prev, precision = 1.0)
 
 		# Noisy observation (y_rv to also store posterior)
-	    y_rv ~ Normal(mean = x_current, precision = τ)
 	    y = datavar(Float64)
-	    y ~ y_rv
+	    y ~ Normal(mean = x_current, precision = τ)
 	end
 	
 	# We assume the following factorisation between variables 
 	# in the variational distribution
-	#@constraints function filter_constraints()
-	#    q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
-	#end
+	@constraints function filter_constraints()
+	    q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
+	end
 end
 
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
@@ -134,7 +133,7 @@ end
 result = inference(
 	model = kalman_filter(mean_var(prior_x[])..., shape(prior_τ[]), rate(prior_τ[])),
 	data = (y = regular_price,),
-	# constraints = filter_constraints(),
+	constraints = filter_constraints(),
 	initmarginals = (x_current = prior_x[], τ = prior_τ[]),
 	free_energy = true,
 )
@@ -1663,4 +1662,156 @@ version = "0.4.0+1"
 [[deps.Xorg_xcb_util_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libxcb_jll"]
 git-tree-sha1 = "e7fd7b2881fa2eaa72717420894d3938177862d1"
-uuid = "2def613f-
+uuid = "2def613f-5ad1-5310-b15b-b15d46f528f5"
+version = "0.4.0+1"
+
+[[deps.Xorg_xcb_util_keysyms_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
+git-tree-sha1 = "d1151e2c45a544f32441a567d1690e701ec89b00"
+uuid = "975044d2-76e6-5fbe-bf08-97ce7c6574c7"
+version = "0.4.0+1"
+
+[[deps.Xorg_xcb_util_renderutil_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
+git-tree-sha1 = "dfd7a8f38d4613b6a575253b3174dd991ca6183e"
+uuid = "0d47668e-0667-5a69-a72c-f761630bfb7e"
+version = "0.3.9+1"
+
+[[deps.Xorg_xcb_util_wm_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xcb_util_jll"]
+git-tree-sha1 = "e78d10aab01a4a154142c5006ed44fd9e8e31b67"
+uuid = "c22f9ab0-d5fe-5066-847c-f4bb1cd4e361"
+version = "0.4.1+1"
+
+[[deps.Xorg_xkbcomp_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_libxkbfile_jll"]
+git-tree-sha1 = "4bcbf660f6c2e714f87e960a171b119d06ee163b"
+uuid = "35661453-b289-5fab-8a00-3d9160c6a3a4"
+version = "1.4.2+4"
+
+[[deps.Xorg_xkeyboard_config_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Xorg_xkbcomp_jll"]
+git-tree-sha1 = "5c8424f8a67c3f2209646d4425f3d415fee5931d"
+uuid = "33bec58e-1273-512f-9401-5d533626f822"
+version = "2.27.0+4"
+
+[[deps.Xorg_xtrans_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "79c31e7844f6ecf779705fbc12146eb190b7d845"
+uuid = "c5fb5394-a638-5e4d-96e5-b29de1b5cf10"
+version = "1.4.0+3"
+
+[[deps.Zlib_jll]]
+deps = ["Libdl"]
+uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.13+0"
+
+[[deps.Zstd_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "49ce682769cd5de6c72dcf1b94ed7790cd08974c"
+uuid = "3161d3a3-bdf6-5164-811a-617609db77b4"
+version = "1.5.5+0"
+
+[[deps.fzf_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "868e669ccb12ba16eaf50cb2957ee2ff61261c56"
+uuid = "214eeab7-80f7-51ab-84ad-2988db7cef09"
+version = "0.29.0+0"
+
+[[deps.libaom_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "3a2ea60308f0996d26f1e5354e10c24e9ef905d4"
+uuid = "a4ae2306-e953-59d6-aa16-d00cac43593b"
+version = "3.4.0+0"
+
+[[deps.libass_jll]]
+deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "HarfBuzz_jll", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
+git-tree-sha1 = "5982a94fcba20f02f42ace44b9894ee2b140fe47"
+uuid = "0ac62f75-1d6f-5e53-bd7c-93b484bb37c0"
+version = "0.15.1+0"
+
+[[deps.libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.8.0+0"
+
+[[deps.libfdk_aac_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "daacc84a041563f965be61859a36e17c4e4fcd55"
+uuid = "f638f0a6-7fb0-5443-88ba-1cc74229b280"
+version = "2.0.2+0"
+
+[[deps.libpng_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll"]
+git-tree-sha1 = "94d180a6d2b5e55e447e2d27a29ed04fe79eb30c"
+uuid = "b53b4c65-9356-5827-b1ea-8c7a1a84506f"
+version = "1.6.38+0"
+
+[[deps.libsodium_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "848ab3d00fe39d6fbc2a8641048f8f272af1c51e"
+uuid = "a9144af2-ca23-56d9-984f-0d03f7b5ccf8"
+version = "1.0.20+0"
+
+[[deps.libvorbis_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Ogg_jll", "Pkg"]
+git-tree-sha1 = "b910cb81ef3fe6e78bf6acee440bda86fd6ae00c"
+uuid = "f27f6e37-5d2b-51aa-960f-b287f2bc3b7a"
+version = "1.3.7+1"
+
+[[deps.nghttp2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.48.0+0"
+
+[[deps.p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+0"
+
+[[deps.x264_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "4fea590b89e6ec504593146bf8b988b2c00922b2"
+uuid = "1270edf5-f2f9-52d2-97e9-ab00b5d0237a"
+version = "2021.5.5+0"
+
+[[deps.x265_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "ee567a171cce03570d77ad3a43e90218e38937a9"
+uuid = "dfaa095f-4041-5dcd-9319-2fabd8486b76"
+version = "3.5.0+0"
+
+[[deps.xkbcommon_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Wayland_jll", "Wayland_protocols_jll", "Xorg_libxcb_jll", "Xorg_xkeyboard_config_jll"]
+git-tree-sha1 = "9ebfc140cc56e8c2156a15ceac2f0302e327ac0a"
+uuid = "d8fb68d0-12a3-5cfd-a85a-d49703b185fd"
+version = "1.4.1+0"
+"""
+
+# ╔═╡ Cell order:
+# ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
+# ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
+# ╠═76e44c4d-6be9-410a-b31a-83c21053e364
+# ╠═25e8b93b-3026-40b7-b41f-016e059b838d
+# ╠═a1e6e7c2-ba41-484c-bb3c-20bc8c1c63c6
+# ╠═c112843d-ae79-425c-9c18-471cf896175f
+# ╠═bc14465c-e671-46db-b040-f120398eccbd
+# ╠═2519387c-c882-450b-8830-015706c499d1
+# ╠═f034a5a8-b241-46eb-af8d-2d4da4b2b85d
+# ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
+# ╠═6be54865-68ef-4601-8182-3866b7c8d758
+# ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+# ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
+# ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
+# ╠═751cf2d2-178b-4523-93d1-4ff96c4ed909
+# ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
+# ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
+# ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
+# ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
+# ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
+# ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
+# ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═140691bc-765d-448d-ac33-90cc9b86b1b4
+# ╟─00000000-0000-0000-0000-000000000001
+# ╟─00000000-0000-0000-0000-000000000002
