@@ -124,7 +124,7 @@ end
 initial_mean = regular_prices[end]
 
 # ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
-initial_var = var(regular_prices)
+initial_var = isempty(regular_prices) ? 1.0 : var(regular_prices)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 
