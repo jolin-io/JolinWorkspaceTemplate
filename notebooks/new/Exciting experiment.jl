@@ -126,6 +126,9 @@ prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 prior_x_current = NormalMeanVariance(0.0, 1e3)
 
+# ╔═╡ 6999be60-339b-470c-a5a3-d9c43b66f9a1
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
 	model = kalman_filter(prior_x_mean[], prior_x_var[], prior_τ_shape[], prior_τ_rate[]),
@@ -1788,6 +1791,7 @@ version = "1.4.1+0"
 # ╠═ca34e7dd-34df-423e-b536-5cd6545d025c
 # ╠═00576912-5742-42ee-8e7d-2e580d35e2e5
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═6999be60-339b-470c-a5a3-d9c43b66f9a1
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
