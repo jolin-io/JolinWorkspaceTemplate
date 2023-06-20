@@ -147,6 +147,7 @@ begin
 	prior_x[] = result.posteriors[:x_current]
 
 	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
+	push_sliding!(posteriors_y, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 end
 
