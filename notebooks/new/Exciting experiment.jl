@@ -119,7 +119,7 @@ begin
 end
 
 # ╔═╡ ba8824e0-9ecb-465d-97f8-01f7efa5c218
-initial_mean = regular_prices[end]
+prior_mean = Ref(isempty(regular_prices) ? 0.0 : regular_prices[end])
 
 # ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
 initial_var = isempty(regular_prices) ? 1.0 : var(regular_prices)
