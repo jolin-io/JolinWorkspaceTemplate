@@ -17,6 +17,8 @@ trading = "btceur"
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
 # ╔═╡ bdc281eb-db3f-4d54-8999-2b04d24a4778
+# ╠═╡ disabled = true
+#=╠═╡
 channel = @Channel(10) do channel
 	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
 	    for message in ws
@@ -29,6 +31,7 @@ channel = @Channel(10) do channel
 		end
 	end
 end
+  ╠═╡ =#
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
 update = @take_repeatedly! channel
@@ -89,7 +92,34 @@ begin
 end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
+@model function kalman_filter()
+    
+    # Prior for the previous state
+    x_prev_mean = datavar(Float64)
+    x_prev_var  = datavar(Float64)
+    
+    x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
+    
+    # Prior for the observation noise
+    τ_shape = datavar(Float64)
+    τ_rate  = datavar(Float64)
+    
+    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
+    
+    # Random walk with fixed precision
+    x_current ~ Normal(mean = x_prev, precision = 1.0)
+    
+    # Noisy observation
+    y = datavar(Float64)
+    y ~ Normal(mean = x_current, precision = τ)
+    
+end
 
+# We assume the following factorisation between variables 
+# in the variational distribution
+@constraints function filter_constraints()
+    q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -115,7 +145,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "05e189ca1220c9b2e0539da42ff48bb5550c250f"
+project_hash = "7ec1a1223112399f33508ec64422084ce6237a89"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
