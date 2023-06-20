@@ -134,7 +134,7 @@ result = inference(
 )
 
 # ╔═╡ 724e47b4-7277-4250-b72a-3e4649ac6261
-result.posteriors[:τ]
+result.posteriors[:τ], result.posteriors[:x_current]
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
 fieldnames(typeof(result))
