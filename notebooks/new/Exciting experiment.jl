@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
-using HTTP, JolinPluto, JSON3, Plots, Dates, RxInfer
+using HTTP, JolinPluto, JSON3, Plots, Dates, RxInfer, Statistics
 
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
@@ -16,9 +16,7 @@ trading = "btceur"
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
-# ╔═╡ bdc281eb-db3f-4d54-8999-2b04d24a4778
-# ╠═╡ disabled = true
-#=╠═╡
+# ╔═╡ a1e6e7c2-ba41-484c-bb3c-20bc8c1c63c6
 channel = @Channel(10) do channel
 	HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
 	    for message in ws
@@ -31,22 +29,15 @@ channel = @Channel(10) do channel
 		end
 	end
 end
-  ╠═╡ =#
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-#=╠═╡
 update = @take_repeatedly! channel
-  ╠═╡ =#
 
 # ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
-#=╠═╡
 raw_price = parse(Float64, update.c)
-  ╠═╡ =#
 
 # ╔═╡ 2519387c-c882-450b-8830-015706c499d1
-#=╠═╡
 raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
-  ╠═╡ =#
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 raw_n = 100
@@ -65,13 +56,11 @@ function push_sliding!(array, x; n)
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-#=╠═╡
 begin
 	push_sliding!(raw_prices, raw_price, n=raw_n)
 	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
-  ╠═╡ =#
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
@@ -100,37 +89,42 @@ begin
 end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
-@model function kalman_filter()
-    
-    # Prior for the previous state
-    x_prev_mean = datavar(Float64)
-    x_prev_var  = datavar(Float64)
-    
-    x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
-    
-    # Prior for the observation noise
-    τ_shape = datavar(Float64)
-    τ_rate  = datavar(Float64)
-    
-    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
-    
-    # Random walk with fixed precision
-    x_current ~ Normal(mean = x_prev, precision = 1.0)
-    
-    # Noisy observation
-    y = datavar(Float64)
-    y ~ Normal(mean = x_current, precision = τ)
-    
-end
-
-# We assume the following factorisation between variables 
-# in the variational distribution
-@constraints function filter_constraints()
-    q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
+begin
+	@model function kalman_filter()
+	    
+	    # Prior for the previous state
+	    x_prev_mean = datavar(Float64)
+	    x_prev_var  = datavar(Float64)
+	    
+	    x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
+	    
+	    # Prior for the observation noise
+	    τ_shape = datavar(Float64)
+	    τ_rate  = datavar(Float64)
+	    
+	    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
+	    
+	    # Random walk with fixed precision
+	    x_current ~ Normal(mean = x_prev, precision = 1.0)
+	    
+	    # Noisy observation
+	    y = datavar(Float64)
+	    y ~ Normal(mean = x_current, precision = τ)
+	    
+	end
+	
+	# We assume the following factorisation between variables 
+	# in the variational distribution
+	@constraints function filter_constraints()
+	    q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
+	end
 end
 
 # ╔═╡ ba8824e0-9ecb-465d-97f8-01f7efa5c218
+initial_mean = regular_prices[end]
 
+# ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
+initial_var = var(regular_prices)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -141,6 +135,7 @@ JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 RxInfer = "86711068-29c9-4ff7-b620-ae75d7495b3d"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 HTTP = "~1.9.6"
@@ -156,7 +151,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "7ec1a1223112399f33508ec64422084ce6237a89"
+project_hash = "bea4b4aad25e028bc23cb2a87bc0bd9bb9a19ed5"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1766,7 +1761,7 @@ version = "1.4.1+0"
 # ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
 # ╠═76e44c4d-6be9-410a-b31a-83c21053e364
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
-# ╠═bdc281eb-db3f-4d54-8999-2b04d24a4778
+# ╠═a1e6e7c2-ba41-484c-bb3c-20bc8c1c63c6
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
 # ╠═bc14465c-e671-46db-b040-f120398eccbd
 # ╠═2519387c-c882-450b-8830-015706c499d1
@@ -1781,5 +1776,6 @@ version = "1.4.1+0"
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
+# ╠═ca34e7dd-34df-423e-b536-5cd6545d025c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
