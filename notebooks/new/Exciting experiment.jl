@@ -130,7 +130,7 @@ prior_mean = Ref(isempty(regular_prices) ? 0.0 : regular_prices[end])
 prior_var = Ref(isempty(regular_prices) ? 1.0 : var(regular_prices))
 
 # ╔═╡ 00576912-5742-42ee-8e7d-2e580d35e2e5
-prior_τ_shape, prior_τ_rate = 1.0, 1.0
+prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
