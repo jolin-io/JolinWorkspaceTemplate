@@ -135,13 +135,6 @@ end
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
-	result = inference(
-		model = kalman_filter(mean_var(prior_x[])..., shape(prior_τ[]), rate(prior_τ[])),
-		data = (y = regular_price,),
-		constraints = filter_constraints(),
-		initmarginals = (x_current = prior_x[], τ = prior_τ[]),
-	    free_energy = true
-	)
 	prior_τ[] = result.posteriors[:τ]
 	prior_x[] = result.posteriors[:x_current]
 
