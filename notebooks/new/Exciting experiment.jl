@@ -128,6 +128,8 @@ result = inference(
 	model = kalman_filter(prior_x_mean[], prior_x_var[], prior_τ_shape[], prior_τ_rate[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
+	returnvars = (x_current = KeepLast(), ),
+    free_energy = true
 )
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
