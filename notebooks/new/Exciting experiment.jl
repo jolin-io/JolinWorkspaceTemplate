@@ -88,6 +88,9 @@ begin
 	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
+# ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1735,5 +1738,6 @@ version = "1.4.1+0"
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
+# ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
