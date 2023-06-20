@@ -129,7 +129,7 @@ mean_var(prior_x_current[])
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
-	model = kalman_filter(prior_x_mean[], prior_x_var[], prior_τ_shape[], prior_τ_rate[]),
+	model = kalman_filter(mean_var(prior_x_current[])..., shape(prior_τ[]), rate(prior_τ[])),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 	initmarginals = (x_current = prior_x_current[], τ = prior_τ[]),
