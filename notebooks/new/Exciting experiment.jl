@@ -124,9 +124,6 @@ end
 # ╔═╡ 6999be60-339b-470c-a5a3-d9c43b66f9a1
 prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 
-# ╔═╡ 452d0b1e-b442-4ad6-b69e-c300ca7c612f
-mean_var(prior_x_current[])
-
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
 	model = kalman_filter(mean_var(prior_x_current[])..., shape(prior_τ[]), rate(prior_τ[])),
@@ -1794,7 +1791,6 @@ version = "1.4.1+0"
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═6999be60-339b-470c-a5a3-d9c43b66f9a1
-# ╠═452d0b1e-b442-4ad6-b69e-c300ca7c612f
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═724e47b4-7277-4250-b72a-3e4649ac6261
 # ╠═140691bc-765d-448d-ac33-90cc9b86b1b4
