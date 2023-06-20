@@ -133,13 +133,11 @@ end
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
-	model         = kalman_filter(
-		mean_var(prior_x[])..., shape(prior_τ[]), rate(prior_τ[])),
-	data          = (y = regular_price,),
-	constraints   = filter_constraints(),
+	model = kalman_filter(mean_var(prior_x[])..., shape(prior_τ[]), rate(prior_τ[])),
+	data = (y = regular_price,),
+	constraints = filter_constraints(),
 	initmarginals = (x_current = prior_x[], τ = prior_τ[]),
-	free_energy   = true,
-	autostart     = false,
+	free_energy = true,
 )
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
