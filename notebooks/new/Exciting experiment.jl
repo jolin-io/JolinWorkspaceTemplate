@@ -114,9 +114,6 @@ begin
 	end
 end
 
-# ╔═╡ ba8824e0-9ecb-465d-97f8-01f7efa5c218
-prior_x_mean = Ref(isempty(regular_prices) ? 0.0 : regular_prices[end])
-
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 prior_x_current = Ref(NormalMeanVariance(prior_x_mean[], prior_x_var[]))
 
@@ -1788,7 +1785,6 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
-# ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═6999be60-339b-470c-a5a3-d9c43b66f9a1
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
