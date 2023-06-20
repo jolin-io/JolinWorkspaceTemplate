@@ -126,6 +126,7 @@ prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 
 # ╔═╡ 4cb74f51-4274-466e-a29f-077dfaff9b3d
 begin
+	posteriors_n = 100
 	posteriors_x = []
 	posteriors_eventtimes = DateTime[]
 end
