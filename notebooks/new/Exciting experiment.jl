@@ -72,6 +72,9 @@ regular_price, regular_eventtime = @repeaton(ceil(now(), Second(10))) do t
 	raw_prices[end], t
 end
 
+# ╔═╡ 751cf2d2-178b-4523-93d1-4ff96c4ed909
+
+
 # ╔═╡ bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 regular_n = 100
 
@@ -154,7 +157,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "bea4b4aad25e028bc23cb2a87bc0bd9bb9a19ed5"
+project_hash = "ac1b5b44bce3000ad1ed4f6ce5b8b1bcbc4f476f"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1774,6 +1777,7 @@ version = "1.4.1+0"
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
+# ╠═751cf2d2-178b-4523-93d1-4ff96c4ed909
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
