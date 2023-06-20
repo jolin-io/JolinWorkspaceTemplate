@@ -126,6 +126,9 @@ initial_mean = regular_prices[end]
 # ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
 initial_var = var(regular_prices)
 
+# ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1777,5 +1780,6 @@ version = "1.4.1+0"
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
 # ╠═ca34e7dd-34df-423e-b536-5cd6545d025c
+# ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
