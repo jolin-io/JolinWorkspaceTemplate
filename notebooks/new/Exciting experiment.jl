@@ -140,7 +140,7 @@ result = inference(
 )
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
-
+result.posteriors
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
