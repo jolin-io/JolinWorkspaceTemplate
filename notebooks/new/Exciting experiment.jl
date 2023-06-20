@@ -127,7 +127,7 @@ begin
 	posteriors_n = 100
 	posteriors_x = []
 	posteriors_y = Float64[]
-	posteriors_eventtimes = DateTime[]
+	posteriors_eventtimes = DateTime[];
 end
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
