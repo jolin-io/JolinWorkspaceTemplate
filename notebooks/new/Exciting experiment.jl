@@ -143,7 +143,7 @@ begin
 	prior_x[] = result.posteriors[:x_current]
 
 	push!(posteriors_x, result.posteriors[:x_current])
-	push!(posteriors_evventtimes, regular_eventtime)
+	push!(posteriors_eventtimes, regular_eventtime)
 end
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
