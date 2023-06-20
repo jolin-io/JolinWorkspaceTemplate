@@ -139,7 +139,7 @@ result = inference(
 )
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
-names(typeof(result))
+fieldnames(typeof(result))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
