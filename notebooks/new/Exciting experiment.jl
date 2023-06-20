@@ -124,6 +124,9 @@ initial_mean = regular_prices[end]
 # ╔═╡ ca34e7dd-34df-423e-b536-5cd6545d025c
 initial_var = isempty(regular_prices) ? 1.0 : var(regular_prices)
 
+# ╔═╡ d0c143da-d85a-4a3b-a6b8-884f9bf33bad
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 
 
@@ -1779,6 +1782,7 @@ version = "1.4.1+0"
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
 # ╠═ca34e7dd-34df-423e-b536-5cd6545d025c
+# ╠═d0c143da-d85a-4a3b-a6b8-884f9bf33bad
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
