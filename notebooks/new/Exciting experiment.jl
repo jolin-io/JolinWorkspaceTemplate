@@ -100,11 +100,11 @@ begin
 	    
 	    # Random walk with fixed precision
 	    x_current ~ Normal(mean = x_prev, precision = 1.0)
-	    
-	    # Noisy observation
+
+		# Noisy observation (y_rv to also store posterior)
+	    y_rv ~ Normal(mean = x_current, precision = τ)
 	    y = datavar(Float64)
-	    y ~ Normal(mean = x_current, precision = τ)
-	    
+	    y ~ y_rv
 	end
 	
 	# We assume the following factorisation between variables 
