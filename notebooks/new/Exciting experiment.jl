@@ -125,13 +125,17 @@ end
 prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
-result = inference(
-	model = kalman_filter(mean_var(prior_x_current[])..., shape(prior_τ[]), rate(prior_τ[])),
-	data = (y = regular_price,),
-	constraints = filter_constraints(),
-	initmarginals = (x_current = prior_x_current[], τ = prior_τ[]),
-    free_energy = true
-)
+begin
+	result = inference(
+		model = kalman_filter(mean_var(prior_x_current[])..., shape(prior_τ[]), rate(prior_τ[])),
+		data = (y = regular_price,),
+		constraints = filter_constraints(),
+		initmarginals = (x_current = prior_x_current[], τ = prior_τ[]),
+	    free_energy = true
+	)
+	prior_τ[] = result.posteriors[:τ]
+	prior_x_current[] = result.posteriors[:x_current]
+end
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
 fieldnames(typeof(result))
