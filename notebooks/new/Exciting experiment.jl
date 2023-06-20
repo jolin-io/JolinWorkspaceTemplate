@@ -129,6 +129,9 @@ end
     q(x_prev, x_current, τ) = q(x_prev, x_current)q(τ)
 end
 
+# ╔═╡ ba8824e0-9ecb-465d-97f8-01f7efa5c218
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1777,5 +1780,6 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
+# ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
