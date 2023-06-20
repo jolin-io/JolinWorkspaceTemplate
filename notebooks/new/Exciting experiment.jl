@@ -93,12 +93,7 @@ end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
-	@model function kalman_filter()
-	    
-	    # Prior for the previous state
-	    x_prev_mean = datavar(Float64)
-	    x_prev_var  = datavar(Float64)
-	    
+	@model function kalman_filter(x_prev_mean, x_prev_var)
 	    x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
 	    
 	    # Prior for the observation noise
