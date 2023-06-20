@@ -128,6 +128,7 @@ prior_τ = Ref(GammaShapeRate(1.0, 1.0))
 begin
 	posteriors_n = 100
 	posteriors_x = []
+	posteriors_y = Float64[]
 	posteriors_eventtimes = DateTime[]
 end
 
