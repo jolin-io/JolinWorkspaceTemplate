@@ -151,7 +151,7 @@ begin
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
 
-	p = plot(posteriors_eventtimes, mean.(posteriors), ribbon = var.(posteriors), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+	p = plot(posteriors_eventtimes, mean.(posteriors_x), ribbon = var.(posteriors_x), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
     p = scatter!(posteriors_eventtimes, posteriors_y, label = "Observations")
 end
 
