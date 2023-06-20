@@ -123,6 +123,9 @@ prior_x_var = Ref(isempty(regular_prices) ? 1.0 : var(regular_prices))
 # ╔═╡ 00576912-5742-42ee-8e7d-2e580d35e2e5
 prior_τ_shape, prior_τ_rate = Ref(1.0), Ref(1.0)
 
+# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
 	model = kalman_filter(prior_x_mean[], prior_x_var[], prior_τ_shape[], prior_τ_rate[]),
@@ -1785,6 +1788,7 @@ version = "1.4.1+0"
 # ╠═ba8824e0-9ecb-465d-97f8-01f7efa5c218
 # ╠═ca34e7dd-34df-423e-b536-5cd6545d025c
 # ╠═00576912-5742-42ee-8e7d-2e580d35e2e5
+# ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
