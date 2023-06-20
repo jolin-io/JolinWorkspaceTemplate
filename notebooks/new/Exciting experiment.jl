@@ -149,6 +149,10 @@ begin
 	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
 	push_sliding!(posteriors_y, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
+
+
+	p = plot(posteriors_eventtimes, mean.(posteriors), ribbon = var.(posteriors), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+    p = scatter!(posteriors_eventtimes, posteriors_y, label = "Observations")
 end
 
 # ╔═╡ 140691bc-765d-448d-ac33-90cc9b86b1b4
