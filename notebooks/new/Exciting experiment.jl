@@ -127,7 +127,7 @@ prior_var = Ref(isempty(regular_prices) ? 1.0 : var(regular_prices))
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 result = inference(
 	model = kalman_filter(prior_mean[], prior_var[]),
-	data = (y = regular_price),
+	data = (y = regular_price,),
 	constraints = filter_constraints(),
 )
 
