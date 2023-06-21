@@ -211,10 +211,10 @@ end
 	
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
-@benchmark mean(
+@benchmark var([
 	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
 	for i in 1:10_000
-)
+])
 
 # ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
 @benchmark mean_var([
@@ -226,10 +226,10 @@ end
 mean(randoms)
 
 # ╔═╡ 3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
-@benchmark mean(
+@benchmark var([
 	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
 	for i in 1:10_000
-)
+])
 
 # ╔═╡ fc4b9827-5dca-4a86-9b01-faa35c4a7cd1
 @benchmark mean_var([
