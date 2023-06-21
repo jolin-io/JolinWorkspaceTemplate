@@ -298,7 +298,7 @@ begin
 end
 
 # ╔═╡ 9431191e-1b93-41f2-97c5-396b1114033c
-quantile(Normal(), 0.5)
+quantile(Normal(), 0.90)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
