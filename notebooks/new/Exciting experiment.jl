@@ -187,7 +187,7 @@ begin
 end
 
 # ╔═╡ 612d6653-b993-442b-9c54-0340849a5b35
-
+40/70
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
