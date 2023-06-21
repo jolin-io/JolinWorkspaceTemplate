@@ -189,7 +189,7 @@ begin
 end
 
 # ╔═╡ b6297655-f865-4ef7-b183-56aff6c05bbe
-
+posteriors[end][:y_τ]
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
 sample(posteriors[end][:y_τ])
