@@ -113,7 +113,9 @@ plot_raw = begin
 end
 
 # ╔═╡ ecc48e74-cd0a-4b20-adc3-e607e170c7de
-
+md"""
+first price is good for other initializations
+"""
 
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
 first_price, set_first_price = @use_state(2000.0)
