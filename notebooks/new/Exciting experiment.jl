@@ -198,9 +198,6 @@ x_tau_mean, x_tau_std = mean_std(GammaShapeRate(a, b))
 # ╔═╡ f2881e9e-995f-4932-9f46-c1bf36f2e125
 1 / (x_tau_mean + x_tau_std), 1 / (x_tau_mean - x_tau_std)
 
-# ╔═╡ 612d6653-b993-442b-9c54-0340849a5b35
-inv(40/70^2)
-
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std), #prior_y_τ[]),
@@ -1990,7 +1987,6 @@ version = "1.4.1+0"
 # ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
 # ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
-# ╠═612d6653-b993-442b-9c54-0340849a5b35
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
