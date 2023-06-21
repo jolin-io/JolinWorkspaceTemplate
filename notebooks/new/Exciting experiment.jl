@@ -216,7 +216,7 @@ begin
 end
 
 # ╔═╡ a8eb0b5d-4e99-4299-a948-f85ac46137da
-[1/mean_var(p[:y_τ]) for p in posteriors]
+[mean_var(p[:y_τ]) for p in posteriors]
 
 # ╔═╡ 41f94e92-2346-4e75-9c2c-85eff46274b0
 rand(Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ])))
