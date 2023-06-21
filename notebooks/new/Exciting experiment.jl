@@ -17,9 +17,6 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
-# ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
-@output_below
-
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
 begin
 	ui_trading = @bind trading PlutoUI.Select([
@@ -39,6 +36,9 @@ begin
 	| reset |  $ui_reset |
 	"""
 end
+
+# ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
+@output_below
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
@@ -94,9 +94,6 @@ plot_raw = begin
 	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
-
-# ╔═╡ 4d6d2ae9-6456-401a-980b-9215d35e32c2
-plot_raw
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
@@ -1921,7 +1918,6 @@ version = "1.4.1+0"
 # ╟─0d8791d8-ff47-495f-ba74-f1f565654d66
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
-# ╠═4d6d2ae9-6456-401a-980b-9215d35e32c2
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 # ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
