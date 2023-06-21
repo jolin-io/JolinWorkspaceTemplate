@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
-using HTTP, JolinPluto, JSON3, Plots, Dates, RxInfer, Statistics
+using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
@@ -173,6 +173,7 @@ HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 RxInfer = "86711068-29c9-4ff7-b620-ae75d7495b3d"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
@@ -181,6 +182,7 @@ HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
 JolinPluto = "~0.1.18"
 Plots = "~1.38.16"
+PlutoUI = "~0.7.51"
 RxInfer = "~2.11.1"
 """
 
@@ -190,13 +192,19 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "ac1b5b44bce3000ad1ed4f6ce5b8b1bcbc4f476f"
+project_hash = "774cf8165c68dced06677f06a85113804adbd4cd"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
 git-tree-sha1 = "e113452555312a7d220214229479045daeaa7ac6"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 version = "1.88.0"
+
+[[deps.AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra", "Requires"]
@@ -679,11 +687,23 @@ git-tree-sha1 = "0ec02c648befc2f94156eaef13b0f38106212f3f"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
 version = "0.3.17"
 
+[[deps.Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
 [[deps.HypertextLiteral]]
 deps = ["Tricks"]
 git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
 uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 version = "0.9.4"
+
+[[deps.IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "d75853a0bdbfb1ac815478bacd89cd27b550ace6"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.3"
 
 [[deps.IfElse]]
 git-tree-sha1 = "debdd00ffef04665ccbb3e150747a77560e8fad1"
@@ -944,6 +964,11 @@ git-tree-sha1 = "60168780555f3e663c536500aa790b6368adc02a"
 uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
 version = "2.3.0"
 
+[[deps.MIMEs]]
+git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
+uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
+version = "0.1.4"
+
 [[deps.MacroTools]]
 deps = ["Markdown", "Random"]
 git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
@@ -1155,6 +1180,12 @@ deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", 
 git-tree-sha1 = "8f5fa7056e6dcfb23ac5211de38e6c03f6367794"
 uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
 version = "0.1.6"
+
+[[deps.PlutoUI]]
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
+git-tree-sha1 = "b478a748be27bd2f2c73a7690da219d0844db305"
+uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
+version = "0.7.51"
 
 [[deps.PolyesterWeave]]
 deps = ["BitTwiddlingConvenienceFunctions", "CPUSummary", "IfElse", "Static", "ThreadingUtilities"]
