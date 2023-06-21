@@ -194,9 +194,6 @@ end
 # ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 @bind ci Slider(0.2:0.01:0.99, default=0.95, show_value=true)
 
-# ╔═╡ cec5454a-b5a7-42cd-a588-2243de143268
-eachindex(posteriors)
-
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -1942,7 +1939,6 @@ version = "1.4.1+0"
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
-# ╠═cec5454a-b5a7-42cd-a588-2243de143268
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═ec14412d-6b95-4c63-8e47-87608c567bb5
 # ╠═091649bf-8d7d-460f-a056-054a8e143916
