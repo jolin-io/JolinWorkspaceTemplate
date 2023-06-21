@@ -40,9 +40,6 @@ begin
 	"""
 end
 
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-bayes_plot
-
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
@@ -230,6 +227,9 @@ plot_bayes = begin
     scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
+
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_bayes
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
