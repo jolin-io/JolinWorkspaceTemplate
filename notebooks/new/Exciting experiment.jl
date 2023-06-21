@@ -17,6 +17,9 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
+# ╔═╡ 3fe56386-7ba7-481e-9aa6-03218b710001
+
+
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
 begin
 	ui_trading = @bind trading PlutoUI.Select([
@@ -1920,6 +1923,7 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╠═3fe56386-7ba7-481e-9aa6-03218b710001
 # ╟─0d8791d8-ff47-495f-ba74-f1f565654d66
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
