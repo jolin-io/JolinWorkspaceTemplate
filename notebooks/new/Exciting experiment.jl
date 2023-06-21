@@ -152,6 +152,9 @@ plot_regular = begin
 	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
+# ╔═╡ 3437190e-af5a-4817-bf4b-82b161265e7f
+
+
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
 	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
@@ -2010,6 +2013,7 @@ version = "1.4.1+0"
 # ╠═40e25842-31db-4495-80ae-131ac6e018ab
 # ╠═329c2395-40c4-4c4f-95b8-fdf6bb5298de
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
+# ╠═3437190e-af5a-4817-bf4b-82b161265e7f
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
