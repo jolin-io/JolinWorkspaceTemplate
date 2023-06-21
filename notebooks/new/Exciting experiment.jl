@@ -238,7 +238,21 @@ begin
 end
 
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
+begin
+	function rand_y2(posterior)
+		x2 = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:x_τ])))
+		y2 = rand(NormalMeanPrecision(x2, rand(posterior[:y_τ])))
+		return y2
+	end
 
+	#rand_y2(posterior) = rand(NormalMeanVariance(rand(posterior[:x]), fixed_y_std^2))
+
+	function rand_y2(posterior, shape)
+		if length(shape) == 1
+			[rand_y2(posterior) for i in 1: shape[1]]
+		end
+	end
+end
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
 function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
