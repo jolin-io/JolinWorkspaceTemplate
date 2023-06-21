@@ -33,7 +33,7 @@ begin
 	md"""
 	|         | choose |
 	|---------|:-------|
-	| trading | $(ui_trading) |
+	| crypto currency| $(ui_trading) |
 	| confidence interval | $(ui_ci_percent)%|
 	"""
 end
