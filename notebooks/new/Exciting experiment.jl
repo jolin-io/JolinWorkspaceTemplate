@@ -232,12 +232,6 @@ post_y_tau = posteriors[end][:y_τ]
 end
 	
 
-# ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
-@benchmark var([
-	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
-	for i in 1:10_000
-])
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1932,6 +1926,5 @@ version = "1.4.1+0"
 # ╠═41f94e92-2346-4e75-9c2c-85eff46274b0
 # ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
 # ╠═233cd884-2d56-4d15-a2d9-a8f03aacfb1f
-# ╠═639ea99f-8787-4212-99d8-4002763d8493
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
