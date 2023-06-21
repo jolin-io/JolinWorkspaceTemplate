@@ -27,10 +27,14 @@ begin
 		"etheur" => "Ethereum", 
 		"usdteur" => "Tether",
 	])
+
+	ui_ci_percent = @bind ci_percent Slider(20:1:99, default=95, show_value=true)
+	
 	md"""
 	|         | choose |
 	|---------|:-------|
 	| trading | $(ui_trading) |
+	| confidence interval | $(ui_ci_percent)% |
 	"""
 end
 
@@ -198,7 +202,7 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 end
 
 # ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
-@bind ci Slider(0.2:0.01:0.99, default=0.95, show_value=true)
+ci = ci_percent / 100.0
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 bayes_plot = begin
@@ -220,7 +224,6 @@ bayes_plot = begin
 		return isoutlier ? :orange : :blue
 	end
 	
-	ci_percent = Int(round(ci*100))
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
 			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
