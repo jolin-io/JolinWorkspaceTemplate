@@ -223,7 +223,7 @@ std(post_x)
 precision = 1/var(post_x) + mean(post_y_tau)
 
 # ╔═╡ 7cdef740-c2ca-4ac7-a62d-32f7ec3843aa
-
+variance = 1/precision
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
