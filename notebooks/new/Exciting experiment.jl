@@ -214,7 +214,7 @@ mean(randoms)
 mean(post_x)
 
 # ╔═╡ cc4f89f4-e472-4bde-945e-94c363aa3897
-var(randoms)
+std(randoms)
 
 # ╔═╡ 9ac9919e-3ef7-40f6-9fe6-e63ddfd55306
 
