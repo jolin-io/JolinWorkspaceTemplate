@@ -187,6 +187,9 @@ begin
 	end
 end
 
+# ╔═╡ e7dfa3f1-5859-489a-ac3d-a8b78d510e37
+
+
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
 rand_y.(posteriors, (100,))
 
@@ -1906,6 +1909,7 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
+# ╠═e7dfa3f1-5859-489a-ac3d-a8b78d510e37
 # ╠═5b87ac1c-8849-4102-867f-54ba27cf282b
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═f1be49c6-5670-4d97-9d86-b3c78f476eeb
