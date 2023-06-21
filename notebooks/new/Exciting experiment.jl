@@ -38,7 +38,9 @@ begin
 end
 
 # ╔═╡ de49ca06-6e83-4a02-b92c-60f09ec26fd7
-
+md"""
+# Implementation Details
+"""
 
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
