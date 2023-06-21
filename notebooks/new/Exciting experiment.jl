@@ -15,10 +15,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
-using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
-
-# ╔═╡ 1327e19d-51aa-49f5-b6cc-8969e2d12fbc
-using PlutoHooks
+using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics, PlutoHooks
 
 # ╔═╡ 3fe56386-7ba7-481e-9aa6-03218b710001
 md"""
@@ -2026,7 +2023,6 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
-# ╠═1327e19d-51aa-49f5-b6cc-8969e2d12fbc
 # ╠═6fd03866-5d74-4427-ae4b-fe28f573fa8a
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
