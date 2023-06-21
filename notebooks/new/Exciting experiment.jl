@@ -145,6 +145,7 @@ begin
 	# initialize priors
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
 	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
+	_x_var <= 0.0 && _x_var = 1.0
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 
 	prior_τ = Ref(GammaShapeRate(1.0, 1.0))
