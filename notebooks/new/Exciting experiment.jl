@@ -132,7 +132,7 @@ begin
 end;
 
 # ╔═╡ 0de68cf3-104b-4d25-8cca-9ed8162b9d9a
-a = 4
+a = 1
 
 # ╔═╡ 2118b853-e07e-49ee-8050-14b42df35eec
 if a == 4
