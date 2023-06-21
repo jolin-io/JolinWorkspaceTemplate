@@ -127,7 +127,7 @@ begin
 end
 
 # ╔═╡ 9c6c88fe-a806-47f0-82da-f2f6c265d1fc
-
+first_price
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
