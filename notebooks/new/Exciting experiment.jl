@@ -132,7 +132,7 @@ plot_regular = begin
 end
 
 # ╔═╡ 46f340ab-4664-4622-a8a1-c0539d3b318e
-
+@bind fixed_y_std Slider(1:10, default=4, show_value=true)
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
