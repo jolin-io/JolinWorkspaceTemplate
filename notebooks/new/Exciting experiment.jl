@@ -212,6 +212,9 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
+# ╔═╡ 084a5aad-d83f-497a-abfa-bc918694677b
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1901,5 +1904,6 @@ version = "1.4.1+0"
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═084a5aad-d83f-497a-abfa-bc918694677b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
