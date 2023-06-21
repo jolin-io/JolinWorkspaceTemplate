@@ -172,7 +172,7 @@ begin
 
 	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
 	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision
-end
+end;
 
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
