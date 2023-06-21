@@ -191,8 +191,11 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	return matrix[1, :], matrix[2, :]
 end
 
-# ╔═╡ 4cbf33f2-9dec-4721-9159-e5568baa5776
+# ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
+@bind ci Slider(0.2:0.01:0.99, default=0.95, show_value=true)
 
+# ╔═╡ 4cbf33f2-9dec-4721-9159-e5568baa5776
+ci_percent = Int(round(ci*100))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
@@ -209,13 +212,10 @@ begin
 	
 	p = plot(posteriors_eventtimes, y_means,
 			ribbon = y_stds .* σ_ci,
-			label = "Estimation in $(Int(round(ci*100)))% confidence", xlabel="time", ylabel="EURO",
+			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
-
-# ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
-
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
@@ -227,18 +227,16 @@ begin
 	y_mean = Int(round(y_mean))
 	y_std = Int(round(y_std))
 
-	ci = Int(round(ci*100))
-	
 	md"""
-	| current estimations | mean in $(ci)% confidence |
+	| current estimations | mean in $(ci_percent)% confidence |
 	|---------------------|:------------|
 	|hidden state | $(x_mean)€ ± $(x_std)€
 	|observed state | $(y_mean)€ ± $(y_std)€|
 	"""
 end
 
-# ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
-@bind ci Slider(0.2:0.01:0.99, default=0.95, show_value=true)
+# ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
+regular_price
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
