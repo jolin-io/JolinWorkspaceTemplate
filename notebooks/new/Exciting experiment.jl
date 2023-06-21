@@ -200,7 +200,7 @@ x_tau_mean, x_tau_std = mean_std(GammaShapeRate(a, b))
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
-	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std, prior_y_τ[]),
+	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
