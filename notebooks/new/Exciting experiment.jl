@@ -142,10 +142,11 @@ begin
 end
 
 # ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
-
+@bind reset_bayesian Button("Recompute")
 
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
+	reset_bayesian
 	# initialize priors
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
 	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
