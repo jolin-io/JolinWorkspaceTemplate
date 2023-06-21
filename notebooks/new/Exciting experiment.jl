@@ -257,7 +257,7 @@ begin
 end
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
-plot_bayes = begin
+begin
 	result
 	prev_posteriors = [posteriors[1]; posteriors[1:end-1]]
 	y_means, y_stds = vt_to_tv(mean_std.(rand_y2.(prev_posteriors, 10_000)))
@@ -268,7 +268,10 @@ plot_bayes = begin
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
 		return isoutlier ? :orange : :blue
 	end
-	
+end
+
+# ╔═╡ a37c1579-ad9e-46db-91e8-a3d30acb0cf9
+plot_bayes = begin
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
@@ -276,9 +279,6 @@ plot_bayes = begin
 	scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
-
-# ╔═╡ a37c1579-ad9e-46db-91e8-a3d30acb0cf9
-
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
