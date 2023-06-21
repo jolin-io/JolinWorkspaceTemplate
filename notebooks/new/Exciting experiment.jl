@@ -206,7 +206,7 @@ begin
 	means, std = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
 	
 	p = plot(posteriors_eventtimes, means,
-			ribbon = vars,
+			ribbon = std,
 			label = "Estimation", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
