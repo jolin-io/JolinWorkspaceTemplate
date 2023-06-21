@@ -89,7 +89,7 @@ function push_sliding!(array, x; n)
 end
 
 # ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-raw_plot = begin
+plot_raw = begin
 	push_sliding!(raw_prices, raw_price, n=raw_n)
 	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
