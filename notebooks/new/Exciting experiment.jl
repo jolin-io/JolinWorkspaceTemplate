@@ -83,7 +83,7 @@ raw_price = parse(Float64, update.c)
 raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
 
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
-raw_n = 100
+raw_n = 1000
 
 # ╔═╡ d7e0dcbe-d6aa-4231-a823-013fba81678f
 begin
