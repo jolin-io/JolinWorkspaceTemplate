@@ -228,8 +228,8 @@ begin
 	md"""
 	| current estimations |             |
 	|---------------------|:------------|
-	|hidden state (average in 69.2% confidence) | $x_mean€ ± $x_std€
-	|observed state (average in 69.2% confidence) | $y_mean€ ± $y_std€|
+	|hidden state (average in 69.2% confidence) | $(x_mean)€ ± $(x_std)€
+	|observed state (average in 69.2% confidence) | $(y_mean)€ ± $(y_std)€|
 	"""
 end
 
