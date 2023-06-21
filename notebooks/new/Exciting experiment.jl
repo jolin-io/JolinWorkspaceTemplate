@@ -210,7 +210,7 @@ begin
 
 	outliers_indices = findall(1:length(posteriors)) do i
 		price, y_mean, y_ci = posteriors_prices[i], y_means[i], y_cis[i]
-		return price < y_mean - y_ci || y_mean + y_ci > price
+		return price < (y_mean - y_ci) || (y_mean + y_ci) > price
 	end
 	outliers_prices = posteriors_prices[outliers_indices]
 	outliers_eventtimes = posteriors_eventtimes[outliers_indices]
@@ -228,7 +228,10 @@ end
 
 
 # ╔═╡ 091649bf-8d7d-460f-a056-054a8e143916
-
+begin
+	
+	
+end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
