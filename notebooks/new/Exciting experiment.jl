@@ -135,9 +135,6 @@ plot_regular = begin
 	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
-# ╔═╡ 46f340ab-4664-4622-a8a1-c0539d3b318e
-
-
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
 	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
@@ -196,18 +193,6 @@ end
 
 # ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
 [p[:x_τ] for p in posteriors]
-
-# ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
-@bind a Slider(1:40, show_value=true) 
-
-# ╔═╡ a2401fbe-0f32-46d7-87b8-6c544e369345
-@bind b NumberField(0.0:100.0)
-
-# ╔═╡ 1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
-a, b
-
-# ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
-x_tau_mean, x_tau_std = mean_std(GammaShapeRate(a, b))
 
 # ╔═╡ f2881e9e-995f-4932-9f46-c1bf36f2e125
 1 / (x_tau_mean + x_tau_std), 1 / (x_tau_mean - x_tau_std)
@@ -2023,13 +2008,10 @@ version = "1.4.1+0"
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
-# ╠═46f340ab-4664-4622-a8a1-c0539d3b318e
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
-# ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
-# ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
