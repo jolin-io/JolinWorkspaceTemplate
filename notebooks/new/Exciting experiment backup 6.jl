@@ -321,7 +321,7 @@ plot_total = let
 	raw_price
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
-			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	raw_index = findall(t -> t >= posteriors_eventtimes[begin], raw_eventtimes)
 	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
@@ -353,7 +353,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [compat]
 HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
-JolinPluto = "~0.1.19"
+JolinPluto = "~0.1.18"
 Plots = "~1.38.16"
 PlutoUI = "~0.7.51"
 RxInfer = "~2.11.1"
@@ -365,7 +365,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "774cf8165c68dced06677f06a85113804adbd4cd"
+project_hash = "ee3115702fc5f0a77b1fa2e1c9baf19dcb4570c6"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -940,9 +940,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Continuables", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs", "PlutoHooks", "PlutoLinks"]
-git-tree-sha1 = "04b457968131396f84c9db75df75786d3bce4fa0"
+git-tree-sha1 = "0e7086d3b6df41fa1266607b9d278a72287b65a6"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.19"
+version = "0.1.18"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -2028,6 +2028,8 @@ version = "1.4.1+0"
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
+# ╠═4c660768-05fd-48dc-87ea-f8b6674da589
+# ╠═a2401fbe-0f32-46d7-87b8-6c544e369345
 # ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
 # ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
