@@ -188,7 +188,7 @@ begin
 end
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
-function vt2tv(v::AbstractVector{Tuple{Float64, Float64}})
+function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	matrix = reinterpret(reshape, Float64, v)
 	return matrix[1, :], matrix[2, :]
 end
@@ -197,7 +197,7 @@ end
 
 
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
-vector_tuple2_to_tuple2_vector(mean_std.(rand_y.(posteriors, 100)))
+vt_to_tv(mean_std.(rand_y.(posteriors, 100)))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
@@ -209,6 +209,7 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
+	mean_std([rand_y(posterior) for i in 1:10_000])
 	means, vars = prices_mean_var(posteriors)
 	
 	p = plot(posteriors_eventtimes, means,
@@ -219,7 +220,7 @@ begin
 end
 
 # ╔═╡ f1be49c6-5670-4d97-9d86-b3c78f476eeb
-
+mean_std
 
 # ╔═╡ a8eb0b5d-4e99-4299-a948-f85ac46137da
 for p in posteriors
