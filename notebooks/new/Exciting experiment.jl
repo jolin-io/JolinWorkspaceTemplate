@@ -238,9 +238,11 @@ end
 
 
 # ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
-isoutlier = regular_price < y_mean - y_ci || y_mean + y_ci > regular_price
-isoutlier && push!(outliers, (regular_eventtime, regular_price))
-outliers
+begin
+	isoutlier = regular_price < y_mean - y_ci || y_mean + y_ci > regular_price
+	isoutlier && push!(outliers, (regular_eventtime, regular_price))
+	outliers
+end
 
 # ╔═╡ aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
 
