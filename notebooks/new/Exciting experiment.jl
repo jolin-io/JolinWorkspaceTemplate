@@ -193,9 +193,6 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	return matrix[1, :], matrix[2, :]
 end
 
-# ╔═╡ d59a1ef4-86be-4e0c-b17a-ca00f476bd0a
-
-
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -1914,7 +1911,6 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
-# ╠═d59a1ef4-86be-4e0c-b17a-ca00f476bd0a
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═f1be49c6-5670-4d97-9d86-b3c78f476eeb
 # ╠═a8eb0b5d-4e99-4299-a948-f85ac46137da
