@@ -151,6 +151,11 @@ md"""
 # Probability
 """
 
+# ╔═╡ 046834bf-2c3e-4d2d-9ead-0037f8037517
+md"""
+priors of variances are not reinitiated, but kept
+"""
+
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
 	# the higher the prior(modeling precision), the smaller the variance between jumps
@@ -196,11 +201,6 @@ begin
 	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
 	end
 end
-
-# ╔═╡ 046834bf-2c3e-4d2d-9ead-0037f8037517
-md"""
-priors of variances are not reinitiated, but kept
-"""
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
@@ -262,21 +262,23 @@ pushed_posterior = begin
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
-	push_sliding!(regular_posteriors, result.posteriors, n=regular_n)
+	push_sliding!(prob_posteriors, result.posteriors, n=regular_n)
+	push_sliding!(prob_eventtimes, regular_eventtime, n=regular_n)
+	push_sliding!(prob_prices, regular_price, n=regular_n)
 end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
 	pushed_posterior
 	# just using the first twice for nicer plot
-	pred_posteriors = [regular_posteriors[1]; regular_posteriors]
+	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
 	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(rand_y2.(pred_posteriors, 10_000)))
 	pred_y_cis = pred_y_stds .* σ_ci
 
-	pred_eventtimes = [regular_eventtimes; regular_eventtimes[end] + interval]
+	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
 	@show length(regular_prices) length(regular_posteriors) length(pred_posteriors) 
-	marker_color_outliers = map(1:length(regular_prices)) do i
-		price, y_mean, y_ci = regular_prices[i], pred_y_means[i], pred_y_cis[i]
+	marker_color_outliers = map(1:length(prob_prices)) do i
+		price, y_mean, y_ci = prob_prices[i], pred_y_means[i], pred_y_cis[i]
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
 		return isoutlier ? :orange : :blue
 	end
@@ -288,7 +290,7 @@ plot_bayes = begin
 			ribbon = pred_y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-	scatter!(regular_eventtimes, regular_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
@@ -321,9 +323,9 @@ plot_total = let
 			ribbon = pred_y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-	raw_index = findall(t -> t >= regular_eventtimes[begin], raw_eventtimes)
+	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
 	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
-    scatter!(regular_eventtimes, regular_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
