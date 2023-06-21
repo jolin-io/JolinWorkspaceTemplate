@@ -112,6 +112,12 @@ plot_raw = begin
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
+# ╔═╡ ecc48e74-cd0a-4b20-adc3-e607e170c7de
+
+
+# ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
+first_price, set_first_price = @use_state(2000.0)
+
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
 # Regular
@@ -145,9 +151,6 @@ end
 md"""
 # Probability
 """
-
-# ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
-first_price, set_first_price = @use_state(2000.0)
 
 # ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
 begin
@@ -2008,6 +2011,7 @@ version = "1.4.1+0"
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+# ╠═ecc48e74-cd0a-4b20-adc3-e607e170c7de
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═8b9b4eda-9601-4e81-9429-7d210612496a
