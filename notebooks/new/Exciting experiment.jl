@@ -194,7 +194,7 @@ Iterators.rest
 # ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
 macro forall(expr)
 	quote
-		iter = $(esc(expr
+		iter = $(esc(expr))
 		step = iterate(iter)
 		if isnothing(step)
 			nothing
