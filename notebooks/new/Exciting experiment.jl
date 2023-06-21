@@ -260,7 +260,7 @@ pushed_posterior = begin
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
-	push_sliding!(regular_posteriors, result.posteriors, n=posteriors_n)
+	push_sliding!(regular_posteriors, result.posteriors, n=regular_n)
 end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
