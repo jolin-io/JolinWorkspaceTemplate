@@ -177,6 +177,9 @@ result = inference(
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
 
+# ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -1943,6 +1946,7 @@ version = "1.4.1+0"
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
+# ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═46af04dc-b907-4fdd-9986-b147ef945269
 # ╠═41f94e92-2346-4e75-9c2c-85eff46274b0
