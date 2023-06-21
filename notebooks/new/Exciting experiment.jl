@@ -195,7 +195,7 @@ rand(Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ])))
 posteriors[end][:y_τ]
 
 # ╔═╡ 233cd884-2d56-4d15-a2d9-a8f03aacfb1f
-
+post_X = posteriors[end][:x]
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
 randoms = [
