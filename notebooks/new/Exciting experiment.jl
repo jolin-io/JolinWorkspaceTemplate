@@ -211,7 +211,7 @@ end
 )
 
 # ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
-@benchmark mean([
+@benchmark mean_var([
 	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
 	for i in 1:10_000
 ])
@@ -226,7 +226,7 @@ mean(randoms)
 )
 
 # ╔═╡ fc4b9827-5dca-4a86-9b01-faa35c4a7cd1
-@benchmark mean([
+@benchmark mean_var([
 	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
 	for i in 1:10_000
 ])
