@@ -121,7 +121,7 @@ first price is good for other initializations
 first_price, set_first_price = @use_state(2000.0)
 
 # ╔═╡ 3a5a6171-19ae-442e-9b2d-7bf1b51a603a
-
+raw_prices
 
 # ╔═╡ 288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 begin
