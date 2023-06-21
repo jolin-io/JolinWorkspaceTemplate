@@ -225,13 +225,6 @@ rand(Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ])))
 # ╔═╡ b6297655-f865-4ef7-b183-56aff6c05bbe
 posteriors[end][:y_τ]
 
-# ╔═╡ 233cd884-2d56-4d15-a2d9-a8f03aacfb1f
-begin
-post_x = posteriors[end][:x]
-post_y_tau = posteriors[end][:y_τ]
-end
-	
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1925,6 +1918,5 @@ version = "1.4.1+0"
 # ╠═46af04dc-b907-4fdd-9986-b147ef945269
 # ╠═41f94e92-2346-4e75-9c2c-85eff46274b0
 # ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
-# ╠═233cd884-2d56-4d15-a2d9-a8f03aacfb1f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
