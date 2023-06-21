@@ -220,10 +220,10 @@ begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
 	y_mean, y_std = means[end], stds[end]
 	
-	x_mean = Int(round(x_mean, 0))
-	x_std = Int(round(x_std, 0))
-	y_mean = Int(round(y_mean, 0))
-	y_std = Int(round(y_std, 0))
+	x_mean = Int(round(x_mean))
+	x_std = Int(round(x_std))
+	y_mean = Int(round(y_mean))
+	y_std = Int(round(y_std))
 	
 	md"""
 	| current estimations |             |
