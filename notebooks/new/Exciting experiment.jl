@@ -174,8 +174,8 @@ begin
 	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
 	# prior_x_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
 
-	prior_x_τ = Ref(GammaShapeRate(40, 70))  # taken from longer runs
-	prior_y_τ = Ref(GammaShapeRate(5.0, 0.05))  # high y precision
+	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
+	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision
 	# collect results
 	posteriors_n = 100
 	posteriors = []
