@@ -265,9 +265,6 @@ mean(post_x)
 # ╔═╡ cc4f89f4-e472-4bde-945e-94c363aa3897
 std(randoms)
 
-# ╔═╡ 65cff020-4563-4747-88a8-41da600091fb
-precision = 1/var(post_x) + mean(post_y_tau)
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
