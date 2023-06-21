@@ -23,9 +23,9 @@ using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
 begin
 	ui_trading = @bind trading PlutoUI.Select([
-		"Bitcoin" => "btceur", 
-		"Ethereum" => "etheur", 
-		"Tether" => "usdteur",
+		"btceur" => "Bitcoin", 
+		"etheur" => "Ethereum", 
+		"usdteur" => "Tether",
 	])
 	md"""
 	|         | choose |
