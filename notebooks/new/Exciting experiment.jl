@@ -34,7 +34,7 @@ begin
 	|         | choose |
 	|---------|:-------|
 	| trading | $(ui_trading) |
-	| confidence interval | $(ui_ci_percent)% |
+	| confidence interval | $(ui_ci_percent)%  $ci_percent|
 	"""
 end
 
