@@ -198,9 +198,6 @@ x_tau_mean, x_tau_std = mean_std(GammaShapeRate(a, b))
 # ╔═╡ f2881e9e-995f-4932-9f46-c1bf36f2e125
 1 / (x_tau_mean + x_tau_std), 1 / (x_tau_mean - x_tau_std)
 
-# ╔═╡ 52c6a8f7-7211-438d-8c57-1034dd2c27aa
-mean_std(GammaShapeRate(5.0, 0.05))
-
 # ╔═╡ d507c418-6dd6-4940-9df3-c60b69b623ca
 inv(40/70)
 
@@ -1996,7 +1993,6 @@ version = "1.4.1+0"
 # ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
 # ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
-# ╠═52c6a8f7-7211-438d-8c57-1034dd2c27aa
 # ╠═d507c418-6dd6-4940-9df3-c60b69b623ca
 # ╠═612d6653-b993-442b-9c54-0340849a5b35
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
