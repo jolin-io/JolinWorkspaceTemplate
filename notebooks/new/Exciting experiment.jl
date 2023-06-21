@@ -194,7 +194,7 @@ vector_tuple2_to_tuple2_vector(v::AbstractVector{Tuple{Float64, Float64}}) = rei
 
 
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
-mean_std.(rand_y.(posteriors, 100))
+vector_tuple2_to_tuple2_vector(mean_std.(rand_y.(posteriors, 100)))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
