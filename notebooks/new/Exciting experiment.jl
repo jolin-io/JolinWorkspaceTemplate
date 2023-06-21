@@ -223,9 +223,6 @@ begin
 	scatter!([], [], label="Outliers", markercolor=:orange)
 end
 
-# ╔═╡ ec14412d-6b95-4c63-8e47-87608c567bb5
-
-
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -1942,7 +1939,6 @@ version = "1.4.1+0"
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
-# ╠═ec14412d-6b95-4c63-8e47-87608c567bb5
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═171dc288-1ec8-42eb-9e02-2733afb122c5
 # ╠═aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
