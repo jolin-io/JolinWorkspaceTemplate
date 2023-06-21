@@ -22,7 +22,8 @@ using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
 md"""
-
+| | Choose |
+|-|--------|
 | trading | $(@bind trading PlutoUI.Select([
 	"Bitcoin" => "btceur", 
 	"Ethereum" => "etheur", 
