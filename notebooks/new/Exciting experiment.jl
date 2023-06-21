@@ -205,16 +205,16 @@ end
 	
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
-randoms = [
+@benchmark mean(
 	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
 	for i in 1:10_000
-]
+)
 
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
 mean(randoms)
 
 # ╔═╡ 3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
-mean(
+@benchmark mean(
 	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
 	for i in 1:10_000
 )
