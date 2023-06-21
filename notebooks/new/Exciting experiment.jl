@@ -109,9 +109,6 @@ plot_raw = begin
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
-# ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
-
-
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
 # Regular
@@ -241,6 +238,36 @@ ci = ci_percent / 100.0
 # ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
 [p[:x_τ] for p in posteriors]
 
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_bayes
+
+# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
+variance_estimations = begin
+	x_mean, x_std = mean_std(posteriors[end][:x])
+	y_mean, y_ci = y_means[end], y_cis[end]
+	
+	x_mean = Int(round(x_mean))
+	x_ci = Int(round(x_std * σ_ci))
+	y_mean = Int(round(y_mean))
+	y_ci = Int(round(y_ci))
+
+	md"""
+	| current estimations | mean in $(ci_percent)% confidence |
+	|---------------------|:------------|
+	|hidden state | $(x_mean)€ ± $(x_ci)€
+	|observed state | $(y_mean)€ ± $(y_ci)€|
+	"""
+end
+
+# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
+variance_estimations
+
+# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
+# TODO forecast?
+
+# ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
+# TODO store previous marginal distributions?
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -271,35 +298,18 @@ plot_bayes = begin
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_bayes
-
-# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
-variance_estimations = begin
-	x_mean, x_std = mean_std(posteriors[end][:x])
-	y_mean, y_ci = y_means[end], y_cis[end]
-	
-	x_mean = Int(round(x_mean))
-	x_ci = Int(round(x_std * σ_ci))
-	y_mean = Int(round(y_mean))
-	y_ci = Int(round(y_ci))
-
-	md"""
-	| current estimations | mean in $(ci_percent)% confidence |
-	|---------------------|:------------|
-	|hidden state | $(x_mean)€ ± $(x_ci)€
-	|observed state | $(y_mean)€ ± $(y_ci)€|
-	"""
+# ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
+plot_total = begin
+	raw_price
+	plot(posteriors_eventtimes, y_means,
+			ribbon = y_cis,
+			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	raw_index = findall(t -> t >= posteriors_eventtimes[begin], raw_eventtimes)
+	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
+    scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Warning", markercolor=:orange)
 end
-
-# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
-variance_estimations
-
-# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
-# TODO forecast?
-
-# ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
-# TODO store previous marginal distributions?
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
