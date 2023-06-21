@@ -213,20 +213,22 @@ begin
 end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
-x_mean, x_std = mean_std(posteriors[end][:x]))
-y_mean, y_std = means[end], stds[end]
-
-x_mean = Int(round(x_mean, 0))
-x_std = Int(round(x_std, 0))
-y_mean = Int(round(y_mean, 0))
-y_std = Int(round(y_std, 0))
-
-md"""
-| current estimations |             |
-|---------------------|:------------|
-|hidden state (average in 69.2% confidence) | $x_mean€ ± $x_std€
-|observed state (average in 69.2% confidence) | $y_mean€ ± $y_std€|
-"""
+begin
+	x_mean, x_std = mean_std(posteriors[end][:x])
+	y_mean, y_std = means[end], stds[end]
+	
+	x_mean = Int(round(x_mean, 0))
+	x_std = Int(round(x_std, 0))
+	y_mean = Int(round(y_mean, 0))
+	y_std = Int(round(y_std, 0))
+	
+	md"""
+	| current estimations |             |
+	|---------------------|:------------|
+	|hidden state (average in 69.2% confidence) | $x_mean€ ± $x_std€
+	|observed state (average in 69.2% confidence) | $y_mean€ ± $y_std€|
+	"""
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
