@@ -194,9 +194,6 @@ end
 # ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
 [p[:x_τ] for p in posteriors]
 
-# ╔═╡ f2881e9e-995f-4932-9f46-c1bf36f2e125
-1 / (x_tau_mean + x_tau_std), 1 / (x_tau_mean - x_tau_std)
-
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
@@ -2012,7 +2009,6 @@ version = "1.4.1+0"
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
-# ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
