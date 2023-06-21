@@ -234,6 +234,9 @@ begin
 	"""
 end
 
+# ╔═╡ 76b6004e-aa18-477c-acff-2228857f336e
+
+
 # ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
 isoutlier = regular_price < y_mean - y_ci || y_mean + y_ci > regular_price
 
@@ -1930,6 +1933,7 @@ version = "1.4.1+0"
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
+# ╠═76b6004e-aa18-477c-acff-2228857f336e
 # ╠═7d8f2dc2-9ffb-4159-9d40-78a110704a29
 # ╠═aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
 # ╟─00000000-0000-0000-0000-000000000001
