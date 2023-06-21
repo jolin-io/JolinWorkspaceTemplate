@@ -183,6 +183,10 @@ prices_mean_var(posterior) = mean_var([
 	for i in 1:10_000
 ])
 
+function prices_mean_var(posteriors::AbstractVector)
+	return reinterpret(reshape, Float64, prices_mean_var.(posteriors))
+end
+
 # ╔═╡ a083b078-41ed-4215-8cd3-aa48ee3d65e1
 prices_mean_var.(posteriors)
 
