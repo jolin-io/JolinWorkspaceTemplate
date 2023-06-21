@@ -298,7 +298,8 @@ begin
 end
 
 # ╔═╡ 9431191e-1b93-41f2-97c5-396b1114033c
-quantile(Normal(), 0.692)
+p = 1 - (1 - 0.692) / 2
+quantile(Normal(), p)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
