@@ -20,9 +20,6 @@ using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 # ╔═╡ 46af04dc-b907-4fdd-9986-b147ef945269
 using Distributed
 
-# ╔═╡ 4d2b93fe-9623-4bff-9453-299970ff5fe7
-using BenchmarkTools
-
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -241,16 +238,9 @@ end
 	for i in 1:10_000
 ])
 
-# ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
-@benchmark 
-
-# ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
-mean(randoms)
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
@@ -262,7 +252,6 @@ RxInfer = "86711068-29c9-4ff7-b620-ae75d7495b3d"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
-BenchmarkTools = "~1.3.2"
 HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
 JolinPluto = "~0.1.18"
@@ -277,7 +266,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "480c0bf5d051ad32dcf382b8cf360b9465d91b91"
+project_hash = "efa758e509c5a63c96031e45a9effcf99706f5b1"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -346,12 +335,6 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
-
-[[deps.BenchmarkTools]]
-deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
-git-tree-sha1 = "d9a9701b899b30332bbcb3e1679c41cce81fb0e8"
-uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-version = "1.3.2"
 
 [[deps.BitFlags]]
 git-tree-sha1 = "43b1a4a8f797c1cddadf60499a8a077d4af2cd2d"
@@ -1306,10 +1289,6 @@ version = "1.4.0"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
-[[deps.Profile]]
-deps = ["Printf"]
-uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
-
 [[deps.ProgressMeter]]
 deps = ["Distributed", "Printf"]
 git-tree-sha1 = "d7a7aef8f8f2d537104f170139553b14dfe39fe9"
@@ -1954,7 +1933,5 @@ version = "1.4.1+0"
 # ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
 # ╠═233cd884-2d56-4d15-a2d9-a8f03aacfb1f
 # ╠═639ea99f-8787-4212-99d8-4002763d8493
-# ╠═ba456358-40e8-425f-9435-73f5443ab936
-# ╠═e2478e0e-1b79-43fa-98fc-ab130100b408
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
