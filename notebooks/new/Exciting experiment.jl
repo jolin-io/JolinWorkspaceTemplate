@@ -143,6 +143,19 @@ md"""
 # Probability
 """
 
+# ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
+
+
+# ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
+begin
+	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
+	# prior_x_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
+
+	# the higher the prior(modeling precision), the smaller the variance between jumps
+	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
+	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
+end;
+
 # ╔═╡ 8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
 
 
@@ -173,16 +186,6 @@ end
 md"""
 priors of variances are not reinitiated, but kept
 """
-
-# ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
-begin
-	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
-	# prior_x_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
-
-	# the higher the prior(modeling precision), the smaller the variance between jumps
-	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
-	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
-end;
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
@@ -2001,6 +2004,7 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
+# ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
