@@ -273,6 +273,9 @@ plot_bayes = begin
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
+# ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
+
+
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -2012,6 +2015,7 @@ version = "1.4.1+0"
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═7ad62d34-3775-48cd-aec1-1fbe6788be72
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═3b676410-ec35-4ead-8bb6-e2c9a172016a
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
