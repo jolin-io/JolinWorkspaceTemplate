@@ -166,16 +166,16 @@ begin
 end
 
 # ╔═╡ fb30e1dc-813d-4df3-92df-3b86b0c994a8
-
-
-# ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
-result = inference(
+train!(regular_price) = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
 	free_energy = true,
 )
+
+# ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
+result = train!(regular_price)
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
