@@ -191,7 +191,7 @@ begin
 end
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
-
+keys(result.posteriors)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
