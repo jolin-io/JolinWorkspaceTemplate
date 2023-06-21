@@ -267,7 +267,7 @@ variance_estimations
 # TODO forecast?
 
 # ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
-
+# TODO store previous prior?
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
