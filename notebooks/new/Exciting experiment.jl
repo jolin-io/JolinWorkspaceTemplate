@@ -115,7 +115,7 @@ md"""
 """
 
 # ╔═╡ 8b9b4eda-9601-4e81-9429-7d210612496a
-
+interval = Second(10)
 
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
 regular_price, regular_eventtime = @repeaton(ceil(now(), Second(10))) do t
