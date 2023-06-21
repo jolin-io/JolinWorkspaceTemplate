@@ -188,6 +188,9 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
+# ╔═╡ b6297655-f865-4ef7-b183-56aff6c05bbe
+
+
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
 sample(posteriors[end][:y_τ])
 
@@ -1878,6 +1881,7 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═46af04dc-b907-4fdd-9986-b147ef945269
+# ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
 # ╠═639ea99f-8787-4212-99d8-4002763d8493
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
