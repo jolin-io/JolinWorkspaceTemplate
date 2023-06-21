@@ -210,6 +210,9 @@ macro forall(expr)
 	end
 end
 
+# ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
+
+
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
 
@@ -1962,6 +1965,7 @@ version = "1.4.1+0"
 # ╠═ec87593a-7178-404b-bfa5-0de443e722a2
 # ╠═54df2eac-413b-4e42-bec7-bd67e35668a4
 # ╠═3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
+# ╠═13e12519-e078-4cc3-b6fe-2951d091b482
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
