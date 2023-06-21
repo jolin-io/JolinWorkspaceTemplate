@@ -225,12 +225,6 @@ mean(randoms)
 	for i in 1:10_000
 )
 
-# ╔═╡ fc4b9827-5dca-4a86-9b01-faa35c4a7cd1
-@benchmark mean([
-	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
-	for i in 1:10_000
-])
-
 # ╔═╡ 1c3dbb54-9033-4d6d-b213-366a898ae54b
 mean(post_x)
 
