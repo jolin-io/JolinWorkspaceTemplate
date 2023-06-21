@@ -180,6 +180,8 @@ begin
 	prior_x[] = result.posteriors[:x_current]
 
 	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
+	push_sliding!(posteriors_x_τ, result.posteriors[:x_τ], n=posteriors_n)
+	push_sliding!(posteriors_y_τ, result.posteriors[:y_τ], n=posteriors_n)
 	push_sliding!(posteriors_y, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
