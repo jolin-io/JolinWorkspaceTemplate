@@ -144,7 +144,7 @@ begin
 
 		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
 	    
-	    # Random walk with fixed precision
+	    # Random walk with flexible precision
 		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
 	    x ~ Normal(mean = x_prev, precision = x_τ)
 
