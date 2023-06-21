@@ -121,10 +121,7 @@ first price is good for other initializations
 first_price, set_first_price = @use_state(nothing)
 
 # ╔═╡ 288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
-begin
-	raw_price
-	isnothing(first_price) && set_first_price(raw_price)
-end
+raw_price; isnothing(first_price) && set_first_price(raw_price);
 
 # ╔═╡ 9c6c88fe-a806-47f0-82da-f2f6c265d1fc
 first_price
