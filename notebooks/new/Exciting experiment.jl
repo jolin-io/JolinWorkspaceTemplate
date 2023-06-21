@@ -141,6 +141,9 @@ md"""
 # Probability
 """
 
+# ╔═╡ 6fd03866-5d74-4427-ae4b-fe28f573fa8a
+
+
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
 	# the higher the prior(modeling precision), the smaller the variance between jumps
@@ -2022,6 +2025,7 @@ version = "1.4.1+0"
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
 # ╠═1327e19d-51aa-49f5-b6cc-8969e2d12fbc
+# ╠═6fd03866-5d74-4427-ae4b-fe28f573fa8a
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
