@@ -246,19 +246,19 @@ ci = ci_percent / 100.0
 σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
-begin
+pushed = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
 	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
-	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
+	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n);
 end
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
-	result
+	pushed
 	prev_posteriors = [posteriors[1]; posteriors[1:end-1]]
 	y_means, y_stds = vt_to_tv(mean_std.(rand_y2.(prev_posteriors, 10_000)))
 	y_cis = y_stds .* σ_ci
