@@ -219,7 +219,7 @@ end
 for p in posteriors
 	m, v = mean_var(p[:y_τ])
 	lb, ub = 1/(m-v), 1/(m+v)
-	println("$lb .. $ub | m = $1/m, v = $( 1/(lb - ub)/2)")
+	println("$lb .. $ub | m = $1/m, v = $( 1.0/(lb - ub)/2)")
 end
 
 # ╔═╡ 41f94e92-2346-4e75-9c2c-85eff46274b0
