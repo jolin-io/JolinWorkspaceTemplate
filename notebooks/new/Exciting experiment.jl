@@ -189,7 +189,7 @@ md"""
 iterate([])
 
 # ╔═╡ 54df2eac-413b-4e42-bec7-bd67e35668a4
-Iterators
+Iterators.rest
 
 # ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
 forall
