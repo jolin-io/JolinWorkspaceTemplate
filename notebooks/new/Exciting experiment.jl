@@ -237,7 +237,7 @@ begin
 end
 
 # ╔═╡ aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
-findall(zip(1:10, 4:8, 6:10)) do x
+findall(collect(zip(1:10, 4:8, 6:10))) do x
 	@show x
 	true
 end
