@@ -193,7 +193,7 @@ end
 prices_mean_var.(posteriors)
 
 # ╔═╡ 8e3201b3-aae5-4cb7-9986-876bdccc0201
-Matrix(reinterpret(reshape, Float64, prices_mean_var.(posteriors)))
+prices_mean_var(posteriors)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
