@@ -123,9 +123,6 @@ first_price, set_first_price = @use_state(nothing)
 # ╔═╡ 288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 isnothing(first_price) && set_first_price(raw_price);
 
-# ╔═╡ 9c6c88fe-a806-47f0-82da-f2f6c265d1fc
-first_price
-
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
 # Regular
@@ -2028,7 +2025,6 @@ version = "1.4.1+0"
 # ╠═ecc48e74-cd0a-4b20-adc3-e607e170c7de
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╠═288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
-# ╠═9c6c88fe-a806-47f0-82da-f2f6c265d1fc
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═8b9b4eda-9601-4e81-9429-7d210612496a
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
