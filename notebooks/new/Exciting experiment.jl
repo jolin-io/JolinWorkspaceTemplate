@@ -164,23 +164,17 @@ end
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	reset_bayesian
-	# initialize priors
-	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
-	_x_var > 0.0 || (_x_var = 1.0)
-	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
-
-	# if using a prior, it seems that the common intuition is exactly opposite
-	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
-	# prior_x_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
-
-	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
-	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision
 	# collect results
 	posteriors_n = 100
 	posteriors = []
 	posteriors_prices = Float64[]
 	posteriors_eventtimes = DateTime[];
+
+	# (re)initialize x-priors
+	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
+	_x_var = 1/mean(prior_x_τ)  # using precision
+	_x_var > 0.0 || (_x_var = 1.0)
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 end
 
 # ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
