@@ -219,7 +219,7 @@ end
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
-	y_mean, y_std = y_means[end], y_cis[end]
+	y_mean, y_ci = y_means[end], y_cis[end]
 	
 	x_mean = Int(round(x_mean))
 	x_std = Int(round(x_std))
