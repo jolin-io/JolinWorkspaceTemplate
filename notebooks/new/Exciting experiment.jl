@@ -238,9 +238,6 @@ end
 	for i in 1:10_000
 ])
 
-# ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
-@benchmark 
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
