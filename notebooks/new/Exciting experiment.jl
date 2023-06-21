@@ -213,10 +213,12 @@ begin
 end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
-
-
-# ╔═╡ 084a5aad-d83f-497a-abfa-bc918694677b
-
+md"""
+| current estimations |             |
+|---------------------|:------------|
+|hidden state (average in 69.2% confidence) | $(mean(posteriors[end][:x])) ± $(std(posteriors[end][:x]))|
+|observed state (average in 69.2% confidence) | $(means[end]) ± $(stds[end])|
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1908,6 +1910,5 @@ version = "1.4.1+0"
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
-# ╠═084a5aad-d83f-497a-abfa-bc918694677b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
