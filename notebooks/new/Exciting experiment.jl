@@ -321,9 +321,6 @@ plot_total
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
 # TODO forecast?
 
-# ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
-# TODO store previous marginal distributions?
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -2025,6 +2022,5 @@ version = "1.4.1+0"
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
-# ╠═a226ce11-8c29-4d05-9888-181fc4c29910
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
