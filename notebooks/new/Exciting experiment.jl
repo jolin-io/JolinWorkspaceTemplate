@@ -155,8 +155,8 @@ begin
 	_x_var > 0.0 || (_x_var = 1.0)
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 
-	prior_x_τ = Ref(GammaShapeRate(1.0, 1.0))
-	prior_y_τ = Ref(GammaShapeRate(1.0, 1.0))
+	prior_x_τ = Ref(GammaShapeRate(1.0, 2.0))
+	prior_y_τ = Ref(GammaShapeRate(1.0, 0.5))
 
 	# collect results
 	posteriors_n = 100
