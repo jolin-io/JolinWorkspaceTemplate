@@ -43,9 +43,6 @@ begin
 	"""
 end
 
-# ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
-
-
 # ╔═╡ de49ca06-6e83-4a02-b92c-60f09ec26fd7
 md"""
 # Implementation Details
@@ -185,6 +182,9 @@ begin
 	posteriors_prices = Float64[]
 	posteriors_eventtimes = DateTime[];
 end
+
+# ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
+[p[:y_τ] for p in posteriors]
 
 # ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
 @bind a Slider(1:40, show_value=true) 
