@@ -40,9 +40,6 @@ begin
 	"""
 end
 
-# ╔═╡ 4d6d2ae9-6456-401a-980b-9215d35e32c2
-
-
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
@@ -97,6 +94,9 @@ plot_raw = begin
 	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
+
+# ╔═╡ 4d6d2ae9-6456-401a-980b-9215d35e32c2
+plot_raw
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
