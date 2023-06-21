@@ -167,21 +167,6 @@ begin
 	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
 end;
 
-# ╔═╡ 8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
-begin
-	reset
-
-	# we need extra vectors in addition to regular because the probabilities can only be computed as soon as some value appeared
-	prob_posteriors = []
-	prob_prices = []
-	prob_eventtimes = DateTime[]
-
-	# (re)initialize x-priors
-	_x_mean = isempty(raw_prices) ? first_price : raw_prices[end]
-	_x_var = 1/mean(prior_x_τ[])  # using precision
-	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
-end;
-
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
 	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
@@ -2035,7 +2020,6 @@ version = "1.4.1+0"
 # ╠═1327e19d-51aa-49f5-b6cc-8969e2d12fbc
 # ╠═c32cd0fc-4e76-4259-ba47-c9681b4a47a9
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
-# ╠═8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
