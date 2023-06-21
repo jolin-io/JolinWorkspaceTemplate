@@ -235,7 +235,8 @@ begin
 end
 
 # ╔═╡ 76b6004e-aa18-477c-acff-2228857f336e
-outliers = Tuple{DateTime, Float64}[]
+outliers_prices = Float64[]
+outliers_eventtimes = DateTime[]
 
 # ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
 begin
