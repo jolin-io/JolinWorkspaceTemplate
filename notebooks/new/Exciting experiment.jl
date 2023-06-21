@@ -108,7 +108,7 @@ end
 
 # ╔═╡ ecc48e74-cd0a-4b20-adc3-e607e170c7de
 md"""
-first price is good for other initializations
+first price is needed for initializating priors later on
 """
 
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
