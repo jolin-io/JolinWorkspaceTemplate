@@ -147,7 +147,7 @@ md"""
 """
 
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
-
+first_price, set_first_price = @use_state(2000.0)
 
 # ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
 begin
