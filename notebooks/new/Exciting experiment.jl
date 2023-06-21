@@ -172,7 +172,7 @@ begin
 end
 
 # ╔═╡ 517d9492-9f9f-46e3-8cfc-4004113816cf
-_x_var
+_x_var > 0.0
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
