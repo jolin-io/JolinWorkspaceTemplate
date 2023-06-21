@@ -33,6 +33,7 @@ begin
 	ui_ci_percent = @bind ci_percent Slider(20:1:99, default=95, show_value=true)
 
 	ui_reset = @bind reset_bayesian Button("Recompute")
+	
 	md"""
 	|         | choose |
 	|---------|:-------|
@@ -48,7 +49,7 @@ md"""
 """
 
 # ╔═╡ 228e6266-3779-482e-9cac-dd3b5598e234
-
+@bind fixed_y_std Slider(1:10, default=4, show_value=true)
 
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
@@ -135,7 +136,7 @@ plot_regular = begin
 end
 
 # ╔═╡ 46f340ab-4664-4622-a8a1-c0539d3b318e
-@bind fixed_y_std Slider(1:10, default=4, show_value=true)
+
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
