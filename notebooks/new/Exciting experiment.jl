@@ -296,7 +296,7 @@ begin
 	y_std = Int(round(y_std))
 	
 	md"""
-	| average with 69.2% confidence | current estimations |
+	| current estimations | mean in 69.2% confidence |
 	|---------------------|:------------|
 	|hidden state | $(x_mean)€ ± $(x_std)€
 	|observed state | $(y_mean)€ ± $(y_std)€|
