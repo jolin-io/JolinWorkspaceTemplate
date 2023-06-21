@@ -161,6 +161,20 @@ begin
 	end
 end
 
+# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
+regular_posteriors
+	reset_bayesian
+	# collect results
+	regular_posteriors = []
+
+	# (re)initialize x-priors
+	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
+	# _x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
+	_x_var = 1/mean(prior_x_τ[])  # using precision
+	_x_var > 0.0 || (_x_var = 1.0)
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
+end
+
 # ╔═╡ 046834bf-2c3e-4d2d-9ead-0037f8037517
 md"""
 priors of variances are not reinitiated, but kept
@@ -175,21 +189,6 @@ begin
 	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
 	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
 end;
-
-# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
-begin
-	reset_bayesian
-	# collect results
-	posteriors_n = 100
-	posteriors = []
-
-	# (re)initialize x-priors
-	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	# _x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
-	_x_var = 1/mean(prior_x_τ[])  # using precision
-	_x_var > 0.0 || (_x_var = 1.0)
-	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
-end
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
@@ -251,19 +250,19 @@ pushed_posterior = begin
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
-	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
+	push_sliding!(regular_posteriors, result.posteriors, n=posteriors_n)
 end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
 	pushed_posterior
 	# just using the first twice for nicer plot
-	pred_posteriors = [posteriors[1]; posteriors]
+	pred_posteriors = [regular_posteriors[1]; regular_posteriors]
 	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(rand_y2.(pred_posteriors, 10_000)))
 	pred_y_cis = pred_y_stds .* σ_ci
 
 	pred_eventtimes = [regular_eventtimes; regular_eventtimes[end] + interval]
-	@show length(regular_prices) length(posteriors) length(pred_posteriors) 
+	@show length(regular_prices) length(regular_posteriors) length(pred_posteriors) 
 	marker_color_outliers = map(1:length(regular_prices)) do i
 		price, y_mean, y_ci = regular_prices[i], pred_y_means[i], pred_y_cis[i]
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
