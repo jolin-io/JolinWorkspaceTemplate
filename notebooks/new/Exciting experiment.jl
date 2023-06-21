@@ -268,7 +268,7 @@ begin
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
 		return isoutlier ? :orange : :blue
 	end
-end
+end;
 
 # ╔═╡ a37c1579-ad9e-46db-91e8-a3d30acb0cf9
 plot_bayes = begin
