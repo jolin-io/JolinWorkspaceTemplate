@@ -147,6 +147,24 @@ begin
 	end
 end
 
+# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
+begin
+	# initialize priors
+	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
+	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
+	_x_var <= 0.0 && (_x_var = 1.0)
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
+
+	prior_x_τ = Ref(GammaShapeRate(1.0, 1.0))
+	prior_y_τ = Ref(GammaShapeRate(1.0, 1.0))
+
+	# collect results
+	posteriors_n = 100
+	posteriors = []
+	posteriors_prices = Float64[]
+	posteriors_eventtimes = DateTime[];
+end
+
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
@@ -164,6 +182,12 @@ prices_mean_var(posterior) = mean_var([
 	rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
 	for i in 1:10_000
 ])
+
+# ╔═╡ a083b078-41ed-4215-8cd3-aa48ee3d65e1
+prices_mean_var.(posteriors)
+
+# ╔═╡ 8e3201b3-aae5-4cb7-9986-876bdccc0201
+_mean, _var = zip(prices_mean_var.(posteriors)...)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
@@ -233,27 +257,6 @@ precision = 1/var(post_x) + mean(post_y_tau)
 
 # ╔═╡ 7cdef740-c2ca-4ac7-a62d-32f7ec3843aa
 variance = 1/precision
-
-# ╔═╡ 8e3201b3-aae5-4cb7-9986-876bdccc0201
-mean, var = zip(prices_mean_var.(posteriors)...)
-
-# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
-begin
-	# initialize priors
-	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
-	_x_var <= 0.0 && (_x_var = 1.0)
-	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
-
-	prior_x_τ = Ref(GammaShapeRate(1.0, 1.0))
-	prior_y_τ = Ref(GammaShapeRate(1.0, 1.0))
-
-	# collect results
-	posteriors_n = 100
-	posteriors = []
-	posteriors_prices = Float64[]
-	posteriors_eventtimes = DateTime[];
-end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1953,6 +1956,7 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
+# ╠═a083b078-41ed-4215-8cd3-aa48ee3d65e1
 # ╠═8e3201b3-aae5-4cb7-9986-876bdccc0201
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═46af04dc-b907-4fdd-9986-b147ef945269
