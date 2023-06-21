@@ -17,6 +17,9 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
+# ╔═╡ 46af04dc-b907-4fdd-9986-b147ef945269
+using Distributed
+
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -185,9 +188,6 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
-# ╔═╡ 46af04dc-b907-4fdd-9986-b147ef945269
-
-
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
 sample(posteriors[end][:y_τ])
 
@@ -195,6 +195,7 @@ sample(posteriors[end][:y_τ])
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
@@ -218,7 +219,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "774cf8165c68dced06677f06a85113804adbd4cd"
+project_hash = "30c9cd3b8bb53cb685aa408db8590685e13ac330"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
