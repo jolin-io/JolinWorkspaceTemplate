@@ -17,9 +17,6 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
-# ╔═╡ 46af04dc-b907-4fdd-9986-b147ef945269
-using Distributed
-
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -218,9 +215,6 @@ for p in posteriors
 	lb, ub = 1/(m-v), 1/(m+v)
 	println("$lb .. $ub | m = $(1.0/m), v = $( 1.0/(lb - ub)/2 )")
 end
-
-# ╔═╡ 41f94e92-2346-4e75-9c2c-85eff46274b0
-rand(Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ])))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1912,7 +1906,5 @@ version = "1.4.1+0"
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═a8eb0b5d-4e99-4299-a948-f85ac46137da
-# ╠═46af04dc-b907-4fdd-9986-b147ef945269
-# ╠═41f94e92-2346-4e75-9c2c-85eff46274b0
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
