@@ -203,21 +203,29 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	means, std = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
+	means, stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
 	
 	p = plot(posteriors_eventtimes, means,
-			ribbon = std,
+			ribbon = stds,
 			label = "Estimation ± σ", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
+x_mean, x_std = mean_std(posteriors[end][:x]))
+y_mean, y_std = means[end], stds[end]
+
+x_mean = Int(round(x_mean, 0))
+x_std = Int(round(x_std, 0))
+y_mean = Int(round(y_mean, 0))
+y_std = Int(round(y_std, 0))
+
 md"""
 | current estimations |             |
 |---------------------|:------------|
-|hidden state (average in 69.2% confidence) | $(mean(posteriors[end][:x])) ± $(std(posteriors[end][:x]))|
-|observed state (average in 69.2% confidence) | $(means[end]) ± $(stds[end])|
+|hidden state (average in 69.2% confidence) | $x_mean€ ± $x_std€
+|observed state (average in 69.2% confidence) | $y_mean€ ± $y_std€|
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
