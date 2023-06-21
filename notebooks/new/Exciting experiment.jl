@@ -210,6 +210,12 @@ end
 	for i in 1:10_000
 )
 
+# ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
+@benchmark mean([
+	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
+	for i in 1:10_000
+])
+
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
 mean(randoms)
 
@@ -1937,6 +1943,7 @@ version = "1.4.1+0"
 # ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
 # ╠═233cd884-2d56-4d15-a2d9-a8f03aacfb1f
 # ╠═639ea99f-8787-4212-99d8-4002763d8493
+# ╠═ba456358-40e8-425f-9435-73f5443ab936
 # ╠═e2478e0e-1b79-43fa-98fc-ab130100b408
 # ╠═4d2b93fe-9623-4bff-9453-299970ff5fe7
 # ╠═3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
