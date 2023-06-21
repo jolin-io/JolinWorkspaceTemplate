@@ -184,7 +184,7 @@ begin
 end
 
 # ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
-@bind a Slider(1:40) 
+@bind a Slider(1:40, show_value=true) 
 
 # ╔═╡ a2401fbe-0f32-46d7-87b8-6c544e369345
 @bind b NumberField(0.0:100.0)
