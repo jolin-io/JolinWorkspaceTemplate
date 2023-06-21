@@ -249,7 +249,7 @@ begin
 		push!(outliers_prices, regular_price)
 		push!(outliers_eventtimes, regular_eventtime)
 	end
-	zip(outliers_eventtimes, outliers_prices)
+	collect(zip(outliers_eventtimes, outliers_prices))
 end
 
 # ╔═╡ aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
