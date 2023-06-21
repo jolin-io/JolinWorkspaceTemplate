@@ -120,6 +120,9 @@ end
 # ╔═╡ 5008ce0d-75aa-4810-81f8-fdd7f1ee0f8f
 Slider(1:10)
 
+# ╔═╡ 427e7e0a-b196-4b97-a81d-8a86c1fbcfed
+
+
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 begin
 	push_sliding!(regular_prices, regular_price, n=regular_n)
@@ -1956,6 +1959,7 @@ version = "1.4.1+0"
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═5008ce0d-75aa-4810-81f8-fdd7f1ee0f8f
+# ╠═427e7e0a-b196-4b97-a81d-8a86c1fbcfed
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
