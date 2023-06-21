@@ -211,7 +211,10 @@ randoms = [
 mean(randoms)
 
 # ╔═╡ 3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
-
+mean(
+	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
+	for i in 1:10_000
+)
 
 # ╔═╡ 1c3dbb54-9033-4d6d-b213-366a898ae54b
 mean(post_x)
