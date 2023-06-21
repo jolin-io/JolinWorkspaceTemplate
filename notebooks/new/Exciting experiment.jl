@@ -218,11 +218,11 @@ end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
-	x_mean, x_std = mean_std(posteriors[end][:x]) * σ_ci
+	x_mean, x_std = mean_std(posteriors[end][:x])
 	y_mean, y_ci = y_means[end], y_cis[end]
 	
 	x_mean = Int(round(x_mean))
-	x_ci = Int(round(x_ci))
+	x_ci = Int(round(x_std * σ_ci))
 	y_mean = Int(round(y_mean))
 	y_ci = Int(round(y_ci))
 
