@@ -155,7 +155,7 @@ begin
 	# collect results
 	posteriors_n = 100
 	posteriors = []
-	posteriors_y = Float64[]
+	posteriors_prices = Float64[]
 	posteriors_eventtimes = DateTime[];
 end
 
@@ -175,14 +175,14 @@ result.posteriors
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
 	prior_y_τ[] = result.posteriors[:y_τ]
-	prior_x[] = result.posteriors[:x_current]
+	prior_x[] = result.posteriors[:x]
 
 	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
-	push_sliding!(posteriors_y, regular_price, n=posteriors_n)
+	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	p = plot(posteriors_eventtimes, mean.(p[:x_current] for p in posteriors]), ribbon = var.([p[:x_current] for p in posteriors_x]), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
-    p = scatter!(posteriors_eventtimes, posteriors_y, label = "Observations")
+	p = plot(posteriors_eventtimes, [mean(p[:x]) for p in posteriors], ribbon = [var(p[:x]) for p in posteriors]), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+    p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
