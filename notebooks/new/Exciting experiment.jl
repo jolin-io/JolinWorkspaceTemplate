@@ -153,6 +153,9 @@ begin
 	end
 end
 
+# ╔═╡ 517d9492-9f9f-46e3-8cfc-4004113816cf
+
+
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	# initialize priors
@@ -1962,6 +1965,7 @@ version = "1.4.1+0"
 # ╠═427e7e0a-b196-4b97-a81d-8a86c1fbcfed
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
+# ╠═517d9492-9f9f-46e3-8cfc-4004113816cf
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
