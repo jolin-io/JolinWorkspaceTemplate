@@ -140,7 +140,7 @@ end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
-	@model function kalman_filter(prior_x_mean_var, prior_x_τ, fixed_y_std)
+	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
 
 		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
 	    
@@ -149,15 +149,15 @@ begin
 	    x ~ Normal(mean = x_prev, precision = x_τ)
 
 		# Noisy observation (y_rv to also store posterior)
-	    # y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
+	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
 	    y = datavar(Float64)
-	    y ~ Normal(mean = x, var = fixed_y_std^2)
+	    y ~ Normal(mean = x, precision = y_τ)
 	end
 	
 	# We assume the following factorisation between variables 
 	# in the variational distribution
 	@constraints function filter_constraints()
-	    q(x_prev, x, x_τ) = q(x_prev, x)q(x_τ)
+	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
 	end
 end
 
@@ -200,10 +200,10 @@ x_tau_mean, x_tau_std = mean_std(GammaShapeRate(a, b))
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
-	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std), #prior_y_τ[]),
+	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std, prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
-	initmarginals = (x = prior_x[], x_τ = prior_x_τ[]), #, y_τ = prior_y_τ[]),
+	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
 	free_energy = true,
 )
 
@@ -238,7 +238,7 @@ ci = ci_percent / 100.0
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
-	# prior_y_τ[] = result.posteriors[:y_τ]
+	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
 	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
