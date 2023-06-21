@@ -189,7 +189,7 @@ begin
 end
 
 # ╔═╡ 41f94e92-2346-4e75-9c2c-85eff46274b0
-
+Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ]))
 
 # ╔═╡ b6297655-f865-4ef7-b183-56aff6c05bbe
 posteriors[end][:y_τ]
