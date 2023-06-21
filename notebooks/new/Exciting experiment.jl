@@ -181,7 +181,7 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	p = plot(posteriors_eventtimes, [mean(p[:x]) for p in posteriors], ribbon = [var(p[:x]) for p in posteriors]), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+	p = plot(posteriors_eventtimes, [mean(p[:x]) for p in posteriors], ribbon = [var(p[:x]) for p in posteriors], label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
