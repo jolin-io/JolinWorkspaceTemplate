@@ -17,9 +17,6 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
-# ╔═╡ 194300b1-3066-4696-be49-293e9c56d9f1
-using PlutoLinks
-
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -178,9 +175,6 @@ result = train!(regular_price)
 md"""
 ### Initial training
 """
-
-# ╔═╡ ec87593a-7178-404b-bfa5-0de443e722a2
-iterate([])
 
 # ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
 @eval JolinPluto begin
@@ -1980,8 +1974,6 @@ version = "1.4.1+0"
 # ╠═fb30e1dc-813d-4df3-92df-3b86b0c994a8
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═80a286a3-3153-4465-8380-dfe07f68fcbe
-# ╠═194300b1-3066-4696-be49-293e9c56d9f1
-# ╠═ec87593a-7178-404b-bfa5-0de443e722a2
 # ╠═13e12519-e078-4cc3-b6fe-2951d091b482
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
