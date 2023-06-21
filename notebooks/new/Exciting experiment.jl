@@ -155,7 +155,9 @@ begin
 	# collect results
 	posteriors_n = 100
 	posteriors_x = []
+	posteriors_x_τ = []
 	posteriors_y = Float64[]
+	posteriors_y_τ = []
 	posteriors_eventtimes = DateTime[];
 end
 
