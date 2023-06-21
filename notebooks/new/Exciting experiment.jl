@@ -237,6 +237,9 @@ begin
 	end
 end
 
+# ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
+
+
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
 function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	matrix = reinterpret(reshape, Float64, v)
@@ -2018,6 +2021,7 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
+# ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═7ad62d34-3775-48cd-aec1-1fbe6788be72
