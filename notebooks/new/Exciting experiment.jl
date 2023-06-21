@@ -121,8 +121,8 @@ end
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
 	@model function kalman_filter(x_prior, τ_shape, τ_rate) # x_τ_prior
-		x_prev_mean, x_prev_var = mean_var(x_prior)
-		x_prev ~ Normal(mean = x_prev_mean, variance = x_prev_var)
+		mean_var = mean_var(x_prior)
+		x_prev ~ Normal(mean = mean_var[1], variance = mean_var[2])
 	    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
 	    
 	    # Random walk with fixed precision
