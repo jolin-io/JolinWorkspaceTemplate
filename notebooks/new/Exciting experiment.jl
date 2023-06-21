@@ -227,7 +227,8 @@ plot_bayes = begin
 			ribbon = y_cis,
 			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-    scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations", markercolor=marker_color_outliers)
+	scatter!(raw_eventtimes, raw_prices, label="Raw Observations")
+    scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
