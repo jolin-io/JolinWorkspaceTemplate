@@ -32,7 +32,7 @@ begin
 
 	ui_ci_percent = @bind ci_percent Slider(20:1:99, default=95, show_value=true)
 
-	ui_reset = @bind reset_bayesian Button("Recompute")
+	ui_reset = @bind reset_bayesian Button("Reset")
 	
 	md"""
 	|         | choose |
@@ -42,6 +42,9 @@ begin
 	| reset |  $ui_reset |
 	"""
 end
+
+# ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
+
 
 # ╔═╡ de49ca06-6e83-4a02-b92c-60f09ec26fd7
 md"""
@@ -1961,6 +1964,7 @@ version = "1.4.1+0"
 # ╠═0d8791d8-ff47-495f-ba74-f1f565654d66
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
+# ╠═3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
 # ╠═228e6266-3779-482e-9cac-dd3b5598e234
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
