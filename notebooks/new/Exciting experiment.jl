@@ -114,6 +114,9 @@ md"""
 # Regular
 """
 
+# ╔═╡ 8b9b4eda-9601-4e81-9429-7d210612496a
+
+
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
 regular_price, regular_eventtime = @repeaton(ceil(now(), Second(10))) do t
 	raw_prices[end], t
@@ -2001,6 +2004,7 @@ version = "1.4.1+0"
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
+# ╠═8b9b4eda-9601-4e81-9429-7d210612496a
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
