@@ -214,7 +214,7 @@ mean(randoms)
 mean(post_x)
 
 # ╔═╡ cc4f89f4-e472-4bde-945e-94c363aa3897
-
+var(randoms)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
