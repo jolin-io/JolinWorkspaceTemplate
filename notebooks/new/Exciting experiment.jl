@@ -176,51 +176,6 @@ md"""
 ### Initial training
 """
 
-# ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
-@eval JolinPluto begin
-macro take_repeatedly!(expr)
-	_impl_take_repeatedly([], expr)
-end
-macro take_repeatedly!(init, expr)
-	_impl_take_repeatedly(init, expr)
-end
-function _impl_take_repeatedly!(init, expr)
-	quote
-		let
-			iter = $(esc(init))
-			channel = $(esc(expr))
-
-			step = iterate(iter)
-			if isnothing(step)
-				_update, set_update = @use_state(take!(channel))
-				@use_task([channel]) do
-					inner_channel = channel
-					for update in inner_channel
-						set_update(update)
-					end
-				end
-				_update
-			else
-				value, state = step
-				_update, set_update = @use_state(value)
-				@use_task([iter]) do
-					inner_iter = iter
-					inner_state = state
-					for v in Iterators.rest(inner_iter, inner_state)
-						set_update(v)
-					end
-					inner_channel = channel
-					for update in inner_channel
-						set_update(update)
-					end
-				end
-				_update
-			end
-		end
-	end
-end
-end
-
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
 
@@ -1972,7 +1927,6 @@ version = "1.4.1+0"
 # ╠═fb30e1dc-813d-4df3-92df-3b86b0c994a8
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═80a286a3-3153-4465-8380-dfe07f68fcbe
-# ╠═13e12519-e078-4cc3-b6fe-2951d091b482
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
