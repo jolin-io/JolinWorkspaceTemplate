@@ -220,6 +220,9 @@ end
 # ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 ci = ci_percent / 100.0
 
+# ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -1973,6 +1976,7 @@ version = "1.4.1+0"
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
+# ╠═7ad62d34-3775-48cd-aec1-1fbe6788be72
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
