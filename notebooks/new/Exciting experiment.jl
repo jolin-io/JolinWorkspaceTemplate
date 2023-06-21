@@ -226,9 +226,9 @@ result.posteriors
 
 # ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
 begin
-	#rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
+	rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
 
-	rand_y(posterior) = rand(NormalMeanVariance(rand(posterior[:x]), fixed_y_std^2))
+	# rand_y(posterior) = rand(NormalMeanVariance(rand(posterior[:x]), fixed_y_std^2))
 
 	function rand_y(posterior, shape)
 		if length(shape) == 1
