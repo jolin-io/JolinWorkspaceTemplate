@@ -183,7 +183,7 @@ md"""
 """
 
 # ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
-
+forall
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
