@@ -164,7 +164,7 @@ result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
-	initmarginals = (x_current = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
+	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
 	free_energy = true,
 )
 
