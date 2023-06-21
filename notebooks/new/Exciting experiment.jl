@@ -126,7 +126,7 @@ begin
 	    
 	    # Random walk with fixed precision
 		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
-	    x_current ~ Normal(mean = x_prev, precision = 1.0)
+	    x_current ~ Normal(mean = x_prev, precision = x_τ)
 
 		# Noisy observation (y_rv to also store posterior)
 	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
