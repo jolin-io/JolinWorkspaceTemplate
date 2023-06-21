@@ -195,7 +195,7 @@ end
 @bind ci Slider(0.2:0.01:0.99, default=0.95, show_value=true)
 
 # ╔═╡ cec5454a-b5a7-42cd-a588-2243de143268
-
+indices(posteriors)
 
 # ╔═╡ d80633e8-b57e-4613-bf15-9510838af1dd
 
