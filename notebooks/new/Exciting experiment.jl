@@ -134,29 +134,6 @@ end
 # ╔═╡ 46f340ab-4664-4622-a8a1-c0539d3b318e
 @bind fixed_y_std Slider(1:10, default=4, show_value=true)
 
-# ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
-begin
-	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
-
-		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
-	    
-	    # Random walk with fixed precision
-		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
-	    x ~ Normal(mean = x_prev, precision = x_τ)
-
-		# Noisy observation (y_rv to also store posterior)
-	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
-	    y = datavar(Float64)
-	    y ~ Normal(mean = x, precision = y_τ)
-	end
-	
-	# We assume the following factorisation between variables 
-	# in the variational distribution
-	@constraints function filter_constraints()
-	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
-	end
-end
-
 # ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
 
 
@@ -182,12 +159,35 @@ begin
 	posteriors_eventtimes = DateTime[];
 end
 
+# ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
+begin
+	@model function kalman_filter(prior_x_mean_var, prior_x_τ, fixed_y_std)
+
+		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
+	    
+	    # Random walk with fixed precision
+		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
+	    x ~ Normal(mean = x_prev, precision = x_τ)
+
+		# Noisy observation (y_rv to also store posterior)
+	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
+	    y = datavar(Float64)
+	    y ~ Normal(mean = x, var = fixed_y_std^2)
+	end
+	
+	# We assume the following factorisation between variables 
+	# in the variational distribution
+	@constraints function filter_constraints()
+	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
+	end
+end
+
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
-	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
+	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std), #prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
-	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
+	initmarginals = (x = prior_x[], x_τ = prior_x_τ[]), #, y_τ = prior_y_τ[]),
 	free_energy = true,
 )
 
@@ -216,7 +216,7 @@ ci = ci_percent / 100.0
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
-	prior_y_τ[] = result.posteriors[:y_τ]
+	# prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
 
 	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
@@ -271,7 +271,7 @@ variance_estimations
 # TODO forecast?
 
 # ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
-# TODO store previous prior?
+# TODO store previous marginal distributions?
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
