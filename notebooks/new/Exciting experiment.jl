@@ -135,7 +135,9 @@ end;
 
 
 # ╔═╡ 2118b853-e07e-49ee-8050-14b42df35eec
-
+if a == 4
+	b = 2
+end
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 plot_regular = begin
