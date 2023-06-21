@@ -159,7 +159,7 @@ begin
 end
 
 # ╔═╡ 98674743-6a71-4caf-968e-d36d1656df09
-
+mean_var(posteriors_x[end])
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
