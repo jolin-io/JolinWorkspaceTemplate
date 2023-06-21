@@ -43,9 +43,6 @@ begin
 	"""
 end
 
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_total
-
 # ╔═╡ de49ca06-6e83-4a02-b92c-60f09ec26fd7
 md"""
 # Implementation Details
@@ -291,7 +288,20 @@ end
 variance_estimations
 
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
+plot_total = let
+	raw_price
+	plot(posteriors_eventtimes, y_means,
+			ribbon = y_cis,
+			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	raw_index = findall(t -> t >= posteriors_eventtimes[begin], raw_eventtimes)
+	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
+    scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Warning", markercolor=:orange)
+end
 
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_total
 
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
 # TODO forecast?
