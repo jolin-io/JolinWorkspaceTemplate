@@ -217,7 +217,7 @@ mean(post_x)
 std(randoms)
 
 # ╔═╡ 9ac9919e-3ef7-40f6-9fe6-e63ddfd55306
-std(post_x) * std(post_y_tau)
+std(post_x)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
