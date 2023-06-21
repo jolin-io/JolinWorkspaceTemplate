@@ -191,7 +191,8 @@ begin
 	])
 	
 	function prices_mean_var(posteriors::AbstractVector)
-		return reinterpret(reshape, Float64, prices_mean_var.(posteriors))
+		matrix = reinterpret(reshape, Float64, prices_mean_var.(posteriors))
+		(mean=matrix[1,:], var=matrix[2,:])
 	end
 end
 
