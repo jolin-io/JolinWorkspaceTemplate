@@ -186,7 +186,7 @@ md"""
 """
 
 # ╔═╡ ec87593a-7178-404b-bfa5-0de443e722a2
-
+first([])
 
 # ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
 forall
