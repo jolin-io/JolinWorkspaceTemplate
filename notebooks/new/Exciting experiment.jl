@@ -149,6 +149,9 @@ md"""
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
 
 
+# ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
+
+
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
 	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
@@ -2011,6 +2014,7 @@ version = "1.4.1+0"
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
 # ╠═1327e19d-51aa-49f5-b6cc-8969e2d12fbc
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
+# ╠═c32cd0fc-4e76-4259-ba47-c9681b4a47a9
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
