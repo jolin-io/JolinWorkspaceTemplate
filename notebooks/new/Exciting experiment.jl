@@ -184,7 +184,7 @@ begin
 end
 
 # ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
-
+@bind a Slider(1:40) 
 
 # ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
 x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
