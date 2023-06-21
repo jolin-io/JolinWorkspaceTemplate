@@ -141,6 +141,9 @@ begin
 	end
 end
 
+# ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
+
+
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	# initialize priors
@@ -160,7 +163,13 @@ begin
 end
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
-result = train!(regular_price)
+result = inference(
+	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
+	data = (y = regular_price,),
+	constraints = filter_constraints(),
+	initmarginals = (x = prior_x[], x_τ = prior_x_τ[], y_τ = prior_y_τ[]),
+	free_energy = true,
+)
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
@@ -1909,6 +1918,7 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
+# ╠═42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
