@@ -210,7 +210,8 @@ begin
 
 	marker_color_outliers = map(1:length(posteriors)) do i
 		price, y_mean, y_ci = posteriors_prices[i], y_means[i], y_cis[i]
-		if price < (y_mean - y_ci) || (y_mean + y_ci) > price
+		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) > price
+		if isoutlier
 			:orange
 		else
 			:blue
