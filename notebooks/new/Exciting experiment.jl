@@ -238,36 +238,6 @@ ci = ci_percent / 100.0
 # ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
 [p[:x_τ] for p in posteriors]
 
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_bayes
-
-# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
-variance_estimations = begin
-	x_mean, x_std = mean_std(posteriors[end][:x])
-	y_mean, y_ci = y_means[end], y_cis[end]
-	
-	x_mean = Int(round(x_mean))
-	x_ci = Int(round(x_std * σ_ci))
-	y_mean = Int(round(y_mean))
-	y_ci = Int(round(y_ci))
-
-	md"""
-	| current estimations | mean in $(ci_percent)% confidence |
-	|---------------------|:------------|
-	|hidden state | $(x_mean)€ ± $(x_ci)€
-	|observed state | $(y_mean)€ ± $(y_ci)€|
-	"""
-end
-
-# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
-variance_estimations
-
-# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
-# TODO forecast?
-
-# ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
-# TODO store previous marginal distributions?
-
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -298,8 +268,11 @@ plot_bayes = begin
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_bayes
+
 # ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
-plot_total = begin
+plot_total = let
 	raw_price
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
@@ -310,6 +283,33 @@ plot_total = begin
     scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
+
+# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
+variance_estimations = begin
+	x_mean, x_std = mean_std(posteriors[end][:x])
+	y_mean, y_ci = y_means[end], y_cis[end]
+	
+	x_mean = Int(round(x_mean))
+	x_ci = Int(round(x_std * σ_ci))
+	y_mean = Int(round(y_mean))
+	y_ci = Int(round(y_ci))
+
+	md"""
+	| current estimations | mean in $(ci_percent)% confidence |
+	|---------------------|:------------|
+	|hidden state | $(x_mean)€ ± $(x_ci)€
+	|observed state | $(y_mean)€ ± $(y_ci)€|
+	"""
+end
+
+# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
+variance_estimations
+
+# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
+# TODO forecast?
+
+# ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
+# TODO store previous marginal distributions?
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1975,7 +1975,7 @@ version = "1.4.1+0"
 # ╔═╡ Cell order:
 # ╟─3fe56386-7ba7-481e-9aa6-03218b710001
 # ╠═0d8791d8-ff47-495f-ba74-f1f565654d66
-# ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
+# ╠═8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
 # ╠═3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
