@@ -109,6 +109,9 @@ plot_raw = begin
 	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
+# ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
+
+
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
 # Regular
@@ -1978,6 +1981,7 @@ version = "1.4.1+0"
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+# ╠═14d4a015-d8af-4b34-b693-31b10f6dafc0
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
