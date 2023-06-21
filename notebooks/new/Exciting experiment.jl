@@ -260,30 +260,6 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	return matrix[1, :], matrix[2, :]
 end
 
-# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
-begin
-	x_mean, x_std = mean_std(posteriors[end][:x])
-	y_mean, y_std = y_means[end], y_stds[end]
-	
-	x_mean = Int(round(x_mean))
-	x_std = Int(round(x_std))
-	y_mean = Int(round(y_mean))
-	y_std = Int(round(y_std))
-	
-	md"""
-	| current estimations | mean in 69.2% confidence |
-	|---------------------|:------------|
-	|hidden state | $(x_mean)€ ± $(x_std)€
-	|observed state | $(y_mean)€ ± $(y_std)€|
-	"""
-end
-
-# ╔═╡ 96cf1afa-95d1-46de-ac0c-fff168c631f4
-quantile(Normal(), _p)
-
-# ╔═╡ 9057e5ae-c3a7-4e35-b38d-43442337c307
-p = 1 - (1 - 0.692) / 2
-
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -302,6 +278,30 @@ begin
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
+
+# ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
+begin
+	x_mean, x_std = mean_std(posteriors[end][:x])
+	y_mean, y_std = y_means[end], y_stds[end]
+	
+	x_mean = Int(round(x_mean))
+	x_std = Int(round(x_std))
+	y_mean = Int(round(y_mean))
+	y_std = Int(round(y_std))
+	
+	md"""
+	| current estimations | mean in 69.2% confidence |
+	|---------------------|:------------|
+	|hidden state | $(x_mean)€ ± $(x_std)€
+	|observed state | $(y_mean)€ ± $(y_std)€|
+	"""
+end
+
+# ╔═╡ 9057e5ae-c3a7-4e35-b38d-43442337c307
+_p = 1 - (1 - 0.692) / 2
+
+# ╔═╡ 96cf1afa-95d1-46de-ac0c-fff168c631f4
+quantile(Normal(), _p)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
