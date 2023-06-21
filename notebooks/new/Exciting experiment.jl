@@ -203,8 +203,7 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	mean_std([rand_y(posterior) for i in 1:10_000])
-	means, vars = prices_mean_var(posteriors)
+	means, std = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
 	
 	p = plot(posteriors_eventtimes, means,
 			ribbon = vars,
