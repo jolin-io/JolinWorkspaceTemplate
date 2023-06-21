@@ -207,12 +207,12 @@ end
 # ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
 @eval JolinPluto begin
 macro take_repeatedly!(expr)
-	impl_take_repeatedly([], expr)
+	_impl_take_repeatedly([], expr)
 end
 macro take_repeatedly!(init, expr)
-	impl_take_repeatedly(init, expr)
+	_impl_take_repeatedly(init, expr)
 end
-function impl_take_repeatedly!(init, expr)
+function _impl_take_repeatedly!(init, expr)
 	quote
 		let
 			iter = $(esc(init))
