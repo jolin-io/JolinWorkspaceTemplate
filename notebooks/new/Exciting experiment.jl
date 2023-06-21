@@ -93,7 +93,7 @@ raw_n = 1000
 begin
 	raw_prices = Float64[]
 	raw_eventtimes = DateTime[]
-end
+end;
 
 # ╔═╡ 6be54865-68ef-4601-8182-3866b7c8d758
 function push_sliding!(array, x; n)
@@ -253,8 +253,8 @@ pushed = begin
 
 	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
-	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n);
-end
+	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
+end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
