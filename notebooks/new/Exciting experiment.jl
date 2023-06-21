@@ -153,7 +153,9 @@ plot_regular = begin
 end
 
 # ╔═╡ 3437190e-af5a-4817-bf4b-82b161265e7f
-
+md"""
+# Probability
+"""
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
