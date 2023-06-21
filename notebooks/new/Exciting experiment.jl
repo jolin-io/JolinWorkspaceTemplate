@@ -180,6 +180,9 @@ result.posteriors
 # ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
 rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]),
 
+# ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
+
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -1896,6 +1899,7 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
+# ╠═5b87ac1c-8849-4102-867f-54ba27cf282b
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═f1be49c6-5670-4d97-9d86-b3c78f476eeb
 # ╠═a8eb0b5d-4e99-4299-a948-f85ac46137da
