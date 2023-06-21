@@ -186,6 +186,9 @@ end
 # ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
 [p[:x_τ] for p in posteriors]
 
+# ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
+
+
 # ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
 @bind a Slider(1:40, show_value=true) 
 
@@ -1997,6 +2000,7 @@ version = "1.4.1+0"
 # ╠═46f340ab-4664-4622-a8a1-c0539d3b318e
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═4c660768-05fd-48dc-87ea-f8b6674da589
 # ╠═a2401fbe-0f32-46d7-87b8-6c544e369345
 # ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
