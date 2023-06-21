@@ -274,10 +274,10 @@ begin
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
 	y_means, y_stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
-
-	σ_mult = quantile(Normal(), 1 - (1 - ci) / 2)
+	σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
+	
 	p = plot(posteriors_eventtimes, y_means,
-			ribbon = y_stds,
+			ribbon = y_stds .* σ_ci,
 			label = "Estimation in $(Int(round(ci*100)))% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
