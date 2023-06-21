@@ -192,7 +192,23 @@ iterate([])
 Iterators.rest
 
 # ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
-forall
+macro forall(expr)
+	quote
+		iter = $(esc(expr
+		step = iterate(iter)
+		if isnothing(step)
+			nothing
+		else
+			value, state = step
+			_update, set_update = @use_state(value)
+			@use_task([iter]) do
+				for v in Iterators.rest(state)
+					set_update(v)
+				end
+			end
+		end
+	end
+end
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
