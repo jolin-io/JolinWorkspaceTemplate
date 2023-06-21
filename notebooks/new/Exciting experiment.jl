@@ -178,7 +178,10 @@ result = inference(
 result.posteriors
 
 # ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
-
+prices_mean_var(posterior) = mean_var([
+	rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
+	for i in 1:10_000
+])
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
