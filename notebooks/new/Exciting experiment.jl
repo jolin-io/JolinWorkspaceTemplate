@@ -183,6 +183,9 @@ begin
 	posteriors_eventtimes = DateTime[];
 end
 
+# ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
+
+
 # ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
 x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
 
@@ -1982,6 +1985,7 @@ version = "1.4.1+0"
 # ╠═46f340ab-4664-4622-a8a1-c0539d3b318e
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═4c660768-05fd-48dc-87ea-f8b6674da589
 # ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
 # ╠═52c6a8f7-7211-438d-8c57-1034dd2c27aa
