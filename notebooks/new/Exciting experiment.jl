@@ -279,7 +279,7 @@ begin
 end
 
 # ╔═╡ 96cf1afa-95d1-46de-ac0c-fff168c631f4
-quantile(Normal(), p)
+quantile(Normal(), _p)
 
 # ╔═╡ 9057e5ae-c3a7-4e35-b38d-43442337c307
 p = 1 - (1 - 0.692) / 2
