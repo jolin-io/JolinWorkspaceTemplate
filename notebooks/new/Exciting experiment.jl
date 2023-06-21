@@ -28,7 +28,7 @@ begin
 		"Tether" => "usdteur",
 	])
 	md"""
-	|         | Choose |
+	|         | choose |
 	|---------|--------|
 	| trading | $(ui_trading) |
 	"""
