@@ -214,6 +214,8 @@ begin
 			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
+
+	outliers
 end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
@@ -243,7 +245,10 @@ end
 # ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
 begin
 	isoutlier = regular_price < y_mean - y_ci || y_mean + y_ci > regular_price
-	isoutlier && push!(outliers, (regular_eventtime, regular_price))
+	if isoutlier
+		push!(outliers_prices, regular_price)
+		push!(outliers_eventtimes, regular_eventtime)
+	end
 	outliers
 end
 
