@@ -260,25 +260,6 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	return matrix[1, :], matrix[2, :]
 end
 
-# ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
-begin
-	prior_x_τ[] = result.posteriors[:x_τ]
-	prior_y_τ[] = result.posteriors[:y_τ]
-	prior_x[] = result.posteriors[:x]
-
-	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
-	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
-	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
-
-	y_means, y_stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
-	
-	p = plot(posteriors_eventtimes, y_means,
-			ribbon = y_stds,
-			label = "Estimation ± σ", xlabel="time", ylabel="EURO",
-			xrotation = 10)
-    p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
-end
-
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -297,9 +278,30 @@ begin
 	"""
 end
 
-# ╔═╡ 9431191e-1b93-41f2-97c5-396b1114033c
-p = 1 - (1 - 0.692) / 2
+# ╔═╡ 96cf1afa-95d1-46de-ac0c-fff168c631f4
 quantile(Normal(), p)
+
+# ╔═╡ 9057e5ae-c3a7-4e35-b38d-43442337c307
+p = 1 - (1 - 0.692) / 2
+
+# ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
+begin
+	prior_x_τ[] = result.posteriors[:x_τ]
+	prior_y_τ[] = result.posteriors[:y_τ]
+	prior_x[] = result.posteriors[:x]
+
+	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
+	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
+	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
+
+	y_means, y_stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
+	
+	p = plot(posteriors_eventtimes, y_means,
+			ribbon = y_stds,
+			label = "Estimation ± σ", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+    p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1998,6 +2000,7 @@ version = "1.4.1+0"
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
-# ╠═9431191e-1b93-41f2-97c5-396b1114033c
+# ╠═9057e5ae-c3a7-4e35-b38d-43442337c307
+# ╠═96cf1afa-95d1-46de-ac0c-fff168c631f4
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
