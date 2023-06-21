@@ -40,9 +40,6 @@ begin
 	"""
 end
 
-# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
-
-
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
@@ -255,6 +252,9 @@ variance_estimations = begin
 	|observed state | $(y_mean)€ ± $(y_ci)€|
 	"""
 end
+
+# ╔═╡ f858490e-541c-4668-921b-71aef9db5710
+variance_estimations
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
