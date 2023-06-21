@@ -265,9 +265,6 @@ mean(post_x)
 # ╔═╡ cc4f89f4-e472-4bde-945e-94c363aa3897
 std(randoms)
 
-# ╔═╡ 9ac9919e-3ef7-40f6-9fe6-e63ddfd55306
-std(post_x)
-
 # ╔═╡ 65cff020-4563-4747-88a8-41da600091fb
 precision = 1/var(post_x) + mean(post_y_tau)
 
@@ -1988,7 +1985,6 @@ version = "1.4.1+0"
 # ╠═fc4b9827-5dca-4a86-9b01-faa35c4a7cd1
 # ╠═1c3dbb54-9033-4d6d-b213-366a898ae54b
 # ╠═cc4f89f4-e472-4bde-945e-94c363aa3897
-# ╠═9ac9919e-3ef7-40f6-9fe6-e63ddfd55306
 # ╠═65cff020-4563-4747-88a8-41da600091fb
 # ╠═7cdef740-c2ca-4ac7-a62d-32f7ec3843aa
 # ╟─00000000-0000-0000-0000-000000000001
