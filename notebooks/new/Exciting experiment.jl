@@ -187,10 +187,10 @@ end
 @bind a Slider(1:40) 
 
 # ╔═╡ a2401fbe-0f32-46d7-87b8-6c544e369345
-@bind b NumberField(0:100)
+@bind b NumberField(0.0:100.0)
 
 # ╔═╡ 1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
-
+a, b
 
 # ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
 x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
