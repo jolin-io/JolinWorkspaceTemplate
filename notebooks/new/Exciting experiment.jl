@@ -126,7 +126,7 @@ regular_n = 100
 begin
 	regular_prices = Float64[]
 	regular_eventtimes = DateTime[]
-end
+end;
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 plot_regular = begin
