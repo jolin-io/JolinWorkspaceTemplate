@@ -237,7 +237,10 @@ begin
 end
 
 # ╔═╡ 171dc288-1ec8-42eb-9e02-2733afb122c5
-
+function f((a, b, v))
+	@show x
+	true
+end
 
 # ╔═╡ aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
 findall(collect(zip(1:10, 4:8, 6:10))) do x
