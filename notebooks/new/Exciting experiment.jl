@@ -188,7 +188,7 @@ begin
 end
 
 # ╔═╡ 64e107ce-c6c6-4249-8106-66fa822b0d2c
-
+length(100)
 
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
 rand_y.(posteriors, (100,))
