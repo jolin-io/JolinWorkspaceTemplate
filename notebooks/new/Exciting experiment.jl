@@ -207,7 +207,7 @@ begin
 	
 	p = plot(posteriors_eventtimes, means,
 			ribbon = std,
-			label = "Estimation ("± σ"), xlabel="time", ylabel="EURO",
+			label = "Estimation (± σ)", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
