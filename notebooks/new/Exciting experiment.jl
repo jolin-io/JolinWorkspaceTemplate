@@ -17,6 +17,9 @@ end
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
+# ╔═╡ 194300b1-3066-4696-be49-293e9c56d9f1
+using PlutoLinks
+
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -182,9 +185,6 @@ md"""
 ### Initial training
 """
 
-# ╔═╡ 194300b1-3066-4696-be49-293e9c56d9f1
-
-
 # ╔═╡ 43e25c45-85c0-482c-9f5f-a7ec9767c0d1
 
 
@@ -258,6 +258,7 @@ HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PlutoLinks = "0ff47ea0-7a50-410d-8455-4348d5de0420"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 RxInfer = "86711068-29c9-4ff7-b620-ae75d7495b3d"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
@@ -267,6 +268,7 @@ HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
 JolinPluto = "~0.1.18"
 Plots = "~1.38.16"
+PlutoLinks = "~0.1.6"
 PlutoUI = "~0.7.51"
 RxInfer = "~2.11.1"
 """
@@ -277,7 +279,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "ee3115702fc5f0a77b1fa2e1c9baf19dcb4570c6"
+project_hash = "d4855102d064c4d777b496b94ae927ab4645bd78"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1938,7 +1940,6 @@ version = "1.4.1+0"
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═80a286a3-3153-4465-8380-dfe07f68fcbe
 # ╠═194300b1-3066-4696-be49-293e9c56d9f1
-# ╠═43e25c45-85c0-482c-9f5f-a7ec9767c0d1
 # ╠═3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
