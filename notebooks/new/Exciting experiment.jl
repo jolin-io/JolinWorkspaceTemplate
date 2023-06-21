@@ -118,7 +118,7 @@ begin
 end
 
 # ╔═╡ 5008ce0d-75aa-4810-81f8-fdd7f1ee0f8f
-@bind number Slider(1:10)
+@bind number Slider(1:10, show_default=true)
 
 # ╔═╡ 427e7e0a-b196-4b97-a81d-8a86c1fbcfed
 number * number
