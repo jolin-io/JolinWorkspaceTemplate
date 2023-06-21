@@ -278,7 +278,7 @@ begin
 	σ_mult = quantile(Normal(), 1 - (1 - ci) / 2)
 	p = plot(posteriors_eventtimes, y_means,
 			ribbon = y_stds,
-			label = "Estimation in $(Int(round(ci*100))) confidence", xlabel="time", ylabel="EURO",
+			label = "Estimation in $(Int(round(ci*100)))% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
