@@ -178,7 +178,7 @@ begin
 	# We assume the following factorisation between variables 
 	# in the variational distribution
 	@constraints function filter_constraints()
-	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
+	    q(x_prev, x, x_τ) = q(x_prev, x)q(x_τ)
 	end
 end
 
