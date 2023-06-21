@@ -261,7 +261,7 @@ function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 end
 
 # ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
-@bind ci Slider(0.2:0.1:0.99, default=0.95, show_value=true)
+@bind ci Slider(0.2:0.05:1.0, default=0.95, show_value=true)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
