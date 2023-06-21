@@ -247,12 +247,6 @@ end
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
 mean(randoms)
 
-# ╔═╡ 3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
-@benchmark var([
-	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
-	for i in 1:10_000
-])
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -1962,6 +1956,5 @@ version = "1.4.1+0"
 # ╠═639ea99f-8787-4212-99d8-4002763d8493
 # ╠═ba456358-40e8-425f-9435-73f5443ab936
 # ╠═e2478e0e-1b79-43fa-98fc-ab130100b408
-# ╠═4d2b93fe-9623-4bff-9453-299970ff5fe7
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
