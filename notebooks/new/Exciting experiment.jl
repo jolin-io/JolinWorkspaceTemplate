@@ -201,7 +201,7 @@ randoms = [
 ]
 
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
-
+mean(randoms)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
