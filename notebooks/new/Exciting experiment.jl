@@ -235,7 +235,7 @@ begin
 end
 
 # ╔═╡ 7d8f2dc2-9ffb-4159-9d40-78a110704a29
-y_mean - regular_price
+isoutlier = regular_price < y_mean - y_ci || y_mean + y_ci > regular_price
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
