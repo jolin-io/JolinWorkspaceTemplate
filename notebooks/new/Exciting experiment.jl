@@ -208,8 +208,8 @@ begin
 
 	means, vars = prices_mean_var(posteriors)
 	
-	p = plot(posteriors_eventtimes, posterior_mean_var[1, :],
-			ribbon = posterior_mean_var[2,:],
+	p = plot(posteriors_eventtimes, means,
+			ribbon = vars,
 			label = "Estimation", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
