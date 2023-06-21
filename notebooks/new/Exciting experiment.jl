@@ -29,12 +29,14 @@ begin
 	])
 
 	ui_ci_percent = @bind ci_percent Slider(20:1:99, default=95, show_value=true)
-	
+
+	ui_reset = @bind reset_bayesian Button("Recompute")
 	md"""
 	|         | choose |
 	|---------|:-------|
-	| crypto currency| $(ui_trading) |
-	| confidence interval | $(ui_ci_percent)%|
+	| crypto currency| $ui_trading |
+	| confidence interval | $ui_ci_percent %|
+	| reset |  $ui_reset |
 	"""
 end
 
@@ -146,7 +148,7 @@ begin
 end
 
 # ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
-@bind reset_bayesian Button("Recompute")
+
 
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
