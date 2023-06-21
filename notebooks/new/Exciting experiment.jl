@@ -184,7 +184,7 @@ begin
 end
 
 # ╔═╡ 3d4c4ae6-cb2b-497e-9a57-6da373ba58e7
-[p[:y_τ] for p in posteriors]
+[p[:x_τ] for p in posteriors]
 
 # ╔═╡ 4c660768-05fd-48dc-87ea-f8b6674da589
 @bind a Slider(1:40, show_value=true) 
