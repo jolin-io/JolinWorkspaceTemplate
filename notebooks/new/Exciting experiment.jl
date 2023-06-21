@@ -51,9 +51,6 @@ md"""
 # Implementation Details
 """
 
-# ╔═╡ 228e6266-3779-482e-9cac-dd3b5598e234
-@bind fixed_y_std Slider(1:10, default=4, show_value=true)
-
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
@@ -156,9 +153,6 @@ end
 md"""
 # Probability
 """
-
-# ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
-
 
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
@@ -1995,7 +1989,6 @@ version = "1.4.1+0"
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
-# ╠═228e6266-3779-482e-9cac-dd3b5598e234
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 # ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
@@ -2018,7 +2011,6 @@ version = "1.4.1+0"
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
 # ╠═1327e19d-51aa-49f5-b6cc-8969e2d12fbc
-# ╠═c32cd0fc-4e76-4259-ba47-c9681b4a47a9
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
