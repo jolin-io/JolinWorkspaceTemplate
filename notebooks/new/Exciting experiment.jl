@@ -178,13 +178,15 @@ result = inference(
 result.posteriors
 
 # ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
-prices_mean_var(posterior) = mean_var([
-	rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
-	for i in 1:10_000
-])
-
-function prices_mean_var(posteriors::AbstractVector)
-	return reinterpret(reshape, Float64, prices_mean_var.(posteriors))
+begin
+	prices_mean_var(posterior) = mean_var([
+		rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
+		for i in 1:10_000
+	])
+	
+	function prices_mean_var(posteriors::AbstractVector)
+		return reinterpret(reshape, Float64, prices_mean_var.(posteriors))
+	end
 end
 
 # ╔═╡ a083b078-41ed-4215-8cd3-aa48ee3d65e1
