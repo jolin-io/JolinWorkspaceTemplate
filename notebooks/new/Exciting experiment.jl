@@ -221,7 +221,7 @@ end
 ci = ci_percent / 100.0
 
 # ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
-posteriors[1][:x_τ]
+[p[:x_τ] for p in posteriors]
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 plot_bayes = begin
