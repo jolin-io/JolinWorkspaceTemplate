@@ -176,7 +176,8 @@ result.posteriors
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
-	prior_τ[] = result.posteriors[:τ]
+	prior_x_τ[] = result.posteriors[:x_τ]
+	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x_current]
 
 	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
