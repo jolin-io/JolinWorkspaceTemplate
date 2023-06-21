@@ -187,7 +187,7 @@ end
 x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
 
 # ╔═╡ f2881e9e-995f-4932-9f46-c1bf36f2e125
-
+1 / (x_tau_mean - x_tau_std), 1 / (x_tau_mean + x_tau_std)
 
 # ╔═╡ 52c6a8f7-7211-438d-8c57-1034dd2c27aa
 mean_std(GammaShapeRate(5.0, 0.05))
