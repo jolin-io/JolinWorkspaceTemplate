@@ -285,9 +285,6 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
-# ╔═╡ 45232967-0bdc-42db-93ff-0bfe2c06fcbc
-round(0.12312)
-
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -2004,7 +2001,6 @@ version = "1.4.1+0"
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
-# ╠═45232967-0bdc-42db-93ff-0bfe2c06fcbc
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
