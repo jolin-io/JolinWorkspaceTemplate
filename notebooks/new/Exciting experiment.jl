@@ -221,6 +221,9 @@ begin
 	outliers
 end
 
+# ╔═╡ 091649bf-8d7d-460f-a056-054a8e143916
+
+
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -1938,6 +1941,7 @@ version = "1.4.1+0"
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═d80633e8-b57e-4613-bf15-9510838af1dd
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═091649bf-8d7d-460f-a056-054a8e143916
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═171dc288-1ec8-42eb-9e02-2733afb122c5
 # ╠═aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
