@@ -185,25 +185,6 @@ iterate([])
 # ╔═╡ 54df2eac-413b-4e42-bec7-bd67e35668a4
 Iterators.rest
 
-# ╔═╡ 3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
-macro forall(expr)
-	quote
-		iter = $(esc(expr))
-		step = iterate(iter)
-		if isnothing(step)
-			nothing
-		else
-			value, state = step
-			_update, set_update = @use_state(value)
-			@use_task([iter]) do
-				for v in Iterators.rest(state)
-					set_update(v)
-				end
-			end
-		end
-	end
-end
-
 # ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
 @eval JolinPluto begin
 macro take_repeatedly!(expr)
@@ -2005,7 +1986,6 @@ version = "1.4.1+0"
 # ╠═194300b1-3066-4696-be49-293e9c56d9f1
 # ╠═ec87593a-7178-404b-bfa5-0de443e722a2
 # ╠═54df2eac-413b-4e42-bec7-bd67e35668a4
-# ╠═3e82a298-c2bd-4d3b-b1c4-c2fe496d34f2
 # ╠═13e12519-e078-4cc3-b6fe-2951d091b482
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
