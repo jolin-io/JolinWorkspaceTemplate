@@ -121,7 +121,7 @@ end
 @bind number Slider(1:10, show_value=true)
 
 # ╔═╡ 427e7e0a-b196-4b97-a81d-8a86c1fbcfed
-"number = $number,  raw_price = $raw_prices"
+(;number, raw_price)
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 begin
