@@ -210,6 +210,9 @@ randoms = [
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
 mean(randoms)
 
+# ╔═╡ 4d2b93fe-9623-4bff-9453-299970ff5fe7
+
+
 # ╔═╡ 3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
 mean(
 	rand(Normal(rand(post_x), sqrt(1/rand(post_y_tau))))
@@ -1923,6 +1926,7 @@ version = "1.4.1+0"
 # ╠═233cd884-2d56-4d15-a2d9-a8f03aacfb1f
 # ╠═639ea99f-8787-4212-99d8-4002763d8493
 # ╠═e2478e0e-1b79-43fa-98fc-ab130100b408
+# ╠═4d2b93fe-9623-4bff-9453-299970ff5fe7
 # ╠═3ecbcc4c-3acb-4a2c-9411-bd2d5db4a1ac
 # ╠═1c3dbb54-9033-4d6d-b213-366a898ae54b
 # ╠═cc4f89f4-e472-4bde-945e-94c363aa3897
