@@ -296,7 +296,7 @@ end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
-	x_mean, x_std = mean_std(posteriors[end][:x])
+	x_mean, x_std = mean_std(prob_posteriors[end][:x])
 	y_mean, y_ci = pred_y_means[end], pred_y_cis[end]
 	
 	x_mean = Int(round(x_mean))
