@@ -268,9 +268,6 @@ plot_bayes = begin
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_bayes
-
 # ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
 plot_total = let
 	raw_price
@@ -283,6 +280,9 @@ plot_total = let
     scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
+
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_total
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
