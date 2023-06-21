@@ -190,7 +190,7 @@ begin
 end
 
 # ╔═╡ b84b7cc8-ccbd-461d-85b2-231863e857df
-
+prices_mean_var(posteriors)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
