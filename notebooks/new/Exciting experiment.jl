@@ -188,7 +188,10 @@ begin
 end
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
-vector_tuple2_to_tuple2_vector(v::AbstractVector{Tuple{Float64, Float64}}) = reinterprete(reshape, Float64, v)
+function vector_tuple2_to_tuple2_vector(v::AbstractVector{Tuple{Float64, Float64}})
+	matrix = reinterpret(reshape, Float64, v)
+	return matrix[1, :], matrix[2, :]
+end
 
 # ╔═╡ d59a1ef4-86be-4e0c-b17a-ca00f476bd0a
 
