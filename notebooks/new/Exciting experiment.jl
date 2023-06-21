@@ -150,7 +150,10 @@ md"""
 
 
 # ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
-
+begin
+	raw_price
+	isempty(raw_prices) && set_first_price(raw_price)
+end
 
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
