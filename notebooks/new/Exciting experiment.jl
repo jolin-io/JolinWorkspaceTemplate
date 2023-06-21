@@ -11,7 +11,7 @@ using HTTP, JolinPluto, JSON3, Plots, Dates, RxInfer, Statistics
 @output_below
 
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
-
+trading = Select(["Bitcoin" => "btceur", "Ethereum" => "etheur", "Tether" => "usdteur")
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
