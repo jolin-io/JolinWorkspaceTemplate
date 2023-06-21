@@ -188,7 +188,7 @@ begin
 end
 
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
-rand_y.(posteriors, 100)
+mean_std.(rand_y.(posteriors, 100))
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
