@@ -60,15 +60,6 @@ channel = @Channel(10) do channel
 	end
 end
 
-# ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-update = @take_repeatedly! channel
-
-# ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
-raw_price = parse(Float64, update.c)
-
-# ╔═╡ 2519387c-c882-450b-8830-015706c499d1
-raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
-
 # ╔═╡ f034a5a8-b241-46eb-af8d-2d4da4b2b85d
 raw_n = 100
 
@@ -83,13 +74,6 @@ function push_sliding!(array, x; n)
 	too_many = max(0, length(array) - n + 1)
 	deleteat!(array, 1:too_many)
 	push!(array, x)
-end
-
-# ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-begin
-	push_sliding!(raw_prices, raw_price, n=raw_n)
-	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
-	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
 end
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
@@ -116,9 +100,6 @@ end
 
 # ╔═╡ 5008ce0d-75aa-4810-81f8-fdd7f1ee0f8f
 @bind number Slider(1:10, show_value=true)
-
-# ╔═╡ 427e7e0a-b196-4b97-a81d-8a86c1fbcfed
-(;number, raw_price)
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 begin
@@ -211,7 +192,60 @@ macro forall(expr)
 end
 
 # ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
+macro take_repeatedly!(init, expr)
+	quote
+		let
+			iter = $(esc(init))
+			channel = $(esc(expr))
 
+			step = iterate(iter)
+			if isnothing(step)
+				_update, set_update = @use_state(take!(channel))
+				@use_task([channel]) do
+					inner_channel = channel
+					for update in inner_channel
+						set_update(update)
+					end
+				end
+				_update
+			else
+				value, state = step
+				_update, set_update = @use_state(value)
+				@use_task([iter]) do
+					inner_iter = iter
+					inner_state = state
+					for v in Iterators.rest(inner_iter, inner_state)
+						set_update(v)
+					end
+					inner_channel = channel
+					for update in inner_channel
+						set_update(update)
+					end
+				end
+				_update
+			end
+		end
+	end
+end
+
+# ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
+update = @take_repeatedly! channel
+
+# ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
+raw_price = parse(Float64, update.c)
+
+# ╔═╡ 427e7e0a-b196-4b97-a81d-8a86c1fbcfed
+(;number, raw_price)
+
+# ╔═╡ 2519387c-c882-450b-8830-015706c499d1
+raw_eventtime = Dates.unix2datetime(div(update.E, 1000))
+
+# ╔═╡ cc6b1b72-1be0-4158-8179-a82dfbb71ec4
+begin
+	push_sliding!(raw_prices, raw_price, n=raw_n)
+	push_sliding!(raw_eventtimes, raw_eventtime, n=raw_n)
+	plot(raw_eventtimes, raw_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
+end
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
