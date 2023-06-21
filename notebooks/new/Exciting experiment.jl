@@ -165,6 +165,9 @@ begin
 	posteriors_eventtimes = DateTime[];
 end
 
+# ╔═╡ fb30e1dc-813d-4df3-92df-3b86b0c994a8
+
+
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
@@ -1917,6 +1920,7 @@ version = "1.4.1+0"
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═fb30e1dc-813d-4df3-92df-3b86b0c994a8
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
