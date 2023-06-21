@@ -131,6 +131,9 @@ begin
 	regular_eventtimes = DateTime[]
 end;
 
+# ╔═╡ 2118b853-e07e-49ee-8050-14b42df35eec
+
+
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 plot_regular = begin
 	push_sliding!(regular_prices, regular_price, n=regular_n)
@@ -1991,6 +1994,7 @@ version = "1.4.1+0"
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
+# ╠═2118b853-e07e-49ee-8050-14b42df35eec
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
