@@ -161,9 +161,6 @@ begin
 	end
 end
 
-# ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
-
-
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	reset_bayesian
@@ -186,8 +183,17 @@ begin
 	posteriors_eventtimes = DateTime[];
 end
 
+# ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
+x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
+
+# ╔═╡ 52c6a8f7-7211-438d-8c57-1034dd2c27aa
+mean_std(GammaShapeRate(5.0, 0.05))
+
+# ╔═╡ d507c418-6dd6-4940-9df3-c60b69b623ca
+inv(40/70)
+
 # ╔═╡ 612d6653-b993-442b-9c54-0340849a5b35
-40/70
+inv(40/70^2)
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
@@ -1972,8 +1978,10 @@ version = "1.4.1+0"
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═46f340ab-4664-4622-a8a1-c0539d3b318e
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
-# ╠═42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
+# ╠═547383f5-ddc6-4698-8532-f434af16fff5
+# ╠═52c6a8f7-7211-438d-8c57-1034dd2c27aa
+# ╠═d507c418-6dd6-4940-9df3-c60b69b623ca
 # ╠═612d6653-b993-442b-9c54-0340849a5b35
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
