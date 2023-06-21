@@ -136,19 +136,6 @@ end
 # ╔═╡ bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 regular_n = 100
 
-# ╔═╡ dfdb1bed-c8cb-4b65-be15-1f74f4104497
-begin
-	regular_prices = Float64[]
-	regular_eventtimes = DateTime[]
-end;
-
-# ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
-plot_regular = begin
-	push_sliding!(regular_prices, regular_price, n=regular_n)
-	push_sliding!(regular_eventtimes, regular_eventtime, n=regular_n)
-	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
-end
-
 # ╔═╡ 3437190e-af5a-4817-bf4b-82b161265e7f
 md"""
 # Probability
@@ -160,6 +147,30 @@ begin
 	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
 	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
 end;
+
+# ╔═╡ dfdb1bed-c8cb-4b65-be15-1f74f4104497
+begin
+	reset
+	
+	regular_prices = Float64[]
+	regular_eventtimes = DateTime[]
+
+	# probability stuff which follows below but has same time granularity
+	regular_posteriors = []
+
+	# (re)initialize x-priors on reset
+	_x_mean = !isempty(raw_prices) ? raw_prices[end] : 
+			  isnothing(first_price) ? 2000.0 : first_price 
+	_x_var = 1/mean(prior_x_τ[])  # using precision
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
+end;
+
+# ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
+plot_regular = begin
+	push_sliding!(regular_prices, regular_price, n=regular_n)
+	push_sliding!(regular_eventtimes, regular_eventtime, n=regular_n)
+	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
+end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
