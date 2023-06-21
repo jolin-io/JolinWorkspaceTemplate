@@ -35,7 +35,7 @@ begin
 
 	ui_ci_percent = @bind ci_percent Slider(20:1:99, default=95, show_value=true)
 
-	ui_reset = @bind reset_bayesian Button("Reset")
+	ui_reset = @bind reset Button("Reset")
 	
 	md"""
 	|         | choose |
@@ -118,12 +118,12 @@ first price is good for other initializations
 """
 
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
-first_price, set_first_price = @use_state(2000.0)
+first_price, set_first_price = @use_state(nothing)
 
 # ╔═╡ 288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 begin
 	raw_price
-	isempty(raw_prices) && set_first_price(raw_price)
+	isnothing(first_price) && set_first_price(raw_price)
 end
 
 # ╔═╡ 9c6c88fe-a806-47f0-82da-f2f6c265d1fc
@@ -164,23 +164,29 @@ md"""
 """
 
 # ╔═╡ c32cd0fc-4e76-4259-ba47-c9681b4a47a9
-begin
-	raw_price
-	isempty(raw_prices) && set_first_price(raw_price)
-end
+
 
 # ╔═╡ f5a07ad0-db42-4588-a4b6-6517a30f946d
 begin
-	# prior_y_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
-	# prior_x_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
-
 	# the higher the prior(modeling precision), the smaller the variance between jumps
 	prior_x_τ = Ref(GammaShapeRate(1.0, 70))  # taken from longer runs
 	prior_y_τ = Ref(GammaShapeRate(40.0, 0.05))  # high y precision - small general noise
 end;
 
 # ╔═╡ 8ebaed4e-5ae3-48fd-8dd9-1cf9d8c3b492
+begin
+	reset
 
+	# we need extra vectors in addition to regular because the probabilities can only be computed as soon as some value appeared
+	prob_posteriors = []
+	prob_prices = []
+	prob_eventtimes = DateTime[]
+
+	# (re)initialize x-priors
+	_x_mean = isempty(raw_prices) ? first_price : raw_prices[end]
+	_x_var = 1/mean(prior_x_τ[])  # using precision
+	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
+end;
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
