@@ -118,7 +118,7 @@ begin
 end
 
 # ╔═╡ 5008ce0d-75aa-4810-81f8-fdd7f1ee0f8f
-
+Slider(1:10)
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
 begin
