@@ -276,7 +276,7 @@ begin
 	pred_y_cis = pred_y_stds .* σ_ci
 
 	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
-	@show length(regular_prices) length(regular_posteriors) length(pred_posteriors) 
+	@show length(regular_prices) length(prob_posteriors) length(pred_posteriors) 
 	marker_color_outliers = map(1:length(prob_prices)) do i
 		price, y_mean, y_ci = prob_prices[i], pred_y_means[i], pred_y_cis[i]
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
