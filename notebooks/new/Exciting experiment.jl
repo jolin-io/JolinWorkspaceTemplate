@@ -245,38 +245,6 @@ end
 # ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 ci = ci_percent / 100.0
 
-# ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
-[p[:x_τ] for p in posteriors]
-
-# ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
-plot_bayes = begin
-	prior_x_τ[] = result.posteriors[:x_τ]
-	prior_y_τ[] = result.posteriors[:y_τ]
-	prior_x[] = result.posteriors[:x]
-
-	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
-	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
-	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
-
-	prev_posteriors = [posteriors[1]; posteriors[1:end-1]]
-	y_means, y_stds = vt_to_tv(mean_std.(rand_y2.(prev_posteriors, 10_000)))
-	σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
-	y_cis = y_stds .* σ_ci
-
-	marker_color_outliers = map(1:length(posteriors)) do i
-		price, y_mean, y_ci = posteriors_prices[i], y_means[i], y_cis[i]
-		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
-		return isoutlier ? :orange : :blue
-	end
-	
-	plot(posteriors_eventtimes, y_means,
-			ribbon = y_cis,
-			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
-			xrotation = 10)
-	scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
-	scatter!([], [], label="Warning", markercolor=:orange)
-end
-
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
 	x_mean, x_std = mean_std(posteriors[end][:x])
@@ -319,6 +287,38 @@ plot_total
 
 # ╔═╡ a226ce11-8c29-4d05-9888-181fc4c29910
 # TODO store previous marginal distributions?
+
+# ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
+σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
+
+# ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
+plot_bayes = begin
+	prior_x_τ[] = result.posteriors[:x_τ]
+	prior_y_τ[] = result.posteriors[:y_τ]
+	prior_x[] = result.posteriors[:x]
+
+	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
+	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
+	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
+
+	prev_posteriors = [posteriors[1]; posteriors[1:end-1]]
+	y_means, y_stds = vt_to_tv(mean_std.(rand_y2.(prev_posteriors, 10_000)))
+	σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
+	y_cis = y_stds .* σ_ci
+
+	marker_color_outliers = map(1:length(posteriors)) do i
+		price, y_mean, y_ci = posteriors_prices[i], y_means[i], y_cis[i]
+		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
+		return isoutlier ? :orange : :blue
+	end
+	
+	plot(posteriors_eventtimes, y_means,
+			ribbon = y_cis,
+			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Warning", markercolor=:orange)
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
