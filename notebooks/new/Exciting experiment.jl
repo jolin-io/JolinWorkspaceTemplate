@@ -188,7 +188,7 @@ begin
 
 	# (re)initialize x-priors
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	_x_var = 1/mean(prior_x_τ)  # using precision
+	_x_var = 1/mean(prior_x_τ[])  # using precision
 	_x_var > 0.0 || (_x_var = 1.0)
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 end
