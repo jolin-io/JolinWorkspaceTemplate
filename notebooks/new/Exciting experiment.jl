@@ -134,11 +134,6 @@ end;
 # ╔═╡ 0de68cf3-104b-4d25-8cca-9ed8162b9d9a
 a = 1
 
-# ╔═╡ 2118b853-e07e-49ee-8050-14b42df35eec
-if a == 4
-	b = 2
-end
-
 # ╔═╡ 329c2395-40c4-4c4f-95b8-fdf6bb5298de
 
 
@@ -2011,7 +2006,6 @@ version = "1.4.1+0"
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═0de68cf3-104b-4d25-8cca-9ed8162b9d9a
-# ╠═2118b853-e07e-49ee-8050-14b42df35eec
 # ╠═329c2395-40c4-4c4f-95b8-fdf6bb5298de
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╟─3437190e-af5a-4817-bf4b-82b161265e7f
