@@ -188,7 +188,7 @@ begin
 end
 
 # ╔═╡ e7dfa3f1-5859-489a-ac3d-a8b78d510e37
-
+rand_y.((posteriors[1], posteriors[2]))
 
 # ╔═╡ 5b87ac1c-8849-4102-867f-54ba27cf282b
 rand_y.(posteriors, (100,))
