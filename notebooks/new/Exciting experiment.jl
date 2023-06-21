@@ -276,7 +276,8 @@ plot_bayes = begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	y_means, y_stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
+	prev_posteriors = [posteriors[1]; posteriors[1:end-1]]
+	y_means, y_stds = vt_to_tv(mean_std.(rand_y2.(prev_posteriors, 10_000)))
 	σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
 	y_cis = y_stds .* σ_ci
 
