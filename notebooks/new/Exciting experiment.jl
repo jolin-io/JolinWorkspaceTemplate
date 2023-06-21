@@ -220,6 +220,7 @@ begin
 			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Outliers", markercolor=:orange)
 end
 
 # ╔═╡ ec14412d-6b95-4c63-8e47-87608c567bb5
