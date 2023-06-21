@@ -215,6 +215,9 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
+# ╔═╡ a8eb0b5d-4e99-4299-a948-f85ac46137da
+
+
 # ╔═╡ 41f94e92-2346-4e75-9c2c-85eff46274b0
 rand(Gamma(shape(posteriors[end][:y_τ]), scale(posteriors[end][:y_τ])))
 
@@ -1968,6 +1971,7 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═a8eb0b5d-4e99-4299-a948-f85ac46137da
 # ╠═46af04dc-b907-4fdd-9986-b147ef945269
 # ╠═41f94e92-2346-4e75-9c2c-85eff46274b0
 # ╠═b6297655-f865-4ef7-b183-56aff6c05bbe
