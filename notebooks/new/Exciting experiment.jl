@@ -134,6 +134,29 @@ end
 # ╔═╡ 46f340ab-4664-4622-a8a1-c0539d3b318e
 @bind fixed_y_std Slider(1:10, default=4, show_value=true)
 
+# ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
+begin
+	@model function kalman_filter(prior_x_mean_var, prior_x_τ, fixed_y_std)
+
+		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
+	    
+	    # Random walk with fixed precision
+		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
+	    x ~ Normal(mean = x_prev, precision = x_τ)
+
+		# Noisy observation (y_rv to also store posterior)
+	    # y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
+	    y = datavar(Float64)
+	    y ~ Normal(mean = x, var = fixed_y_std^2)
+	end
+	
+	# We assume the following factorisation between variables 
+	# in the variational distribution
+	@constraints function filter_constraints()
+	    q(x_prev, x, x_τ) = q(x_prev, x)q(x_τ)
+	end
+end
+
 # ╔═╡ 42d4d11b-9d45-432f-bd89-0e0af2ef3ae4
 
 
@@ -159,29 +182,6 @@ begin
 	posteriors_eventtimes = DateTime[];
 end
 
-# ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
-begin
-	@model function kalman_filter(prior_x_mean_var, prior_x_τ, fixed_y_std)
-
-		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
-	    
-	    # Random walk with fixed precision
-		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
-	    x ~ Normal(mean = x_prev, precision = x_τ)
-
-		# Noisy observation (y_rv to also store posterior)
-	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
-	    y = datavar(Float64)
-	    y ~ Normal(mean = x, var = fixed_y_std^2)
-	end
-	
-	# We assume the following factorisation between variables 
-	# in the variational distribution
-	@constraints function filter_constraints()
-	    q(x_prev, x, x_τ) = q(x_prev, x)q(x_τ)
-	end
-end
-
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
 	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], fixed_y_std), #prior_y_τ[]),
@@ -196,7 +196,10 @@ result.posteriors
 
 # ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
 begin
-	rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
+	#rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
+
+	rand_y(posterior) = rand(NormalMeanVariance(rand(posterior[:x]), fixed_y_std^2)
+
 	function rand_y(posterior, shape)
 		if length(shape) == 1
 			[rand_y(posterior) for i in 1: shape[1]]
