@@ -164,7 +164,9 @@ begin
 end;
 
 # ╔═╡ 1c561c02-aff5-4bf3-b632-3c2df5da8229
-
+md"""
+the following should be reset on Reset button click
+"""
 
 # ╔═╡ 6fd03866-5d74-4427-ae4b-fe28f573fa8a
 begin
