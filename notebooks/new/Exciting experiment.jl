@@ -158,7 +158,7 @@ begin
 	# initialize priors
 	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
 	_x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
-	_x_var <= 0.0 && (_x_var = 1.0)
+	_x_var > 0.0 || (_x_var = 1.0)
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 
 	prior_x_τ = Ref(GammaShapeRate(1.0, 1.0))
@@ -170,9 +170,6 @@ begin
 	posteriors_prices = Float64[]
 	posteriors_eventtimes = DateTime[];
 end
-
-# ╔═╡ 517d9492-9f9f-46e3-8cfc-4004113816cf
-_x_var > 0.0
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
@@ -1965,7 +1962,6 @@ version = "1.4.1+0"
 # ╠═427e7e0a-b196-4b97-a81d-8a86c1fbcfed
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
-# ╠═517d9492-9f9f-46e3-8cfc-4004113816cf
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
