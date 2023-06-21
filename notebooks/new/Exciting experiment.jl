@@ -238,7 +238,7 @@ end
 
 # ╔═╡ 171dc288-1ec8-42eb-9e02-2733afb122c5
 function f((a, b, v))
-	@show x
+	@show a b v
 	true
 end
 
