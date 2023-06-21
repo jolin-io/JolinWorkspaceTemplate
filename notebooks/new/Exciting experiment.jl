@@ -111,7 +111,7 @@ md"""
 """
 
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
-regular_price, regular_eventtime = @repeaton(ceil(now(), Second(30))) do t
+regular_price, regular_eventtime = @repeaton(ceil(now(), Second(10))) do t
 	raw_prices[end], t
 end
 
