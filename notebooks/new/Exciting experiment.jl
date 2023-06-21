@@ -190,10 +190,10 @@ begin
 end
 
 # ╔═╡ a083b078-41ed-4215-8cd3-aa48ee3d65e1
-prices_mean_var.(posteriors)
+h = prices_mean_var.(posteriors)
 
 # ╔═╡ 8e3201b3-aae5-4cb7-9986-876bdccc0201
-prices_mean_var(posteriors)
+prices_mean_var(h)
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
@@ -205,7 +205,12 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	p = plot(posteriors_eventtimes, [mean(p[:x]) for p in posteriors], ribbon = [var(p[:x]) for p in posteriors], label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+	prices_mean_var(posteriors)
+	
+	p = plot(posteriors_eventtimes, [mean(p[:x]) for p in posteriors],
+			ribbon = [var(p[:x]) for p in posteriors],
+			label = "Estimation", xlabel="time", ylabel="EURO",
+			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
@@ -229,10 +234,7 @@ end
 ])
 
 # ╔═╡ ba456358-40e8-425f-9435-73f5443ab936
-@benchmark mean_var([
-	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
-	for i in 1:10_000
-])
+@benchmark 
 
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
 mean(randoms)
