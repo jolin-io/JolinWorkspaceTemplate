@@ -126,18 +126,18 @@ begin
 	    
 	    # Random walk with fixed precision
 		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
-	    x_current ~ Normal(mean = x_prev, precision = x_τ)
+	    x ~ Normal(mean = x_prev, precision = x_τ)
 
 		# Noisy observation (y_rv to also store posterior)
 	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
 	    y = datavar(Float64)
-	    y ~ Normal(mean = x_current, precision = y_τ)
+	    y ~ Normal(mean = x, precision = y_τ)
 	end
 	
 	# We assume the following factorisation between variables 
 	# in the variational distribution
 	@constraints function filter_constraints()
-	    q(x_prev, x_current, x_τ, y_τ) = q(x_prev, x_current)q(x_τ)q(y_τ)
+	    q(x_prev, x, x_τ, y_τ) = q(x_prev, x)q(x_τ)q(y_τ)
 	end
 end
 
@@ -154,10 +154,8 @@ begin
 
 	# collect results
 	posteriors_n = 100
-	posteriors_x = []
-	posteriors_x_τ = []
+	posteriors = []
 	posteriors_y = Float64[]
-	posteriors_y_τ = []
 	posteriors_eventtimes = DateTime[];
 end
 
@@ -179,14 +177,11 @@ begin
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x_current]
 
-	push_sliding!(posteriors_x, result.posteriors[:x_current], n=posteriors_n)
-	push_sliding!(posteriors_x_τ, result.posteriors[:x_τ], n=posteriors_n)
-	push_sliding!(posteriors_y_τ, result.posteriors[:y_τ], n=posteriors_n)
+	push_sliding!(posteriors, result.posteriors, n=posteriors_n)
 	push_sliding!(posteriors_y, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-
-	p = plot(posteriors_eventtimes, mean.(posteriors_x), ribbon = var.(posteriors_x), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
+	p = plot(posteriors_eventtimes, mean.(p[:x_current] for p in posteriors]), ribbon = var.([p[:x_current] for p in posteriors_x]), label = "Estimation", xrotation = 10, xlabel="time", ylabel="EURO")
     p = scatter!(posteriors_eventtimes, posteriors_y, label = "Observations")
 end
 
