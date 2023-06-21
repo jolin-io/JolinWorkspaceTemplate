@@ -161,20 +161,6 @@ begin
 	end
 end
 
-# ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
-regular_posteriors
-	reset_bayesian
-	# collect results
-	regular_posteriors = []
-
-	# (re)initialize x-priors
-	_x_mean = isempty(regular_prices) ? 0.0 : regular_prices[end]
-	# _x_var = isempty(regular_prices) ? 1.0 : var(regular_prices)/10
-	_x_var = 1/mean(prior_x_τ[])  # using precision
-	_x_var > 0.0 || (_x_var = 1.0)
-	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
-end
-
 # ╔═╡ 046834bf-2c3e-4d2d-9ead-0037f8037517
 md"""
 priors of variances are not reinitiated, but kept
@@ -2007,7 +1993,6 @@ version = "1.4.1+0"
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
-# ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
