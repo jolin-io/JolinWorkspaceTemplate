@@ -205,7 +205,14 @@ macro forall(expr)
 end
 
 # ╔═╡ 13e12519-e078-4cc3-b6fe-2951d091b482
-@eval JolinPluto macro take_repeatedly!(init, expr)
+@eval JolinPluto begin
+macro take_repeatedly!(expr)
+	impl_take_repeatedly([], expr)
+end
+macro take_repeatedly!(init, expr)
+	impl_take_repeatedly(init, expr)
+end
+function impl_take_repeatedly!(init, expr)
 	quote
 		let
 			iter = $(esc(init))
@@ -239,6 +246,7 @@ end
 			end
 		end
 	end
+end
 end
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
