@@ -18,7 +18,9 @@ end
 using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
 # ╔═╡ 3fe56386-7ba7-481e-9aa6-03218b710001
-
+md"""
+# Report
+"""
 
 # ╔═╡ 0d8791d8-ff47-495f-ba74-f1f565654d66
 begin
