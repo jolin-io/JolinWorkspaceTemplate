@@ -187,7 +187,8 @@ prices_mean_var(posterior) = mean_var([
 prices_mean_var.(posteriors)
 
 # ╔═╡ 8e3201b3-aae5-4cb7-9986-876bdccc0201
-_mean, _var = zip(prices_mean_var.(posteriors)...)
+Matrix(prices_mean_var.(posteriors)))
+
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 begin
