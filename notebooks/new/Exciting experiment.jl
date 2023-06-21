@@ -220,7 +220,6 @@ end
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
-Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 JolinPluto = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
@@ -244,7 +243,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "efa758e509c5a63c96031e45a9effcf99706f5b1"
+project_hash = "ee3115702fc5f0a77b1fa2e1c9baf19dcb4570c6"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
