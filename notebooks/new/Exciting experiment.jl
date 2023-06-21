@@ -203,10 +203,10 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	means, stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
+	y_means, y_stds = vt_to_tv(mean_std.(rand_y.(posteriors, 10_000)))
 	
-	p = plot(posteriors_eventtimes, means,
-			ribbon = stds,
+	p = plot(posteriors_eventtimes, y_means,
+			ribbon = y_stds,
 			label = "Estimation ± σ", xlabel="time", ylabel="EURO",
 			xrotation = 10)
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
