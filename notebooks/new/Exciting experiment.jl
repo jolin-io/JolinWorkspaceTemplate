@@ -204,7 +204,7 @@ end
 # ╔═╡ 639ea99f-8787-4212-99d8-4002763d8493
 randoms = [
 	rand(NormalMeanPrecision(rand(post_x), rand(post_y_tau)))
-	for i in 1:1000
+	for i in 1:10_000
 ]
 
 # ╔═╡ e2478e0e-1b79-43fa-98fc-ab130100b408
