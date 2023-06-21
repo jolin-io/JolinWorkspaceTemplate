@@ -218,18 +218,18 @@ end
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 begin
-	x_mean, x_std = mean_std(posteriors[end][:x])
+	x_mean, x_std = mean_std(posteriors[end][:x]) * σ_ci
 	y_mean, y_ci = y_means[end], y_cis[end]
 	
 	x_mean = Int(round(x_mean))
-	x_std = Int(round(x_std))
+	x_ci = Int(round(x_ci))
 	y_mean = Int(round(y_mean))
 	y_ci = Int(round(y_ci))
 
 	md"""
 	| current estimations | mean in $(ci_percent)% confidence |
 	|---------------------|:------------|
-	|hidden state | $(x_mean)€ ± $(x_std * σ_ci)€
+	|hidden state | $(x_mean)€ ± $(x_ci)€
 	|observed state | $(y_mean)€ ± $(y_ci)€|
 	"""
 end
