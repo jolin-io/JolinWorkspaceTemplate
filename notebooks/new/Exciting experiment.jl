@@ -189,6 +189,9 @@ end
 # ╔═╡ a2401fbe-0f32-46d7-87b8-6c544e369345
 @bind b NumberField(0:100)
 
+# ╔═╡ 1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
+
+
 # ╔═╡ 547383f5-ddc6-4698-8532-f434af16fff5
 x_tau_mean, x_tau_std = mean_std(GammaShapeRate(40, 70))
 
@@ -1990,6 +1993,7 @@ version = "1.4.1+0"
 # ╠═a031e592-e7e5-4957-a2ac-1c40f44b29d3
 # ╠═4c660768-05fd-48dc-87ea-f8b6674da589
 # ╠═a2401fbe-0f32-46d7-87b8-6c544e369345
+# ╠═1fb8e3a4-2e9f-482d-b5fe-d4e2e90b7651
 # ╠═547383f5-ddc6-4698-8532-f434af16fff5
 # ╠═f2881e9e-995f-4932-9f46-c1bf36f2e125
 # ╠═52c6a8f7-7211-438d-8c57-1034dd2c27aa
