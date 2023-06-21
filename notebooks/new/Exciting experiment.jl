@@ -178,7 +178,9 @@ train!(regular_price) = inference(
 result = train!(regular_price)
 
 # ╔═╡ 80a286a3-3153-4465-8380-dfe07f68fcbe
-
+md"""
+### Initial training
+"""
 
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
