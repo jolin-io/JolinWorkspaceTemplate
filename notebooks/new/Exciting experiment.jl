@@ -153,9 +153,6 @@ begin
 	end
 end
 
-# ╔═╡ 517d9492-9f9f-46e3-8cfc-4004113816cf
-
-
 # ╔═╡ a031e592-e7e5-4957-a2ac-1c40f44b29d3
 begin
 	# initialize priors
@@ -173,6 +170,9 @@ begin
 	posteriors_prices = Float64[]
 	posteriors_eventtimes = DateTime[];
 end
+
+# ╔═╡ 517d9492-9f9f-46e3-8cfc-4004113816cf
+_x_var
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
