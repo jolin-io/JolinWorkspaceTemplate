@@ -243,10 +243,7 @@ function f((a, b, v))
 end
 
 # ╔═╡ aae73306-bfd5-4bb4-aeef-7c5dac1e56f8
-findall(collect(zip(1:10, 4:8, 6:10))) do x
-	@show x
-	true
-end
+findall(f, collect(zip(1:10, 4:8, 6:10)))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
