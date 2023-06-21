@@ -206,7 +206,7 @@ begin
 	push_sliding!(posteriors_prices, regular_price, n=posteriors_n)
 	push_sliding!(posteriors_eventtimes, regular_eventtime, n=posteriors_n)
 
-	posterior_mean_var = prices_mean_var(posteriors)
+	means, vars = prices_mean_var(posteriors)
 	
 	p = plot(posteriors_eventtimes, posterior_mean_var[1, :],
 			ribbon = posterior_mean_var[2,:],
