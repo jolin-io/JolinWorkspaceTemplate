@@ -289,7 +289,7 @@ plot_bayes = begin
 	
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
-			label = "Predicted value in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			label = "Prediction in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
