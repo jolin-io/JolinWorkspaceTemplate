@@ -163,7 +163,7 @@ result = inference(
 	model = kalman_filter(prior_x[], shape(prior_x_τ[]), rate(prior_x_τ[])),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
-	initmarginals = (x_current = prior_x[], τ = prior_τ[]),
+	initmarginals = (x_current = prior_x[], τ = prior_x_τ[]),
 	free_energy = true,
 )
 
