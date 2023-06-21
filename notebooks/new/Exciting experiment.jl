@@ -208,14 +208,20 @@ begin
 	σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
 	y_cis = y_stds .* σ_ci
 
+	outliers_indices = findall(1:length(posteriors)) do i
+		price, y_mean, y_ci = posteriors_prices[i], y_means[i], y_cis[i]
+		return price < y_mean - y_ci || y_mean + y_ci > price
+	end
+	outliers_prices = posteriors_prices[outliers_indices]
+	outliers_eventtimes = posteriors_eventtimes[outliers_indices]
+
 	ci_percent = Int(round(ci*100))
-	p = plot(posteriors_eventtimes, y_means,
+	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
 			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-    p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
-
-	outliers
+    scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
+	scatter!(outliers_eventtimes, outliers_prices, label = "Outliers", markersize=4, markershape=:x, markercolor=:red)
 end
 
 # ╔═╡ ec14412d-6b95-4c63-8e47-87608c567bb5
