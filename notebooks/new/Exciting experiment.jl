@@ -120,17 +120,18 @@ end
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
-	@model function kalman_filter(x_prior, τ_shape, τ_rate) # x_τ_prior
-		mean_var = mean_var(x_prior)
-		x_prev ~ Normal(mean = mean_var[1], variance = mean_var[2])
-	    τ ~ Gamma(shape = τ_shape, rate = τ_rate)
+	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
+
+		x_prev ~ Normal(mean = prior_x_mean_var[1], variance = prior_x_mean_var[2])
 	    
 	    # Random walk with fixed precision
+		x_τ ~ Gamma(shape = shape(prior_x_τ), rate = rate(prior_x_τ))
 	    x_current ~ Normal(mean = x_prev, precision = 1.0)
 
 		# Noisy observation (y_rv to also store posterior)
+	    y_τ ~ Gamma(shape = shape(prior_y_τ), rate = rate(prior_y_τ))
 	    y = datavar(Float64)
-	    y ~ Normal(mean = x_current, precision = τ)
+	    y ~ Normal(mean = x_current, precision = y_τ)
 	end
 	
 	# We assume the following factorisation between variables 
@@ -163,7 +164,7 @@ mean_var(posteriors_x[end])
 
 # ╔═╡ b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 result = inference(
-	model = kalman_filter(prior_x[], shape(prior_x_τ[]), rate(prior_x_τ[])),
+	model = kalman_filter(mean_var(prior_x[]), prior_x_τ[], prior_y_τ[]),
 	data = (y = regular_price,),
 	constraints = filter_constraints(),
 	initmarginals = (x_current = prior_x[], τ = prior_x_τ[]),
