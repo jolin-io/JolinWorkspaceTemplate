@@ -118,7 +118,7 @@ begin
 end
 
 # ╔═╡ f6217aed-88bb-4cc4-848a-8fbda3d0e926
-begin
+plot_regular = begin
 	push_sliding!(regular_prices, regular_price, n=regular_n)
 	push_sliding!(regular_eventtimes, regular_eventtime, n=regular_n)
 	plot(regular_eventtimes, regular_prices, xrotation = 10, xlabel="time", ylabel="EURO", label="bitcoin")
