@@ -209,6 +209,9 @@ begin
     p = scatter!(posteriors_eventtimes, posteriors_prices, label = "Observations")
 end
 
+# ╔═╡ f1be49c6-5670-4d97-9d86-b3c78f476eeb
+
+
 # ╔═╡ a8eb0b5d-4e99-4299-a948-f85ac46137da
 for p in posteriors
 	m, v = mean_var(p[:y_τ])
@@ -1904,6 +1907,7 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═f1be49c6-5670-4d97-9d86-b3c78f476eeb
 # ╠═a8eb0b5d-4e99-4299-a948-f85ac46137da
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
