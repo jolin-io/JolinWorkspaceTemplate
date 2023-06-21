@@ -166,8 +166,8 @@ begin
 	_x_var > 0.0 || (_x_var = 1.0)
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 
-	prior_x_τ = Ref(GammaShapeRate(1.0, 0.5)) # lower rate means higher variances
-	prior_y_τ = Ref(GammaShapeRate(1.0, 2.0)) # higher rate means lower variances
+	prior_x_τ = Ref(GammaShapeRate(4.0, 0.5)) # lower rate means higher variances
+	prior_y_τ = Ref(GammaShapeRate(0.5, 4.0)) # higher rate means lower variances
 
 	# collect results
 	posteriors_n = 100
