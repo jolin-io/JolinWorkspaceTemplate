@@ -43,6 +43,9 @@ begin
 	"""
 end
 
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_total
+
 # ╔═╡ de49ca06-6e83-4a02-b92c-60f09ec26fd7
 md"""
 # Implementation Details
@@ -265,22 +268,6 @@ plot_bayes = begin
 	scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
-
-# ╔═╡ 14d4a015-d8af-4b34-b693-31b10f6dafc0
-plot_total = let
-	raw_price
-	plot(posteriors_eventtimes, y_means,
-			ribbon = y_cis,
-			label = "Estimation in $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
-			xrotation = 10)
-	raw_index = findall(t -> t >= posteriors_eventtimes[begin], raw_eventtimes)
-	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
-    scatter!(posteriors_eventtimes, posteriors_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
-	scatter!([], [], label="Warning", markercolor=:orange)
-end
-
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_total
 
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
@@ -1989,7 +1976,6 @@ version = "1.4.1+0"
 # ╠═d7e0dcbe-d6aa-4231-a823-013fba81678f
 # ╠═6be54865-68ef-4601-8182-3866b7c8d758
 # ╠═cc6b1b72-1be0-4158-8179-a82dfbb71ec4
-# ╠═14d4a015-d8af-4b34-b693-31b10f6dafc0
 # ╟─2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
