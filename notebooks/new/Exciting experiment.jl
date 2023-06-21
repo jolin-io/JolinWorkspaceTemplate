@@ -188,7 +188,7 @@ begin
 end
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
-function vector_tuple2_to_tuple2_vector(v::AbstractVector{Tuple{Float64, Float64}})
+function vt2tv(v::AbstractVector{Tuple{Float64, Float64}})
 	matrix = reinterpret(reshape, Float64, v)
 	return matrix[1, :], matrix[2, :]
 end
