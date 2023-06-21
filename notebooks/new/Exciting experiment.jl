@@ -304,6 +304,7 @@ variance_estimations
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 plot_total = let
 	raw_price
+	result
 	plot(posteriors_eventtimes, y_means,
 			ribbon = y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
