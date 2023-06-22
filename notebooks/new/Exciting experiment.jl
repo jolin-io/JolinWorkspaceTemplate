@@ -148,6 +148,9 @@ md"""
 ## Watermarking - Bring raw data into regular windows
 """
 
+# ╔═╡ b08e8305-16ae-40bb-a19c-8b009fe7e110
+
+
 # ╔═╡ 8a1db252-a011-4516-9745-f9eab920667d
 @macroexpand @repeaton(ceil(now(), interval)) do t
 	raw_prices[end], t
@@ -2128,6 +2131,7 @@ version = "1.4.1+0"
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╠═288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 # ╠═2d3fa562-5e27-453f-8a42-637f74878ff8
+# ╠═b08e8305-16ae-40bb-a19c-8b009fe7e110
 # ╠═8a1db252-a011-4516-9745-f9eab920667d
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
