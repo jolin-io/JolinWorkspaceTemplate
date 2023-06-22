@@ -313,9 +313,6 @@ function _forecast_y(posterior; n_steps_into_the_future)
 	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
 end
 
-# ╔═╡ 2d220094-ebbd-4072-a977-497a0b344f4e
-2interval
-
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
 function forecast_y(eventtime, posterior, n_steps_into_the_future=1)
 	vector_of_vectors = repeatcall(shape=10_000) do 
@@ -2141,7 +2138,6 @@ version = "1.4.1+0"
 # ╠═d4b95400-a20e-4296-950d-0838ffe2d2cb
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
-# ╠═2d220094-ebbd-4072-a977-497a0b344f4e
 # ╠═20ba9172-641b-4000-94f8-f2da3e431da2
 # ╟─854d5428-78c7-449d-9109-aaeca576cedd
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
