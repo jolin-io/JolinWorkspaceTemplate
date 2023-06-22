@@ -352,6 +352,9 @@ plot_total
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
 # TODO forecast?
 
+# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
+
+
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
 initial_x = rand_x(prob_posteriors[end])
 
@@ -2075,6 +2078,7 @@ version = "1.4.1+0"
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
+# ╠═c17db269-dde4-43cb-aca7-dc05080f05a9
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
 # ╠═dc0dea2b-0b69-4dc4-a2d7-fab726665b4e
 # ╟─00000000-0000-0000-0000-000000000001
