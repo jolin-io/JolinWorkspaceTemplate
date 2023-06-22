@@ -353,7 +353,7 @@ plot_total
 # TODO forecast?
 
 # ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
-
+forecast_n = 10
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
 initial_x = rand_x(prob_posteriors[end])
