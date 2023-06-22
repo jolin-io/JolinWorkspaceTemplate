@@ -36,7 +36,7 @@ begin
 
 	ui_forecast_n = @bind forecast_n Select([i => "$i steps" for i in [2, 10, 20, 50]], default=10)
 
-	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60]], default=Second(10))
+	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60]], default=10)
 	
 	md"""
 	|         | choose |
@@ -447,7 +447,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [compat]
 HTTP = "~1.9.7"
 JSON3 = "~1.13.1"
-JolinPluto = "~0.1.21"
+JolinPluto = "~0.1.20"
 Plots = "~1.38.16"
 PlutoHooks = "~0.0.5"
 PlutoUI = "~0.7.51"
@@ -460,7 +460,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "e865eec48434ad1f510c883aff54c7d4680aabfc"
+project_hash = "3cf23629b3be115539c620d486b68a9959a479fc"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -1041,9 +1041,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Continuables", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs", "PlutoHooks", "PlutoLinks"]
-git-tree-sha1 = "0cc38c4d12547a6362d87970d0bd5b4a576cf512"
+git-tree-sha1 = "6cb3217c4a55dce17cf65e78dd2236a1c4baabeb"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.21"
+version = "0.1.20"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
