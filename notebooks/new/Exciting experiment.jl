@@ -376,7 +376,7 @@ plot_total = let
 			ribbon = pred_y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-	forecast_eventtimes, forecast_means, forecast_std = forecast_y(prob_posteriors[end])
+	forecast_eventtimes, forecast_means, forecast_std = forecast_y(prob_eventtimes[end], prob_posteriors[end])
 	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
 	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
     scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
