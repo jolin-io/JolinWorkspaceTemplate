@@ -373,7 +373,7 @@ vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_
 mymean_std = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
 
 # ╔═╡ e2550fad-a1c8-4cff-b59d-1946b3079f57
-
+vt_to_tv(mymean_std)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
