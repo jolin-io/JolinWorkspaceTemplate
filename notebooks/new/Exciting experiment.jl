@@ -280,11 +280,10 @@ md"""
 """
 
 # ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
-forecast_n = 10
+forecast_n = 20
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-function _forecast_y(posterior; n_steps_into_the_future=2)
-	# two steps by default, because the standard prediction is already one step into the future
+function _forecast_y(posterior; n_steps_into_the_future)
 	forecast_x = []
 	forecast_x_prev = rand_x(posterior; n_steps_into_the_future)
 	for i in 1:forecast_n
@@ -298,7 +297,7 @@ end
 2interval
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-function forecast_y(eventtime, posterior, n_steps_into_the_future=2)
+function forecast_y(eventtime, posterior, n_steps_into_the_future=1)
 	vector_of_vectors = repeatcall(shape=10_000) do 
 		_forecast_y(posterior; n_steps_into_the_future)
 	end
