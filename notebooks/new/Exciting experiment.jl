@@ -240,6 +240,9 @@ function repeatcall(f, args...; shape, kwargs...)
 	reshape(linear, shape)
 end
 
+# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
+
+
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 begin
 	function rand_y2(posterior)
@@ -2067,6 +2070,7 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═5dcecef4-9da2-4de6-8710-652f0c522581
 # ╠═8d76aad4-d592-41d5-a38c-4aa4364a2045
+# ╠═e21e0e32-4123-43dd-8bfe-29417c922a31
 # ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
 # ╠═112269ba-25c2-4902-b992-78c18c13eded
