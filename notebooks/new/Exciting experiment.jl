@@ -280,6 +280,9 @@ pushed_posterior = begin
 	push_sliding!(prob_posteriors, result.posteriors, n=regular_n)
 	push_sliding!(prob_eventtimes, regular_eventtime, n=regular_n)
 	push_sliding!(prob_prices, regular_price, n=regular_n)
+
+	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
+	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
 end;
 
 # ╔═╡ 3567ea3e-b3a0-4d85-8be3-935127fbbcb4
@@ -289,8 +292,6 @@ reshape([1,2,3], 3)
 begin
 	pushed_posterior
 	# just using the first twice for nicer plot
-	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
-	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
 	pred_y_cis = pred_y_stds .* σ_ci
 
 	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
