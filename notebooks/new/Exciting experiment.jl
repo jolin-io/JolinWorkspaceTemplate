@@ -269,7 +269,9 @@ ci = ci_percent / 100.0
 
 
 # ╔═╡ 164d8211-3650-4e2e-8ef5-773f9711a7a5
-
+md"""
+# Probability Helpers
+"""
 
 # ╔═╡ 8d76aad4-d592-41d5-a38c-4aa4364a2045
 function repeatcall(f, args...; shape, kwargs...)
