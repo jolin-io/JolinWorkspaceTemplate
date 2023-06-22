@@ -332,25 +332,10 @@ end
 # ╔═╡ f858490e-541c-4668-921b-71aef9db5710
 variance_estimations
 
-# ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
-plot_total = let
-	raw_price
-	result
-	plot(pred_eventtimes, pred_y_means,
-			ribbon = pred_y_cis,
-			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
-			xrotation = 10)
-	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
-	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
-    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
-	scatter!([], [], label="Warning", markercolor=:orange)
-end
-
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_total
-
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
-# TODO forecast?
+md"""
+# Forecast
+"""
 
 # ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
 forecast_n = 10
@@ -379,6 +364,23 @@ forecast_y(prob_posteriors[end])
 
 # ╔═╡ e2550fad-a1c8-4cff-b59d-1946b3079f57
 
+
+# ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
+plot_total = let
+	raw_price
+	result
+	plot(pred_eventtimes, pred_y_means,
+			ribbon = pred_y_cis,
+			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
+	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
+    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Warning", markercolor=:orange)
+end
+
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_total
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
