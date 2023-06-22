@@ -356,14 +356,15 @@ plot_total
 forecast_n = 10
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-forecast_x = let
+forecast_y = let
 	forecast_x = []
-	forecast_x_prev = rand_x(prob_posteriors[end])
+	posterior = prob_posteriors[end]
+	forecast_x_prev = rand_x(posterior)
 	for i in 1:forecast_n
 		push!(forecast_x, forecast_x_prev)
-		forecast_x_prev = rand_x(prob_posteriors[end], given_x=forecast_x_prev, n_steps_into_the_future=1)
+		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
 	end
-	forecast_x
+	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
