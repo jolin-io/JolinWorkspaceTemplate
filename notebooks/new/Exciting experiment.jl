@@ -279,9 +279,6 @@ md"""
 # Forecast
 """
 
-# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
-forecast_n = 20
-
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
 function _forecast_y(posterior; n_steps_into_the_future)
 	forecast_x = []
@@ -2114,7 +2111,6 @@ version = "1.4.1+0"
 # ╠═a37c1579-ad9e-46db-91e8-a3d30acb0cf9
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
 # ╟─771c39f0-64ba-436c-9355-f054cc64a6b8
-# ╠═c17db269-dde4-43cb-aca7-dc05080f05a9
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
 # ╠═2d220094-ebbd-4072-a977-497a0b344f4e
 # ╠═20ba9172-641b-4000-94f8-f2da3e431da2
