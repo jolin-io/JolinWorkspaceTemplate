@@ -35,6 +35,8 @@ begin
 	ui_reset = @bind reset Button("Reset")
 
 	ui_forecast_n = @bind forecast_n Select([2, 10, 20, 50], default=10)
+
+	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60], default=10)
 	
 	md"""
 	|         | choose |
@@ -42,6 +44,7 @@ begin
 	| crypto currency| $ui_trading |
 	| confidence interval | $ui_ci_percent %|
 	| number forecast steps | $ui_forecast_n |
+	| sampling interval | $ui_interval |
 	| reset |  $ui_reset |
 	"""
 end
@@ -144,9 +147,6 @@ isnothing(first_price) && set_first_price(raw_price);
 md"""
 ## Watermarking - Bring raw data into regular windows
 """
-
-# ╔═╡ 8b9b4eda-9601-4e81-9429-7d210612496a
-interval = Second(10)
 
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
 regular_price, regular_eventtime = @repeaton(ceil(now(), interval)) do t
@@ -2123,7 +2123,6 @@ version = "1.4.1+0"
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╠═288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 # ╠═2d3fa562-5e27-453f-8a42-637f74878ff8
-# ╠═8b9b4eda-9601-4e81-9429-7d210612496a
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
