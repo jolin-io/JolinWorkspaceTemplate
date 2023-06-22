@@ -15,10 +15,10 @@ macro bind(def, element)
 end
 
 # ╔═╡ 8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
-using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics, PlutoHooks
+using HTTP, JolinPluto, PlutoUI, JSON3, Plots, Dates, RxInfer, Statistics
 
-# ╔═╡ b80bddc8-0b6b-4aa8-871e-343115ea4ba6
-using PlutoLinks
+# ╔═╡ 3f165d90-45fa-4456-a673-bb2cde00e494
+using PlutoLinks, PlutoHooks
 
 # ╔═╡ 3fe56386-7ba7-481e-9aa6-03218b710001
 md"""
@@ -105,8 +105,26 @@ channel = @Channel(10) do channel
 	end
 end
 
+# ╔═╡ efcd56e9-3970-4f7f-a452-848fb498ecea
+# ╠═╡ disabled = true
+#=╠═╡
+macro newtake_repeatedly!(channel)
+	quote
+		channel = $(esc(channel))
+		update, set_update = @use_state(take!(channel))
+		@use_task([update, channel]) do
+			_channel = channel
+			set_update(take!(_channel))
+			rerun_cell = $(PlutoRunner.GiveMeRerunCellFunction())
+			rerun_cell()
+		end
+		update
+	end
+end
+  ╠═╡ =#
+
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
-update = @take_repeatedly! channel
+update = @newtake_repeatedly! channel
 
 # ╔═╡ bc14465c-e671-46db-b040-f120398eccbd
 raw_price = parse(Float64, update.c)
@@ -157,18 +175,6 @@ md"""
 regular_price, regular_eventtime = @repeaton(ceil(now(), interval)) do t
 	price = isempty(raw_prices) ? first_price : raw_prices[end]
 	price, t
-end
-
-# ╔═╡ 8a03d86f-335e-40ee-926b-664250125985
-begin
-	hi = 1
-	task = @use_task([]) do
-		sleep(1)
-		raw_prices[123123123123]
-		error("failed")
-	end
-	errormonitor(task)
-	hi
 end
 
 # ╔═╡ bdbd2410-cc41-42c6-a3c1-4d5aa746b775
@@ -480,7 +486,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "abe4be6746bbb50ee1b0f124d877743a5cca395f"
+project_hash = "267e319386b1a255b2f6d40b9a5e2cb5c896d796"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -2132,6 +2138,8 @@ version = "1.4.1+0"
 # ╟─562478cc-ccde-40e2-9961-3f99c4f252f8
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
 # ╠═95dcaf9c-e51e-40c8-91d0-d8a1bfb92d51
+# ╠═3f165d90-45fa-4456-a673-bb2cde00e494
+# ╠═efcd56e9-3970-4f7f-a452-848fb498ecea
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
 # ╠═bc14465c-e671-46db-b040-f120398eccbd
 # ╠═2519387c-c882-450b-8830-015706c499d1
@@ -2144,8 +2152,6 @@ version = "1.4.1+0"
 # ╠═288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 # ╠═2d3fa562-5e27-453f-8a42-637f74878ff8
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
-# ╠═b80bddc8-0b6b-4aa8-871e-343115ea4ba6
-# ╠═8a03d86f-335e-40ee-926b-664250125985
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
