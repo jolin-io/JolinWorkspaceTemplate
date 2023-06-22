@@ -368,7 +368,7 @@ end
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
 function forecast_y(posterior)
-	vector_of_vectors = repeatcall(() -> _forecast_y(prob_posteriors[end]), shape=10_000)
+	vector_of_vectors = repeatcall(() -> _forecast_y(posterior), shape=10_000)
 	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
 	forecast_means, forecast_std = vt_to_tv(_means_stds)
 	return forecast_means, forecast_std
