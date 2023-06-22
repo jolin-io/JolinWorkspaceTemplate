@@ -370,7 +370,7 @@ end
 vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
 
 # ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
-reinterpret(vector_of_vectors, Float64, (length(vector_of_vectors), length(vector_of_vectors[1]))
+reinterpret(reshape, Float64, vector_of_vectors)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -401,7 +401,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "e865eec48434ad1f510c883aff54c7d4680aabfc"
+project_hash = "3cf23629b3be115539c620d486b68a9959a479fc"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
