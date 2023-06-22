@@ -262,9 +262,6 @@ function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
 	return x
 end
 
-# ╔═╡ 58bb5bf5-476f-4d4f-a1f2-c9e55a44a66e
-reshape([rand() for i in 1:prod((10,3))], (10,3))
-
 # ╔═╡ 133cce3b-084c-4763-b9e6-439cdab8023a
 f.([1,2], (3,4), c=(10, ))
 
