@@ -259,7 +259,7 @@ begin
 end
 
 # ╔═╡ 112269ba-25c2-4902-b992-78c18c13eded
-
+f(a, b; c) = a + b+ c
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
 function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
