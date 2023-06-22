@@ -346,6 +346,11 @@ plot_bayes = begin
 			ribbon = pred_y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
+	plot!(forecast_eventtimes, forecast_means,
+			ribbon = forecast_std .* σ_ci,
+			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	
 	scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
