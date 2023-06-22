@@ -367,7 +367,7 @@ function forecast_y(posterior)
 end
 
 # ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
-
+forecast_y(prob_posteriors[end])
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
