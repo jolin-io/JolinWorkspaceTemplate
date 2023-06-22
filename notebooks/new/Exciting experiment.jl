@@ -54,25 +54,8 @@ md"""
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
-# ╔═╡ a1e6e7c2-ba41-484c-bb3c-20bc8c1c63c6
-channel = @Channel(10) do channel
-	while true
-		try
-			HTTP.WebSockets.open(BINANCE_API_WS; verbose=false) do ws
-			    for message in ws
-					if ws == "ping frame"
-						send(ws, "pong frame")
-					else
-						update = JSON3.read(message)
-						put!(channel, update)
-					end
-				end
-			end
-		catch ex
-			isa(ex, EOFError) || rethrow()
-		end
-	end
-end
+# ╔═╡ 95dcaf9c-e51e-40c8-91d0-d8a1bfb92d51
+
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
 update = @take_repeatedly! channel
@@ -2005,7 +1988,7 @@ version = "1.4.1+0"
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 # ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
-# ╠═a1e6e7c2-ba41-484c-bb3c-20bc8c1c63c6
+# ╠═95dcaf9c-e51e-40c8-91d0-d8a1bfb92d51
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
 # ╠═bc14465c-e671-46db-b040-f120398eccbd
 # ╠═2519387c-c882-450b-8830-015706c499d1
