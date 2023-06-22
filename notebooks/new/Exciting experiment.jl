@@ -398,7 +398,7 @@ plot_total = let
 	raw_price
 	result
 	plot(pred_eventtimes, pred_y_means,
-			ribbon = pred_y_std .* σ_ci,
+			ribbon = pred_y_stds .* σ_ci,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
