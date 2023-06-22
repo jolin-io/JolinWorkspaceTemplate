@@ -353,7 +353,7 @@ plot_total
 # TODO forecast?
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-rand_x(prob_posteriors[end])
+initial_x = rand_x(prob_posteriors[end])
 
 # ╔═╡ dc0dea2b-0b69-4dc4-a2d7-fab726665b4e
 
