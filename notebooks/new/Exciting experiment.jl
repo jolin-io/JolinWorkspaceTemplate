@@ -341,9 +341,10 @@ md"""
 forecast_n = 10
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-function _forecast_y(posterior)
+function _forecast_y(posterior; n_steps_into_the_future=2)
+	# two steps by default, because the standard prediction is already one step into the future
 	forecast_x = []
-	forecast_x_prev = rand_x(posterior)
+	forecast_x_prev = rand_x(posterior; n_steps_into_the_future)
 	for i in 1:forecast_n
 		push!(forecast_x, forecast_x_prev)
 		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
@@ -355,11 +356,16 @@ end
 2interval
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-function forecast_y(posterior)
-	vector_of_vectors = repeatcall(() -> _forecast_y(posterior), shape=10_000)
+function forecast_y(eventtime, posterior, n_steps_into_the_future=2)
+	vector_of_vectors = repeatcall(shape=10_000) do 
+		_forecast_y(posterior; n_steps_into_the_future)
+	end
 	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
 	forecast_means, forecast_std = vt_to_tv(_means_stds)
-	return forecast_means, forecast_std
+
+	start_eventtime = eventtime + n_steps_into_the_future*interval
+	forecast_eventtimes = [start_eventtime + (i-1)*interval for i in 1:forecast_n]
+	return forecast_eventtimes, forecast_means, forecast_std
 end
 
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
@@ -370,6 +376,7 @@ plot_total = let
 			ribbon = pred_y_cis,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
+	forecast_eventtimes, forecast_means, forecast_std = forecast_y(prob_posteriors[end])
 	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
 	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
     scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
