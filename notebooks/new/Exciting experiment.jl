@@ -235,7 +235,10 @@ result.posteriors
 collect(1:1)
 
 # ╔═╡ 8d76aad4-d592-41d5-a38c-4aa4364a2045
-
+function repeatcall(f, shape)
+	linear = [f() for i in 1:prod(shape)]
+	reshape(linear, shape)
+end
 
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 begin
