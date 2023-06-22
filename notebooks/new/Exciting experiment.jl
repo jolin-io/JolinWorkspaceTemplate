@@ -36,7 +36,7 @@ begin
 
 	ui_forecast_n = @bind forecast_n Select([2, 10, 20, 50], default=10)
 
-	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60], default=10)
+	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60]], default=10)
 	
 	md"""
 	|         | choose |
