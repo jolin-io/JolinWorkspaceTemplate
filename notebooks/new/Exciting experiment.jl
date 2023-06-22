@@ -290,7 +290,12 @@ md"""
 """
 
 # ╔═╡ d4b95400-a20e-4296-950d-0838ffe2d2cb
-
+function predict_all()
+	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
+	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
+	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
+	pred_eventtimes, pred_y_means, pred_y_stds
+end
 
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
 md"""
@@ -325,7 +330,7 @@ function forecast_y(eventtime, posterior, n_steps_into_the_future=1)
 end
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
-pushed_posterior = begin
+begin
 	prior_x_τ[] = result.posteriors[:x_τ]
 	prior_y_τ[] = result.posteriors[:y_τ]
 	prior_x[] = result.posteriors[:x]
@@ -334,39 +339,36 @@ pushed_posterior = begin
 	push_sliding!(prob_eventtimes, regular_eventtime, n=regular_n)
 	push_sliding!(prob_prices, regular_price, n=regular_n)
 
-	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
-	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
+	pred_eventtimes, pred_y_means, pred_y_stds = predict_all()
 
-	forecast_eventtimes, forecast_means, forecast_std = forecast_y(regular_eventtime, result.posteriors)
+	forecast_eventtimes, forecast_y_means, forecast_y_std = forecast_y(regular_eventtime, result.posteriors)
 end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
 	# independent cell, because this depends on CI
-	pushed_posterior
-	# just using the first twice for nicer plot
-	pred_y_cis = pred_y_stds .* σ_ci
-
-	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
-	marker_color_outliers = map(1:length(prob_prices)) do i
-		price, y_mean, y_ci = prob_prices[i], pred_y_means[i], pred_y_cis[i]
+	prob_outliers = map(1:length(prob_prices)) do i
+		price, y_mean, y_std = prob_prices[i], pred_y_means[i], pred_y_stds[i]
+		y_ci = y_std * σ_ci
 		isoutlier = price < (y_mean - y_ci) || (y_mean + y_ci) < price
-		return isoutlier ? :orange : :blue
+		return isoutlier
 	end
+
+	prob_marker_color_outliers = map(b -> b ? :orange : :blue, prob_outliers)
 end;
 
 # ╔═╡ a37c1579-ad9e-46db-91e8-a3d30acb0cf9
 plot_bayes = begin
 	plot(pred_eventtimes, pred_y_means,
-			ribbon = pred_y_cis,
+			ribbon = pred_y_stds .* σ_ci,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
-	plot!(forecast_eventtimes, forecast_means,
-			ribbon = forecast_std .* σ_ci,
+	plot!(forecast_eventtimes, forecast_y_means,
+			ribbon = forecast_y_std .* σ_ci,
 			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
-	scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=prob_marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
@@ -396,7 +398,7 @@ plot_total = let
 	raw_price
 	result
 	plot(pred_eventtimes, pred_y_means,
-			ribbon = pred_y_cis,
+			ribbon = pred_y_std .* σ_ci,
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
@@ -407,7 +409,7 @@ plot_total = let
 	
 	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
 	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
-    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=prob_marker_color_outliers)
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
