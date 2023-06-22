@@ -192,9 +192,7 @@ the following should be reset on Reset button click
 """
 
 # ╔═╡ 6fd03866-5d74-4427-ae4b-fe28f573fa8a
-begin
-	reset
-	
+begin	
 	# probability stuff which follows below but has same time granularity as regular
 	prob_posteriors = []
 	prob_eventtimes = DateTime[]
