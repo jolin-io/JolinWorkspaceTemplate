@@ -240,9 +240,6 @@ function repeatcall(f, args...; shape, kwargs...)
 	reshape(linear, shape)
 end
 
-# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
-repeatcall.(f, [1,2,3], [2]; c=10, shape=100)
-
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 function rand_y(posterior; given_x=nothing, n_steps_into_the_future=0)
 	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
@@ -2060,7 +2057,6 @@ version = "1.4.1+0"
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 # ╠═5dcecef4-9da2-4de6-8710-652f0c522581
 # ╠═8d76aad4-d592-41d5-a38c-4aa4364a2045
-# ╠═e21e0e32-4123-43dd-8bfe-29417c922a31
 # ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
