@@ -361,7 +361,7 @@ forecast_x = let
 	forecast_x_prev = rand_x(prob_posteriors[end])
 	for i in 1:forecast_n
 		push!(forecast_x, forecast_x_prev)
-		forecast_x_prev = rand_x(prob_posteriors[end], given_x=forecast_x_prev)
+		forecast_x_prev = rand_x(prob_posteriors[end], given_x=forecast_x_prev, n_steps_into_the_future=1)
 	end
 	forecast_x
 end
