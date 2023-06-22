@@ -271,6 +271,45 @@ ci = ci_percent / 100.0
 # ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
 σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
 
+# ╔═╡ 3567ea3e-b3a0-4d85-8be3-935127fbbcb4
+reshape([1,2,3], 3)
+
+# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
+md"""
+# Forecast
+"""
+
+# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
+forecast_n = 10
+
+# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
+function _forecast_y(posterior; n_steps_into_the_future=2)
+	# two steps by default, because the standard prediction is already one step into the future
+	forecast_x = []
+	forecast_x_prev = rand_x(posterior; n_steps_into_the_future)
+	for i in 1:forecast_n
+		push!(forecast_x, forecast_x_prev)
+		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
+	end
+	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
+end
+
+# ╔═╡ 2d220094-ebbd-4072-a977-497a0b344f4e
+2interval
+
+# ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
+function forecast_y(eventtime, posterior, n_steps_into_the_future=2)
+	vector_of_vectors = repeatcall(shape=10_000) do 
+		_forecast_y(posterior; n_steps_into_the_future)
+	end
+	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
+	forecast_means, forecast_std = vt_to_tv(_means_stds)
+
+	start_eventtime = eventtime + n_steps_into_the_future*interval
+	forecast_eventtimes = [start_eventtime + (i-1)*interval for i in 1:forecast_n]
+	return forecast_eventtimes, forecast_means, forecast_std
+end
+
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
 pushed_posterior = begin
 	prior_x_τ[] = result.posteriors[:x_τ]
@@ -283,10 +322,9 @@ pushed_posterior = begin
 
 	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
 	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
-end;
 
-# ╔═╡ 3567ea3e-b3a0-4d85-8be3-935127fbbcb4
-reshape([1,2,3], 3)
+	forecast_eventtimes, forecast_means, forecast_std = forecast_y(regular_eventtime, result.posteriors)
+end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
@@ -333,42 +371,6 @@ end
 # ╔═╡ f858490e-541c-4668-921b-71aef9db5710
 variance_estimations
 
-# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
-md"""
-# Forecast
-"""
-
-# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
-forecast_n = 10
-
-# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-function _forecast_y(posterior; n_steps_into_the_future=2)
-	# two steps by default, because the standard prediction is already one step into the future
-	forecast_x = []
-	forecast_x_prev = rand_x(posterior; n_steps_into_the_future)
-	for i in 1:forecast_n
-		push!(forecast_x, forecast_x_prev)
-		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
-	end
-	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
-end
-
-# ╔═╡ 2d220094-ebbd-4072-a977-497a0b344f4e
-2interval
-
-# ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-function forecast_y(eventtime, posterior, n_steps_into_the_future=2)
-	vector_of_vectors = repeatcall(shape=10_000) do 
-		_forecast_y(posterior; n_steps_into_the_future)
-	end
-	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
-	forecast_means, forecast_std = vt_to_tv(_means_stds)
-
-	start_eventtime = eventtime + n_steps_into_the_future*interval
-	forecast_eventtimes = [start_eventtime + (i-1)*interval for i in 1:forecast_n]
-	return forecast_eventtimes, forecast_means, forecast_std
-end
-
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 plot_total = let
 	raw_price
@@ -378,9 +380,7 @@ plot_total = let
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
-	forecast_eventtimes, forecast_means, forecast_std = forecast_y(prob_eventtimes[end], prob_posteriors[end])
-
-	plot(forecast_eventtimes, forecast_means,
+	plot!(forecast_eventtimes, forecast_means,
 			ribbon = forecast_std .* σ_ci,
 			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
