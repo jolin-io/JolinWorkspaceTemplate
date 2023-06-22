@@ -58,7 +58,9 @@ md"""
 TableOfContents()
 
 # ╔═╡ 562478cc-ccde-40e2-9961-3f99c4f252f8
-
+md"""
+## Read raw data from Binance API
+"""
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
