@@ -367,7 +367,7 @@ function forecast_y(posterior)
 end
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-
+vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
 
 # ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
 repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
