@@ -319,11 +319,11 @@ function forecast_y(eventtime, posterior, n_steps_into_the_future=1)
 		_forecast_y(posterior; n_steps_into_the_future)
 	end
 	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
-	forecast_means, forecast_std = vt_to_tv(_means_stds)
+	forecast_means, forecast_stds = vt_to_tv(_means_stds)
 
 	start_eventtime = eventtime + n_steps_into_the_future*interval
 	forecast_eventtimes = [start_eventtime + (i-1)*interval for i in 1:forecast_n]
-	return forecast_eventtimes, forecast_means, forecast_std
+	return forecast_eventtimes, forecast_means, forecast_stds
 end
 
 # ╔═╡ 0ae048ec-9367-4d75-8b05-51404775e23f
