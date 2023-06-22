@@ -231,16 +231,6 @@ result = inference(
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
 
-# ╔═╡ 06d51a11-22dc-4e97-a015-38149bc5bb0c
-begin
-	rand_y(posterior) = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:y_τ])))
-	function rand_y(posterior, shape)
-		if length(shape) == 1
-			[rand_y(posterior) for i in 1: shape[1]]
-		end
-	end
-end
-
 # ╔═╡ 5dcecef4-9da2-4de6-8710-652f0c522581
 collect(1:1)
 
@@ -2063,7 +2053,6 @@ version = "1.4.1+0"
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
-# ╠═06d51a11-22dc-4e97-a015-38149bc5bb0c
 # ╠═5dcecef4-9da2-4de6-8710-652f0c522581
 # ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═112269ba-25c2-4902-b992-78c18c13eded
