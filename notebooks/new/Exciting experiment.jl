@@ -142,7 +142,7 @@ isnothing(first_price) && set_first_price(raw_price);
 
 # ╔═╡ 2d3fa562-5e27-453f-8a42-637f74878ff8
 md"""
-# Regular
+## Watermarking - Bring raw data into regular windows
 """
 
 # ╔═╡ 8b9b4eda-9601-4e81-9429-7d210612496a
@@ -2123,7 +2123,7 @@ version = "1.4.1+0"
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
 # ╠═f6217aed-88bb-4cc4-848a-8fbda3d0e926
-# ╟─3437190e-af5a-4817-bf4b-82b161265e7f
+# ╠═3437190e-af5a-4817-bf4b-82b161265e7f
 # ╟─046834bf-2c3e-4d2d-9ead-0037f8037517
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╟─1c561c02-aff5-4bf3-b632-3c2df5da8229
