@@ -55,7 +55,7 @@ md"""
 @output_below
 
 # ╔═╡ 8479770e-b932-4ff0-be40-bf726585c0a7
-
+TableOfContents()
 
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
