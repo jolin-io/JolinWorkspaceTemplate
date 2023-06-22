@@ -201,7 +201,7 @@ end;
 
 # ╔═╡ ad46e7c9-4499-4f33-8dc8-0269f900a255
 md"""
-probabilistic model
+probabilistic model - random walk
 """
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
