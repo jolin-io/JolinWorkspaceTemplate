@@ -359,9 +359,6 @@ function forecast_y(posterior)
 	return forecast_means, forecast_std
 end
 
-# ╔═╡ e2550fad-a1c8-4cff-b59d-1946b3079f57
-
-
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 plot_total = let
 	raw_price
@@ -2098,7 +2095,6 @@ version = "1.4.1+0"
 # ╠═c17db269-dde4-43cb-aca7-dc05080f05a9
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
 # ╠═20ba9172-641b-4000-94f8-f2da3e431da2
-# ╠═e2550fad-a1c8-4cff-b59d-1946b3079f57
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
