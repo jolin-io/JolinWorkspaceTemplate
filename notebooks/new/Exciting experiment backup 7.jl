@@ -124,7 +124,7 @@ first price is needed for initializating priors later on
 """
 
 # ╔═╡ 4eb3804c-42d9-469c-92ac-ae63a28a9c89
-reset; first_price, set_first_price = @use_state(nothing)
+first_price, set_first_price = @use_state(nothing)
 
 # ╔═╡ 288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 isnothing(first_price) && set_first_price(raw_price);
@@ -359,9 +359,9 @@ RxInfer = "86711068-29c9-4ff7-b620-ae75d7495b3d"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
-HTTP = "~1.9.7"
+HTTP = "~1.9.6"
 JSON3 = "~1.13.1"
-JolinPluto = "~0.1.20"
+JolinPluto = "~0.1.19"
 Plots = "~1.38.16"
 PlutoHooks = "~0.0.5"
 PlutoUI = "~0.7.51"
@@ -668,12 +668,6 @@ git-tree-sha1 = "5837a837389fccf076445fce071c8ddaea35a566"
 uuid = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
 version = "0.6.8"
 
-[[deps.ExceptionUnwrapping]]
-deps = ["Test"]
-git-tree-sha1 = "e90caa41f5a86296e014e148ee061bd6c3edec96"
-uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
-version = "0.1.9"
-
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
 git-tree-sha1 = "4558ab818dcceaab612d1bb8c19cee87eda2b83c"
@@ -852,10 +846,10 @@ uuid = "19dc6840-f33b-545b-b366-655c7e3ffd49"
 version = "1.5.1"
 
 [[deps.HTTP]]
-deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "2613d054b0e18a3dea99ca1594e9a3960e025da4"
+deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.7"
+version = "1.9.6"
 
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
@@ -955,9 +949,9 @@ version = "0.2.2"
 
 [[deps.JolinPluto]]
 deps = ["AWS", "Base64", "Continuables", "Dates", "Git", "HTTP", "HypertextLiteral", "JSON3", "JWTs", "PlutoHooks", "PlutoLinks"]
-git-tree-sha1 = "6cb3217c4a55dce17cf65e78dd2236a1c4baabeb"
+git-tree-sha1 = "04b457968131396f84c9db75df75786d3bce4fa0"
 uuid = "5b0b4ef8-f4e6-4363-b674-3f031f7b9530"
-version = "0.1.20"
+version = "0.1.19"
 
 [[deps.JpegTurbo_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
@@ -1305,9 +1299,9 @@ version = "0.12.3"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "4b2e829ee66d4218e0cef22c0a64ee37cf258c29"
+git-tree-sha1 = "5a6ab2f64388fd1175effdf73fe5933ef1e0bac0"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.7.1"
+version = "2.7.0"
 
 [[deps.Pipe]]
 git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
