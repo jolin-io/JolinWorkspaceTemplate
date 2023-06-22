@@ -39,12 +39,12 @@ begin
 	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60]], default=Second(10))
 	
 	md"""
-	|         | choose |
+	|         | interact |
 	|---------|:-------|
 	| crypto currency| $ui_trading |
 	| confidence interval | $ui_ci_percent %|
 	| forecast | $ui_forecast_n |
-	| sampling interval | $ui_interval |
+	| sampling step | $ui_interval |
 	| reset |  $ui_reset |
 	"""
 end
@@ -2102,7 +2102,7 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─3fe56386-7ba7-481e-9aa6-03218b710001
-# ╠═0d8791d8-ff47-495f-ba74-f1f565654d66
+# ╟─0d8791d8-ff47-495f-ba74-f1f565654d66
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
