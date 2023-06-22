@@ -364,16 +364,21 @@ function forecast_y(posterior)
 		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
 	end
 	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
+
+	vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
+	_means_stds = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
+	forecast_means, forecast_std = vt_to_tv(_means_stds)
+	return forecast_means, forecast_std
 end
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
+
 
 # ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
-mymean_std = vec(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
+
 
 # ╔═╡ e2550fad-a1c8-4cff-b59d-1946b3079f57
-vt_to_tv(mymean_std)
+
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
