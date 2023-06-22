@@ -351,6 +351,9 @@ function _forecast_y(posterior)
 	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
 end
 
+# ╔═╡ 2d220094-ebbd-4072-a977-497a0b344f4e
+
+
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
 function forecast_y(posterior)
 	vector_of_vectors = repeatcall(() -> _forecast_y(posterior), shape=10_000)
@@ -2094,6 +2097,7 @@ version = "1.4.1+0"
 # ╟─771c39f0-64ba-436c-9355-f054cc64a6b8
 # ╠═c17db269-dde4-43cb-aca7-dc05080f05a9
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
+# ╠═2d220094-ebbd-4072-a977-497a0b344f4e
 # ╠═20ba9172-641b-4000-94f8-f2da3e431da2
 # ╠═6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
 # ╟─00000000-0000-0000-0000-000000000001
