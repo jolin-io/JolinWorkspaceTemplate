@@ -355,6 +355,9 @@ plot_total
 # ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
 forecast_n = 10
 
+# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
+
+
 # ╔═╡ dc0dea2b-0b69-4dc4-a2d7-fab726665b4e
 begin
 	forecast_x = []
@@ -365,9 +368,6 @@ begin
 	end
 	forecast_x
 end
-
-# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-forecast_x_prev = rand_x(prob_posteriors[end])
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
