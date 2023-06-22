@@ -375,7 +375,7 @@ function forecast_y(posterior)
 end
 
 # ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
-
+forecast_y(prob_posteriors[end])
 
 # ╔═╡ e2550fad-a1c8-4cff-b59d-1946b3079f57
 
