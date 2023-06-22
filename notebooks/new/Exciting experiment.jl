@@ -353,7 +353,7 @@ plot_total
 # TODO forecast?
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-
+rand_x(prob_posteriors[end])
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
