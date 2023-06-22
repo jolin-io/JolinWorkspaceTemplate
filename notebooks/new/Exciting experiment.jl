@@ -148,6 +148,9 @@ md"""
 ## Watermarking - Bring raw data into regular windows
 """
 
+# ╔═╡ 8a1db252-a011-4516-9745-f9eab920667d
+
+
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
 regular_price, regular_eventtime = @repeaton(ceil(now(), interval)) do t
 	raw_prices[end], t
@@ -2123,6 +2126,7 @@ version = "1.4.1+0"
 # ╠═4eb3804c-42d9-469c-92ac-ae63a28a9c89
 # ╠═288cb5cf-76bb-4c0b-b356-d6c4627b5fb5
 # ╠═2d3fa562-5e27-453f-8a42-637f74878ff8
+# ╠═8a1db252-a011-4516-9745-f9eab920667d
 # ╠═1a160790-95b6-4b3a-a92e-1d1cbd89011e
 # ╠═bdbd2410-cc41-42c6-a3c1-4d5aa746b775
 # ╠═dfdb1bed-c8cb-4b65-be15-1f74f4104497
