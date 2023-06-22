@@ -34,7 +34,7 @@ begin
 
 	ui_reset = @bind reset Button("Reset")
 
-	ui_forecast_n = @bind forecast_n Select([2, 10, 20, 50], default=10)
+	ui_forecast_n = @bind forecast_n Select([i => "$i steps" for i in [2, 10, 20, 50]], default=10)
 
 	ui_interval = @bind interval Select([Second(sec) => "$sec seconds" for sec in [2, 10, 30, 60]], default=10)
 	
@@ -43,7 +43,7 @@ begin
 	|---------|:-------|
 	| crypto currency| $ui_trading |
 	| confidence interval | $ui_ci_percent %|
-	| number forecast steps | $ui_forecast_n |
+	| forecast | $ui_forecast_n |
 	| sampling interval | $ui_interval |
 	| reset |  $ui_reset |
 	"""
@@ -194,7 +194,7 @@ the following should be reset on Reset button click
 # ╔═╡ 6fd03866-5d74-4427-ae4b-fe28f573fa8a
 begin
 	# reinitialize if interval_seconds have changed
-	interval_seconds
+	interval
 	
 	# probability stuff which follows below but has same time granularity as regular
 	prob_posteriors = []
