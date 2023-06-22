@@ -356,7 +356,7 @@ plot_total
 forecast_n = 10
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-initial_x = rand_x(prob_posteriors[end])
+forecast_x_initial = rand_x(prob_posteriors[end])
 
 # ╔═╡ dc0dea2b-0b69-4dc4-a2d7-fab726665b4e
 
