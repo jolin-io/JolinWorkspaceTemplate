@@ -356,7 +356,7 @@ plot_total
 forecast_n = 10
 
 # ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-begin
+forecast_x = let
 	forecast_x = []
 	forecast_x_prev = rand_x(prob_posteriors[end])
 	for i in 1:forecast_n
