@@ -352,7 +352,7 @@ function _forecast_y(posterior)
 end
 
 # ╔═╡ 2d220094-ebbd-4072-a977-497a0b344f4e
-interval
+2interval
 
 # ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
 function forecast_y(posterior)
