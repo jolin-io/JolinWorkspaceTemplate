@@ -236,26 +236,28 @@ collect(1:1)
 
 # ╔═╡ 8d76aad4-d592-41d5-a38c-4aa4364a2045
 function repeatcall(f, args...; shape, kwargs...)
-	linear = [f(args..., kwargs...) for i in 1:prod(shape)]
+	linear = [f(args...; kwargs...) for i in 1:prod(shape)]
 	reshape(linear, shape)
 end
 
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
-begin
-	function rand_y2(posterior)
-		x2 = rand(NormalMeanPrecision(rand(posterior[:x]), rand(posterior[:x_τ])))
-		y2 = rand(NormalMeanPrecision(x2, rand(posterior[:y_τ])))
-		return y2
+function rand_y(posterior; given_x=nothing, n_steps_into_the_future=0)
+	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
+	for 1:n_steps_into_the_future
+		x = rand(NormalMeanPrecision(x, rand(posterior[:x_τ])))
 	end
-	function rand_y2(posterior, shape)
-		if length(shape) == 1
-			[rand_y2(posterior) for i in 1: shape[1]]
-		end
-	end
+	y = rand(NormalMeanPrecision(x, rand(posterior[:y_τ])))
+	return y
 end
 
 # ╔═╡ cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
-
+function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
+	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
+	for 1:n_steps_into_the_future
+		x = rand(NormalMeanPrecision(x, rand(posterior[:x_τ])))
+	end
+	return x
+end
 
 # ╔═╡ 112269ba-25c2-4902-b992-78c18c13eded
 f(a, b; c) = a + b+ c
@@ -303,7 +305,7 @@ begin
 	pushed_posterior
 	# just using the first twice for nicer plot
 	pred_posteriors = [prob_posteriors[1]; prob_posteriors]
-	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(rand_y2.(pred_posteriors, 10_000)))
+	pred_y_means, pred_y_stds = vt_to_tv(mean_std.(repeatcall.(rand_y, pred_posteriors, shape=10_000, n_steps_into_the_future=1)))
 	pred_y_cis = pred_y_stds .* σ_ci
 
 	pred_eventtimes = [prob_eventtimes; prob_eventtimes[end] + interval]
