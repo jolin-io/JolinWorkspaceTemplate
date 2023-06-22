@@ -403,7 +403,7 @@ plot_total = let
 			xrotation = 10)
 	
 	plot!(forecast_eventtimes, forecast_means,
-			ribbon = forecast_std .* σ_ci,
+			ribbon = forecast_stds .* σ_ci,
 			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
