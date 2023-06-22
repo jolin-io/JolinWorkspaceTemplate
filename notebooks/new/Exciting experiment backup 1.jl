@@ -106,8 +106,6 @@ channel = @Channel(10) do channel
 end
 
 # ╔═╡ efcd56e9-3970-4f7f-a452-848fb498ecea
-# ╠═╡ disabled = true
-#=╠═╡
 macro newtake_repeatedly!(channel)
 	quote
 		channel = $(esc(channel))
@@ -121,7 +119,6 @@ macro newtake_repeatedly!(channel)
 		update
 	end
 end
-  ╠═╡ =#
 
 # ╔═╡ c112843d-ae79-425c-9c18-471cf896175f
 update = @newtake_repeatedly! channel
