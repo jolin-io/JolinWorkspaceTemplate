@@ -199,6 +199,9 @@ begin
 	prior_x = Ref(NormalMeanVariance(_x_mean, _x_var))
 end;
 
+# ╔═╡ ad46e7c9-4499-4f33-8dc8-0269f900a255
+
+
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
 	@model function kalman_filter(prior_x_mean_var, prior_x_τ, prior_y_τ)
@@ -234,6 +237,20 @@ result = inference(
 # ╔═╡ d3dcebdf-7224-4ded-bfa4-e961ee4407e6
 result.posteriors
 
+# ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
+ci = ci_percent / 100.0
+
+# ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
+σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
+
+# ╔═╡ 394cce7d-b0fa-48cd-a4f9-e7cd45120d42
+
+
+# ╔═╡ 164d8211-3650-4e2e-8ef5-773f9711a7a5
+md"""
+# Probability Helpers
+"""
+
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 function rand_y(posterior; given_x=nothing, n_steps_into_the_future=0)
 	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
@@ -253,30 +270,16 @@ function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
 	return x
 end
 
-# ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
-function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
-	matrix = reinterpret(reshape, Float64, v)
-	return matrix[1, :], matrix[2, :]
-end
-
-# ╔═╡ 20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
-ci = ci_percent / 100.0
-
-# ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
-σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
-
-# ╔═╡ 394cce7d-b0fa-48cd-a4f9-e7cd45120d42
-
-
-# ╔═╡ 164d8211-3650-4e2e-8ef5-773f9711a7a5
-md"""
-# Probability Helpers
-"""
-
 # ╔═╡ 8d76aad4-d592-41d5-a38c-4aa4364a2045
 function repeatcall(f, args...; shape, kwargs...)
 	linear = [f(args...; kwargs...) for i in 1:prod(shape)]
 	reshape(linear, shape)
+end
+
+# ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
+function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
+	matrix = reinterpret(reshape, Float64, v)
+	return matrix[1, :], matrix[2, :]
 end
 
 # ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
@@ -2100,6 +2103,7 @@ version = "1.4.1+0"
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╟─1c561c02-aff5-4bf3-b632-3c2df5da8229
 # ╠═6fd03866-5d74-4427-ae4b-fe28f573fa8a
+# ╠═ad46e7c9-4499-4f33-8dc8-0269f900a255
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
