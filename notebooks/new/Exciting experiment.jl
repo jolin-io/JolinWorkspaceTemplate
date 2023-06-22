@@ -200,7 +200,9 @@ begin
 end;
 
 # ╔═╡ ad46e7c9-4499-4f33-8dc8-0269f900a255
-
+md"""
+probabilistic model
+"""
 
 # ╔═╡ 14d9736c-9daf-4ac6-a24a-cab83bb350f6
 begin
@@ -2103,7 +2105,7 @@ version = "1.4.1+0"
 # ╠═f5a07ad0-db42-4588-a4b6-6517a30f946d
 # ╟─1c561c02-aff5-4bf3-b632-3c2df5da8229
 # ╠═6fd03866-5d74-4427-ae4b-fe28f573fa8a
-# ╠═ad46e7c9-4499-4f33-8dc8-0269f900a255
+# ╟─ad46e7c9-4499-4f33-8dc8-0269f900a255
 # ╠═14d9736c-9daf-4ac6-a24a-cab83bb350f6
 # ╠═b4d880a6-992e-4e30-9837-3f1cf8f4eb8d
 # ╠═d3dcebdf-7224-4ded-bfa4-e961ee4407e6
