@@ -366,6 +366,9 @@ function forecast_y(posterior)
 	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
 end
 
+# ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
+
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -2085,5 +2088,6 @@ version = "1.4.1+0"
 # ╠═771c39f0-64ba-436c-9355-f054cc64a6b8
 # ╠═c17db269-dde4-43cb-aca7-dc05080f05a9
 # ╠═b19b483e-e421-4601-8715-eba5b7d86e0b
+# ╠═c4c04166-d32f-4f9c-a26c-1d1abdc43001
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
