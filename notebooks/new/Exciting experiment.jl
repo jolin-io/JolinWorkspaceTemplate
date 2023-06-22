@@ -262,9 +262,6 @@ function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
 	return x
 end
 
-# ╔═╡ 133cce3b-084c-4763-b9e6-439cdab8023a
-f.([1,2], (3,4), c=(10, ))
-
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
 function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
 	matrix = reinterpret(reshape, Float64, v)
@@ -2066,7 +2063,6 @@ version = "1.4.1+0"
 # ╠═e21e0e32-4123-43dd-8bfe-29417c922a31
 # ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
-# ╠═133cce3b-084c-4763-b9e6-439cdab8023a
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═7ad62d34-3775-48cd-aec1-1fbe6788be72
