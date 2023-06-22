@@ -245,6 +245,9 @@ ci = ci_percent / 100.0
 # ╔═╡ 7ad62d34-3775-48cd-aec1-1fbe6788be72
 σ_ci = quantile(Normal(), 1 - (1 - ci) / 2)
 
+# ╔═╡ 15d8d542-a2c3-46e0-8928-dd44741a3924
+
+
 # ╔═╡ 394cce7d-b0fa-48cd-a4f9-e7cd45120d42
 
 
@@ -2113,6 +2116,7 @@ version = "1.4.1+0"
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
 # ╠═7ad62d34-3775-48cd-aec1-1fbe6788be72
 # ╠═0ae048ec-9367-4d75-8b05-51404775e23f
+# ╠═15d8d542-a2c3-46e0-8928-dd44741a3924
 # ╠═3b676410-ec35-4ead-8bb6-e2c9a172016a
 # ╠═a37c1579-ad9e-46db-91e8-a3d30acb0cf9
 # ╠═03aa263a-7b1a-453e-b860-fa36296f816d
