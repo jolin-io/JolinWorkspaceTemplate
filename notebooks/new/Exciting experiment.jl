@@ -341,7 +341,7 @@ begin
 
 	pred_eventtimes, pred_y_means, pred_y_stds = predict_all()
 
-	forecast_eventtimes, forecast_y_means, forecast_y_std = forecast_y(regular_eventtime, result.posteriors)
+	forecast_eventtimes, forecast_y_means, forecast_y_stds = forecast_y(regular_eventtime, result.posteriors)
 end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
@@ -364,7 +364,7 @@ plot_bayes = begin
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	plot!(forecast_eventtimes, forecast_y_means,
-			ribbon = forecast_y_std .* σ_ci,
+			ribbon = forecast_y_stds .* σ_ci,
 			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
@@ -402,8 +402,8 @@ plot_total = let
 			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
-	plot!(forecast_eventtimes, forecast_means,
-			ribbon = forecast_stds .* σ_ci,
+	plot!(forecast_eventtimes, forecast_y_means,
+			ribbon = forecast_y_stds .* σ_ci,
 			label = "Forecast with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
 			xrotation = 10)
 	
