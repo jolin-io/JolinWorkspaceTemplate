@@ -34,7 +34,7 @@ begin
 
 	ui_reset = @bind reset Button("Reset")
 
-	ui_forecast_n = @bind forecast_n Slider(1:30, default=10, show_value=true)
+	ui_forecast_n = @bind forecast_n Select([2, 10, 20]:30, default=10)
 	
 	md"""
 	|         | choose |
@@ -2101,7 +2101,7 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─3fe56386-7ba7-481e-9aa6-03218b710001
-# ╠═0d8791d8-ff47-495f-ba74-f1f565654d66
+# ╟─0d8791d8-ff47-495f-ba74-f1f565654d66
 # ╟─8987a81f-6148-43ad-a6d0-f7adb425c8e3
 # ╟─f858490e-541c-4668-921b-71aef9db5710
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
