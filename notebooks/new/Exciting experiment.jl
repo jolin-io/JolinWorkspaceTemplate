@@ -171,7 +171,7 @@ end
 
 # ╔═╡ 3437190e-af5a-4817-bf4b-82b161265e7f
 md"""
-# Probability
+## Modelling - Probabilistic online learner
 """
 
 # ╔═╡ 046834bf-2c3e-4d2d-9ead-0037f8037517
