@@ -284,7 +284,7 @@ pushed_posterior = begin
 end;
 
 # ╔═╡ 3567ea3e-b3a0-4d85-8be3-935127fbbcb4
-prod(10)
+reshape([1,2,3], 3)
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
