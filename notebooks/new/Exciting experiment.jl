@@ -294,7 +294,9 @@ end
 
 # ╔═╡ 15f07ef9-664d-478e-9981-37a0922830e4
 md"""
-## Predict
+### Predict 
+
+For all steps in order to plot anomalies everywhere.
 """
 
 # ╔═╡ d4b95400-a20e-4296-950d-0838ffe2d2cb
