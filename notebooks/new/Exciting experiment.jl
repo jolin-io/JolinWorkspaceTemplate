@@ -149,7 +149,9 @@ md"""
 """
 
 # ╔═╡ 8a1db252-a011-4516-9745-f9eab920667d
-
+@macroexpand @repeaton(ceil(now(), interval)) do t
+	raw_prices[end], t
+end
 
 # ╔═╡ 1a160790-95b6-4b3a-a92e-1d1cbd89011e
 regular_price, regular_eventtime = @repeaton(ceil(now(), interval)) do t
