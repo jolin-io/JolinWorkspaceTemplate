@@ -262,7 +262,7 @@ end
 f(a, b; c) = a + b+ c
 
 # ╔═╡ 133cce3b-084c-4763-b9e6-439cdab8023a
-f.([1,2], (3,4), c=10)
+f.([1,2], (3,4), c=(10, )
 
 # ╔═╡ 391a079d-cea8-424d-abec-1291b8d1585c
 function vt_to_tv(v::AbstractVector{Tuple{Float64, Float64}})
