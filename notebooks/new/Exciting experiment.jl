@@ -285,6 +285,29 @@ end;
 # ╔═╡ 3567ea3e-b3a0-4d85-8be3-935127fbbcb4
 reshape([1,2,3], 3)
 
+# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
+# TODO forecast?
+
+# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
+forecast_n = 10
+
+# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
+function forecast_y(posterior)
+	forecast_x = []
+	forecast_x_prev = rand_x(posterior)
+	for i in 1:forecast_n
+		push!(forecast_x, forecast_x_prev)
+		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
+	end
+	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
+end
+
+# ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
+vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
+
+# ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
+mean_std = transpose(mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1))
+
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
 	pushed_posterior
@@ -311,6 +334,23 @@ plot_bayes = begin
 	scatter!([], [], label="Warning", markercolor=:orange)
 end
 
+# ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
+plot_total = let
+	raw_price
+	result
+	plot(pred_eventtimes, pred_y_means,
+			ribbon = pred_y_cis,
+			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
+			xrotation = 10)
+	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
+	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
+    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
+	scatter!([], [], label="Warning", markercolor=:orange)
+end
+
+# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
+plot_total
+
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
 	x_mean, x_std = mean_std(prob_posteriors[end][:x])
@@ -331,46 +371,6 @@ end
 
 # ╔═╡ f858490e-541c-4668-921b-71aef9db5710
 variance_estimations
-
-# ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
-plot_total = let
-	raw_price
-	result
-	plot(pred_eventtimes, pred_y_means,
-			ribbon = pred_y_cis,
-			label = "Prediction with $(ci_percent)% confidence", xlabel="time", ylabel="EURO",
-			xrotation = 10)
-	raw_index = findall(t -> t >= prob_eventtimes[begin], raw_eventtimes)
-	plot!(raw_eventtimes[raw_index], raw_prices[raw_index], label="Raw Observations")
-    scatter!(prob_eventtimes, prob_prices, label = "Aggregated Observations", markercolor=marker_color_outliers)
-	scatter!([], [], label="Warning", markercolor=:orange)
-end
-
-# ╔═╡ 8987a81f-6148-43ad-a6d0-f7adb425c8e3
-plot_total
-
-# ╔═╡ 771c39f0-64ba-436c-9355-f054cc64a6b8
-# TODO forecast?
-
-# ╔═╡ c17db269-dde4-43cb-aca7-dc05080f05a9
-forecast_n = 10
-
-# ╔═╡ b19b483e-e421-4601-8715-eba5b7d86e0b
-function forecast_y(posterior)
-	forecast_x = []
-	forecast_x_prev = rand_x(posterior)
-	for i in 1:forecast_n
-		push!(forecast_x, forecast_x_prev)
-		forecast_x_prev = rand_x(posterior, given_x=forecast_x_prev, n_steps_into_the_future=1)
-	end
-	forecast_y = [rand_y(posterior, given_x = x) for x in forecast_x]
-end
-
-# ╔═╡ 20ba9172-641b-4000-94f8-f2da3e431da2
-vector_of_vectors = repeatcall(() -> forecast_y(prob_posteriors[end]), shape=10_000)
-
-# ╔═╡ c4c04166-d32f-4f9c-a26c-1d1abdc43001
-mapslices(mean_std, reduce(vcat, vector_of_vectors'), dims=1)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
