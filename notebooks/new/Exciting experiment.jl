@@ -240,6 +240,9 @@ function repeatcall(f, args...; shape, kwargs...)
 	reshape(linear, shape)
 end
 
+# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
+repeatcall.(f, [1,2,3], [2]; c=10, shape=100)
+
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 function rand_y(posterior; given_x=nothing, n_steps_into_the_future=0)
 	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
@@ -258,12 +261,6 @@ function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
 	end
 	return x
 end
-
-# ╔═╡ 112269ba-25c2-4902-b992-78c18c13eded
-f(a, b; c) = a + b+ c
-
-# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
-repeatcall.(f, [1,2,3], [2]; c=10, shape=100)
 
 # ╔═╡ 58bb5bf5-476f-4d4f-a1f2-c9e55a44a66e
 reshape([rand() for i in 1:prod((10,3))], (10,3))
@@ -2072,8 +2069,6 @@ version = "1.4.1+0"
 # ╠═e21e0e32-4123-43dd-8bfe-29417c922a31
 # ╠═670da837-f557-4a78-a19d-4df835a46d00
 # ╠═cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
-# ╠═112269ba-25c2-4902-b992-78c18c13eded
-# ╠═58bb5bf5-476f-4d4f-a1f2-c9e55a44a66e
 # ╠═133cce3b-084c-4763-b9e6-439cdab8023a
 # ╠═391a079d-cea8-424d-abec-1291b8d1585c
 # ╠═20e443bc-86b2-4ac0-8ba6-f5bc7d1c46ff
