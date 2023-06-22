@@ -253,7 +253,7 @@ end
 # ╔═╡ cc6d218d-d66f-45b8-9dfb-c54f0d7eaa8b
 function rand_x(posterior; given_x=nothing, n_steps_into_the_future=0)
 	x = isnothing(given_x) ? rand(posterior[:x]) : given_x
-	for 1:n_steps_into_the_future
+	for i in 1:n_steps_into_the_future
 		x = rand(NormalMeanPrecision(x, rand(posterior[:x_τ])))
 	end
 	return x
