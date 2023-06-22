@@ -54,6 +54,9 @@ md"""
 # ╔═╡ 89a620ac-8649-4e46-9abd-dfbc4ef00f32
 @output_below
 
+# ╔═╡ 8479770e-b932-4ff0-be40-bf726585c0a7
+
+
 # ╔═╡ 25e8b93b-3026-40b7-b41f-016e059b838d
 BINANCE_API_WS = "wss://stream.binance.com:9443/ws/$trading@miniTicker"
 
@@ -2095,6 +2098,7 @@ version = "1.4.1+0"
 # ╟─de49ca06-6e83-4a02-b92c-60f09ec26fd7
 # ╠═8bc9a076-0e6f-11ee-10f2-cf6aeb717a98
 # ╠═89a620ac-8649-4e46-9abd-dfbc4ef00f32
+# ╠═8479770e-b932-4ff0-be40-bf726585c0a7
 # ╠═25e8b93b-3026-40b7-b41f-016e059b838d
 # ╠═95dcaf9c-e51e-40c8-91d0-d8a1bfb92d51
 # ╠═c112843d-ae79-425c-9c18-471cf896175f
