@@ -334,6 +334,7 @@ end;
 
 # ╔═╡ 3b676410-ec35-4ead-8bb6-e2c9a172016a
 begin
+	# independent cell, because this depends on CI
 	pushed_posterior
 	# just using the first twice for nicer plot
 	pred_y_cis = pred_y_stds .* σ_ci
@@ -364,7 +365,7 @@ end
 # ╔═╡ 03aa263a-7b1a-453e-b860-fa36296f816d
 variance_estimations = begin
 	x_mean, x_std = mean_std(prob_posteriors[end][:x])
-	y_mean, y_ci = pred_y_means[end], pred_y_cis[end]
+	y_mean, y_ci = pred_y_means[end], pred_y_std[end] * σ_ci
 	
 	x_mean = Int(round(x_mean))
 	x_ci = Int(round(x_std * σ_ci))
