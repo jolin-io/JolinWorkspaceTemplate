@@ -405,7 +405,7 @@ variance_estimations
 
 # ╔═╡ 854d5428-78c7-449d-9109-aaeca576cedd
 md"""
-# Final plot
+## Final plot
 """
 
 # ╔═╡ 6c0781c4-3aaf-40f1-ba35-36a6df1f42ba
