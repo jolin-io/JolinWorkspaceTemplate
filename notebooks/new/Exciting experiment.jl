@@ -240,9 +240,6 @@ function repeatcall(f, args...; shape, kwargs...)
 	reshape(linear, shape)
 end
 
-# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
-
-
 # ╔═╡ 670da837-f557-4a78-a19d-4df835a46d00
 begin
 	function rand_y2(posterior)
@@ -262,6 +259,9 @@ end
 
 # ╔═╡ 112269ba-25c2-4902-b992-78c18c13eded
 f(a, b; c) = a + b+ c
+
+# ╔═╡ e21e0e32-4123-43dd-8bfe-29417c922a31
+repeatcall.(f, [1,2,3], [2]; c=10, shape=100)
 
 # ╔═╡ 8d00f87a-26d3-43d0-a2ae-0a18f36fa5f4
 
