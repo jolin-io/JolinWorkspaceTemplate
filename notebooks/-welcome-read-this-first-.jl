@@ -168,12 +168,10 @@ If you want to access different data dependening on whether your code is run on 
 # ╔═╡ ea276a93-7bde-4e13-af11-06a9f163dbc4
 mydata = if ENV["JOLIN_ENVIRONMENT"] == "test"
 	"testdata"
-elseif ENV["JOLIN_ENVIRONMENT"] == "dev"
-	"devdata"
 elseif ENV["JOLIN_ENVIRONMENT"] == "prod"
 	"proddata"
-else
-	error("I don't know about this environment: '$(ENV["JOLIN_ENVIRONMENT"])'")
+else  # all other are dev environments 
+	"devdata"
 end
 
 # ╔═╡ d05385d4-34ab-46b0-bb6b-f6a67dc79625

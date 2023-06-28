@@ -18,7 +18,13 @@ end
 using PyCall, Conda, JolinPluto, PlutoUI, HypertextLiteral
 
 # ╔═╡ 9b3e674f-d7e0-41f2-94fe-b884e3220f37
-using DataFrames  # place imports always on their own line
+using DataFrames  # always place imports on their own line
+
+# ╔═╡ 312dfe5a-0ff0-4a3f-907a-2d2c115e2754
+begin
+	Base.getindex(o::PyObject, s) = py"$o[$s]"
+	Base.setindex!(o::PyObject, v, s) = py"$o[$s] = $v"
+end
 
 # ╔═╡ 3fa2cf9e-eaa3-11ed-29ac-6de296b44861
 md"""
@@ -31,8 +37,16 @@ We  are going to look at CO2 data.
 Here we keep normal ordering so that it is easier to understand what goes on.
 """
 
+# ╔═╡ 4f6fa5f9-0849-411a-8eee-ee9e636cb8b7
+md"""
+Enable indexing syntax for Python object.
+"""
+
 # ╔═╡ e11fa66a-7ec5-47de-b05e-e45227f36a46
 @output_below
+
+# ╔═╡ 976409d5-3ba3-4e85-ae1a-1308ff678303
+TableOfContents()
 
 # ╔═╡ b504e1e3-a358-4ba7-a72a-ef5d0cddc5ea
 md"""
@@ -52,16 +66,20 @@ md"""
 Accessing python modules from reactive notebooks is best done via `PyCall.pyimport`, which binds the python package to a julia variable.
 """
 
-# ╔═╡ 397dc3a8-561f-44ca-b36e-cdf3fcebda95
+# ╔═╡ a201edd1-0529-4ec1-b609-f571bace3627
+begin
 pd = pyimport("pandas")
+plotly = pyimport("plotly")
+plt = pyimport("matplotlib.pyplot")
+end
 
 # ╔═╡ 84ad50dd-f98e-41b2-a4d7-7e27d90d7931
 md"""
 ## Calling Python from Pluto
 
-Next you see how to interact between Pluto (running Julia) and Python, especially pandas.
+Calling Python from Julia is like like using normal Julia. Or if you like, using Julia feels like using Python.
 
-First a mere julia call to download the data. In general for reactivity it is important that all reactive variables are bound to julia variables.
+First a mere julia call to download the data.
 """
 
 # ╔═╡ 0bc98db0-91a4-4c42-93ab-807d8c657ff6
@@ -69,17 +87,29 @@ datafile = download("https://nyc3.digitaloceanspaces.com/owid-public/data/co2/ow
 
 # ╔═╡ ceeec493-05b4-481a-bc2f-0788a39ab3cb
 md"""
-Now we actually call python, using the so called string macro `py"..."` which will reinterpret the string as being python code. 
-
-Using the dollar sign `$` we can bring julia variable to python. This is called interpolation. When using singleline `py"..."`, the result is directly returned to julia.
+Now we call Python.
 """
 
 # ╔═╡ 0d668fc3-aa02-462c-806b-5122c7f76f49
-df = py"$pd.read_csv($datafile)"
+df = pd.read_csv(datafile)
+
+# ╔═╡ 7b8dec72-c934-420a-9105-bcf137c68e67
+df[df["country"] == "Germany"]
+
+# ╔═╡ ebaddfcf-2ee3-4144-8ee7-a5fdb656f92a
+md"""
+Key python objects are autoconverted to and from julia. Others get wrapped into a `PyObject`.
+"""
+
+# ╔═╡ 08ecc631-9cb0-49ee-a310-6916b6dfca36
+typeof(df)
 
 # ╔═╡ 717650a9-a3e0-47e2-bb8a-105ad5c37125
+df.columns
+
+# ╔═╡ 2182213e-6159-4745-96db-79f612da2b66
 md"""
-A lot of python functionality actually works directly from julia. But not everything: Pandas boolean indexing into dataframes for example does not work from Julia. 
+Most julia functions work out of the box on these python objects
 """
 
 # ╔═╡ fe706ad3-f39c-4c90-9fce-ef31879f0032
@@ -92,101 +122,135 @@ countries = unique(df["country"])
 md"""
 ## Interactive visualizations
 
-The reactivity comes from Pluto. Hence to define our little input widgets, we do things in Julia. The plotting then can happen on python side. Even plotly works well. 
+The reactivity comes from Pluto. The interactive widgets come from PlutoUI. The plotting happens on python side. Also plotly works awesomely. 
 """
 
-# ╔═╡ a6268d19-45db-419d-8168-516cbc205190
+# ╔═╡ 554db612-df7a-49d1-8b03-455ffea12881
 md"""
+### Input Widgets
+
+Interactive input widgets use the `@bind` macro.
+```julia
+@bind country PlutoUI.Select(countries; default="World")
+```
+This lets the variable `country` listen for updates on the select input.
+
+All these widgets can also be combined into markdown/html code using interpolation.
+"""
+
+# ╔═╡ 56d600b9-b02a-4982-bef8-7ae07632816d
+choose = md"""
 | Parameter | Choose |
 | --------- | :----- |
-| country   | $(@bind country PlutoUI.Select(countries; default="World")) |
-| xaxis     | $(@bind xaxis PlutoUI.Select(columns; default="year")) |
-| yaxis     | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
-| log scale | $(@bind logy PlutoUI.CheckBox()) |
+| region 1 | $(@bind country1 PlutoUI.Select(countries; default="World")) |
+| region 2 | $(@bind country2 PlutoUI.Select(countries; default="Germany")) |
+| compare   | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
 """
 
-# ╔═╡ ab9bfc65-9c6a-45f9-a118-4c5ce381df65
-# this indexing only works within py"..."
-subdf = py"$df[$df['country'] == $country]";
+# ╔═╡ 0e0c377c-1ec8-4136-bd36-040caa69631a
+(;yaxis, country1, country2)
+
+# ╔═╡ 7dfc8421-d881-429a-81b4-daf31adae9b1
+xaxis = "year"  # we fix the xaxis to be year
+
+# ╔═╡ 0d22e8cb-6dfc-4778-b274-f1187381846c
+subdf1 = df[df["country"] == country1];
+
+# ╔═╡ 5de9257a-790c-404c-a05a-3c4ae377614b
+subdf2 = df[df["country"] == country2]
 
 # ╔═╡ 162713e1-7411-464b-a674-426fad2713dc
 md"""
 ### Plotting using Matplotlib
+
+Works seamlessly.
 """
 
-# ╔═╡ 77b12b2f-5f85-48db-82d1-d2b65e986f47
+# ╔═╡ b2206650-e3f4-4e18-88ce-7614e5c80638
 begin
-py"""
-# see https://pandas.pydata.org/pandas-docs/stable/user_guide/visualization.html
-$pd.options.plotting.backend = 'matplotlib'
-fig = $subdf.plot.scatter(x=$xaxis, y=$yaxis, logy=$logy)
-fig.figure.savefig('py_figure.png')
-
-# closing is needed for matplotlib backend
-from matplotlib import pyplot
-pyplot.close(fig.figure)
-"""
-LocalResource("py_figure.png")
+	figure, ax = plt.subplots()
+	ax.plot(subdf1[xaxis], subdf1[yaxis], label=country1)
+	ax.plot(subdf2[xaxis], subdf2[yaxis], color="orange", label=country2)
+	ax.legend(loc="upper left")
+	ax.set_xlabel(xaxis)
+	ax.set_ylabel(yaxis)
 end
+
+# ╔═╡ a6268d19-45db-419d-8168-516cbc205190
+choose
+
+# ╔═╡ 1e66d44c-f750-4c3c-8d9d-709ebb45a979
+figure.savefig("py_figure.png"); LocalResource("py_figure.png")
 
 # ╔═╡ 7a9108c9-fb68-4680-a56c-de5cd770974c
 md"""
-### Plotly works too 
+### Plotly works too
 
-Log scale is skipped because the pandas keyword argument is not supported by the plotly backend.
+We can make every matplotlib plot into a lovely interactive plotly plot.
 """
 
-# ╔═╡ 1bd78259-af92-49f4-8115-3881cabca87d
-begin
-py"""
-$pd.options.plotting.backend = "plotly"
-fig = $subdf.plot.scatter(x=$xaxis, y=$yaxis)
-fig.write_html('py_figure.html')
-"""
+# ╔═╡ 92a4c56c-1072-4772-9fa2-de38f6cf3fdf
+choose
 
-@htl """
-<div>
-$(HTML(readchomp("py_figure.html")))
-</div>
-"""
-end
+# ╔═╡ 68ba199a-e41e-4738-9dc9-4557a0003452
+plotly.tools.mpl_to_plotly(figure).update_layout(
+	# enable responsive layout
+	autosize=true, width=nothing, height=nothing,
+	# reduce margins
+	margin=py"{'l': 2, 'r':2, 't':24, 'b': 2}",
+)
 
 # ╔═╡ 97347c11-8200-4bf7-9329-8675d02e7a30
 md"""
-## Warning
-> ⚠️ When using multiline py strings, PyCall.jl within Pluto does not preserve Python variables from cell to cell. The only way is to go via Julia variables, which can only be returned using singleline py strings. (Same holds for module imports)
+## Defining python functions and classes
+
+For python things which are not easily mapped to julia syntax, there are string macros
+- `py"..."` will eval the string as python code and return the result.
+- `py\"\"\"... multiple lines ...\"\"\"` will exec the code (without returning anything).
+
+> 😎 Using the dollar sign `$` we can bring julia variables or code to python. This is called interpolation.
+"""
+
+# ╔═╡ a15906a6-413e-459a-b10d-ca504f3df0eb
+dict = py"{'number': int('3'), 'bool': $(isodd(3))}"
+
+# ╔═╡ 0ae0a5c8-a2c8-4162-a4c7-61f9a263284b
+md"""
+When using multiline py strings, prefer not to use interpolation `$`, but make the python code as self-contained as possible.
 """
 
 # ╔═╡ 4f5ba7e8-a147-46f2-8114-474db75e7ff5
 begin
 	py"""
 	import numpy as np
-	def np_sin(n):
-		return np.sin(n)
+	class PyTools:
+		@staticmethod
+		def sin(n):
+			return np.sin(n)
 	"""
-	np_sin = py"np_sin"
+	pytools = py"PyTools"
 end
 
 # ╔═╡ 6cb12ea6-ca09-42b8-850e-2fcdbdb745ba
-np_sin(1)
+pytools.sin(1)
 
-# ╔═╡ cd21cf39-a251-4dad-8d65-c8bb249a073a
-py"np_sin"  # if re-executed this gives an error
-
-# ╔═╡ ade02e99-8ecc-45e4-83dd-28376f236574
+# ╔═╡ 9f34091f-2f8d-41bd-82b2-0f0075613f71
 md"""
-If you follow the approach outlined in this notebook, everything should work fine for you. It is the recommended way. For updates in the future, [this is the issue](https://github.com/fonsp/Pluto.jl/issues/1108) which tracks the improvement for PyCall-Pluto-interaction.
+> ⚠️ When using multiline py strings be careful:
+> - variables defined in python, won't be available in other Pluto cells. You need to get them back to Pluto right away using single line py strings.
+> - variables interpolated with `$` will be invalid when accessed in a new cell. For instance in the above example, we shall not define numpy on julia via `np = pyimport("numpy")` and then use `np` inside `PyTools` as `$np.sin(n)`, because when we call the `pytools.sin` function in another cell, the numpy reference won't work.
 """
 
 # ╔═╡ 97d534c9-e0d5-4a65-9eda-531adb4afc36
 md"""
-Last note: if you want to transfer a julia DataFrame to Python, you need to use `pairs(eachcol(df))`
+## Final Tip
+If you want to transfer a julia DataFrame to Python, you need to use `pairs(eachcol(df))`
 """
 
-# ╔═╡ b7e5d932-e66c-4ea6-881f-c94bd8def560
+# ╔═╡ cc66dbda-f4fc-4da6-9239-55da358b94c6
 begin
 	julia_df = DataFrame(x=[1,2,3], y=["a", "b", "c"])
-	python_df = py"$pd.DataFrame($(pairs(eachcol(julia_df))))"
+	python_df = pd.DataFrame(pairs(eachcol(julia_df)))
 end
 
 # ╔═╡ b27cd066-84e4-4e56-b9ae-864cb2fd50be
@@ -199,9 +263,6 @@ md"""
 
 Happy dashboarding 📈 📊!
 """
-
-# ╔═╡ ddf6fbed-84e0-4697-a40c-8f7f6102e693
-PlutoUI.TableOfContents()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -219,7 +280,7 @@ DataFrames = "~1.5.0"
 HypertextLiteral = "~0.9.4"
 JolinPluto = "~0.1.15"
 PlutoUI = "~0.7.51"
-PyCall = "~1.95.1"
+PyCall = "~1.96.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -228,7 +289,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "94593c369a3aabb2b8917367b2bbeacc43ebcf8a"
+project_hash = "34b1beafc1d265c3dfd57e1bf421ceefb780f8bd"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -271,9 +332,9 @@ version = "0.11.4"
 
 [[deps.Compat]]
 deps = ["UUIDs"]
-git-tree-sha1 = "7a60c856b9fa189eb34f5f8a6f6b5529b7942957"
+git-tree-sha1 = "4e88377ae7ebeaf29a047aa1ee40826e0b708a5d"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.6.1"
+version = "4.7.0"
 weakdeps = ["Dates", "LinearAlgebra"]
 
     [deps.Compat.extensions]
@@ -332,11 +393,17 @@ deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.6.0"
 
+[[deps.ExceptionUnwrapping]]
+deps = ["Test"]
+git-tree-sha1 = "e90caa41f5a86296e014e148ee061bd6c3edec96"
+uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
+version = "0.1.9"
+
 [[deps.Expat_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "4558ab818dcceaab612d1bb8c19cee87eda2b83c"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.4.8+0"
+version = "2.5.0+0"
 
 [[deps.ExprTools]]
 git-tree-sha1 = "c1d06d129da9f55715c6c212866f5b1bddc5fa00"
@@ -387,10 +454,10 @@ uuid = "f8c6e375-362e-5223-8a59-34ff63f689eb"
 version = "2.36.1+2"
 
 [[deps.HTTP]]
-deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
+deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "2613d054b0e18a3dea99ca1594e9a3960e025da4"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.6"
+version = "1.9.7"
 
 [[deps.Hyperscript]]
 deps = ["Test"]
@@ -594,9 +661,9 @@ version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "b32107a634205cdcc64e2a3070c3eb0d56d54181"
+git-tree-sha1 = "4b2e829ee66d4218e0cef22c0a64ee37cf258c29"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.6.0"
+version = "2.7.1"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -639,9 +706,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.PyCall]]
 deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
-git-tree-sha1 = "62f417f6ad727987c755549e9cd88c46578da562"
+git-tree-sha1 = "f33ca06633c2cf08753d235208fcb46a052072ea"
 uuid = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-version = "1.95.1"
+version = "1.96.0"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -691,9 +758,9 @@ version = "0.1.1"
 
 [[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
-git-tree-sha1 = "a4ada03f999bd01b3a25dcaa30b2d929fe537e00"
+git-tree-sha1 = "c60ec5c62180f27efea3ba2908480f8055e17cee"
 uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.SparseArrays]]
 deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
@@ -816,35 +883,49 @@ version = "17.4.0+0"
 # ╔═╡ Cell order:
 # ╟─3fa2cf9e-eaa3-11ed-29ac-6de296b44861
 # ╠═709da6de-e873-4fa6-8065-9ac8c03be1b7
+# ╟─4f6fa5f9-0849-411a-8eee-ee9e636cb8b7
+# ╠═312dfe5a-0ff0-4a3f-907a-2d2c115e2754
 # ╠═e11fa66a-7ec5-47de-b05e-e45227f36a46
+# ╠═976409d5-3ba3-4e85-ae1a-1308ff678303
 # ╟─b504e1e3-a358-4ba7-a72a-ef5d0cddc5ea
 # ╟─b80fc25b-9fcb-482e-91c2-2d731e5dca4c
 # ╠═8587f3ab-9563-491d-bae7-790688eb4283
 # ╟─afa20ae0-e7e0-46c8-9b96-3811feb33a78
-# ╠═397dc3a8-561f-44ca-b36e-cdf3fcebda95
+# ╠═a201edd1-0529-4ec1-b609-f571bace3627
 # ╟─84ad50dd-f98e-41b2-a4d7-7e27d90d7931
 # ╠═0bc98db0-91a4-4c42-93ab-807d8c657ff6
 # ╟─ceeec493-05b4-481a-bc2f-0788a39ab3cb
 # ╠═0d668fc3-aa02-462c-806b-5122c7f76f49
-# ╟─717650a9-a3e0-47e2-bb8a-105ad5c37125
+# ╠═7b8dec72-c934-420a-9105-bcf137c68e67
+# ╟─ebaddfcf-2ee3-4144-8ee7-a5fdb656f92a
+# ╠═08ecc631-9cb0-49ee-a310-6916b6dfca36
+# ╠═717650a9-a3e0-47e2-bb8a-105ad5c37125
+# ╟─2182213e-6159-4745-96db-79f612da2b66
 # ╠═fe706ad3-f39c-4c90-9fce-ef31879f0032
 # ╠═dbbf3043-94bc-490e-b48a-667e91b1a75b
 # ╟─1bc2f0e4-42db-42c0-ab98-3b333fe46181
-# ╠═a6268d19-45db-419d-8168-516cbc205190
-# ╠═ab9bfc65-9c6a-45f9-a118-4c5ce381df65
+# ╟─554db612-df7a-49d1-8b03-455ffea12881
+# ╠═56d600b9-b02a-4982-bef8-7ae07632816d
+# ╠═0e0c377c-1ec8-4136-bd36-040caa69631a
+# ╠═7dfc8421-d881-429a-81b4-daf31adae9b1
+# ╠═0d22e8cb-6dfc-4778-b274-f1187381846c
+# ╠═5de9257a-790c-404c-a05a-3c4ae377614b
 # ╟─162713e1-7411-464b-a674-426fad2713dc
-# ╠═77b12b2f-5f85-48db-82d1-d2b65e986f47
+# ╠═b2206650-e3f4-4e18-88ce-7614e5c80638
+# ╠═a6268d19-45db-419d-8168-516cbc205190
+# ╠═1e66d44c-f750-4c3c-8d9d-709ebb45a979
 # ╟─7a9108c9-fb68-4680-a56c-de5cd770974c
-# ╠═1bd78259-af92-49f4-8115-3881cabca87d
+# ╠═92a4c56c-1072-4772-9fa2-de38f6cf3fdf
+# ╠═68ba199a-e41e-4738-9dc9-4557a0003452
 # ╟─97347c11-8200-4bf7-9329-8675d02e7a30
+# ╠═a15906a6-413e-459a-b10d-ca504f3df0eb
+# ╟─0ae0a5c8-a2c8-4162-a4c7-61f9a263284b
 # ╠═4f5ba7e8-a147-46f2-8114-474db75e7ff5
 # ╠═6cb12ea6-ca09-42b8-850e-2fcdbdb745ba
-# ╠═cd21cf39-a251-4dad-8d65-c8bb249a073a
-# ╟─ade02e99-8ecc-45e4-83dd-28376f236574
+# ╟─9f34091f-2f8d-41bd-82b2-0f0075613f71
 # ╟─97d534c9-e0d5-4a65-9eda-531adb4afc36
 # ╠═9b3e674f-d7e0-41f2-94fe-b884e3220f37
-# ╠═b7e5d932-e66c-4ea6-881f-c94bd8def560
+# ╠═cc66dbda-f4fc-4da6-9239-55da358b94c6
 # ╟─b27cd066-84e4-4e56-b9ae-864cb2fd50be
-# ╟─ddf6fbed-84e0-4697-a40c-8f7f6102e693
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

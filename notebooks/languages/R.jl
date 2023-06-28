@@ -31,6 +31,9 @@ Here we keep normal ordering so that it is easier to understand what goes on.
 # ╔═╡ 97f5fd46-aa22-4bf8-8066-28600db4ad50
 @output_below
 
+# ╔═╡ d0bd14e3-8d31-49d3-b0ce-5ce8a8bd4066
+TableOfContents()
+
 # ╔═╡ 45e5fe58-a4b8-41d7-bfd8-f2e18926d068
 md"""
 ## Installing R dependencies
@@ -68,6 +71,7 @@ Using the dollar sign `$` we can bring julia variables to R. This is called inte
 # ╔═╡ fd738a39-1995-44d6-bacb-7a31503aac0f
 df = R"""
 library(tidyverse)
+library(plotly)
 read_csv($datafile)
 """
 
@@ -89,31 +93,63 @@ md"""
 The reactivity comes from Pluto. Hence to define our little input widgets, we do things in Julia. The plotting then can happen on R side.
 """
 
-# ╔═╡ 7ea6abdf-5597-42d7-a1c4-f3e56fa3ec3e
+# ╔═╡ 36d171b3-1b6d-458a-a7cd-d21ad4efd35d
 md"""
+### Input Widgets
+
+Interactive input widgets use the `@bind` macro.
+```julia
+@bind country PlutoUI.Select(countries; default="World")
+```
+This lets the variable `country` listen for updates on the select input.
+
+All these widgets can also be combined into markdown/html code using interpolation.
+"""
+
+# ╔═╡ 7ea6abdf-5597-42d7-a1c4-f3e56fa3ec3e
+choose = md"""
 | Parameter | Choose |
 | --------- | :----- |
-| country | $(@bind country PlutoUI.Select(countries; default="World")) |
-| xaxis | $(@bind xaxis PlutoUI.Select(columns; default="year")) |
-| yaxis | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
-| log scale | $(@bind logy PlutoUI.CheckBox()) |
+| region 1 | $(@bind country1 PlutoUI.Select(countries; default="World")) |
+| region 2 | $(@bind country2 PlutoUI.Select(countries; default="Germany")) |
+| compare | $(@bind yaxis PlutoUI.Select(columns; default="co2_per_capita")) |
 """
+
+# ╔═╡ d4a29ec1-f0e3-4edd-a42e-42c97509c204
+(; yaxis, country1, country2)
+
+# ╔═╡ b0cbfb71-8d8d-42b2-a42c-0c729200b1f2
+xaxis = "year"
 
 # ╔═╡ 2aaf5b19-8bf8-4a01-89c0-874e64f23bab
-subdf = R"$df %>% filter(country == $country)";
+subdf1 = R"$df %>% filter(country == $country1)";
+
+# ╔═╡ a97befe2-35ee-416c-bac0-ca92cc5ba939
+subdf2 = R"$df %>% filter(country == $country2)"
+
+# ╔═╡ 1ea69a2a-6f07-43cf-b78c-858132e5137b
+md"""
+### Plot with ggplot
+"""
 
 # ╔═╡ 3e3f8262-60f2-4189-b767-a83d20b3fde9
-png_plot = begin
-R"""
+p = R"""
+# combine data into one large dataframe
+subdf <- rbind($subdf1, $subdf2)
 # we need to bring variables into tidy evaluation by combining !! with sym()
-p <- ggplot($subdf, aes(!!sym($xaxis), !!sym($yaxis))) + geom_point()
-if ($logy){
-    p <- p + scale_y_continuous(trans='log10')
-}
-ggsave("r_figure.png", plot=p)
+ggplot(subdf, aes(!!sym($xaxis), !!sym($yaxis), col=country)) + geom_line()
+""";
+
+# ╔═╡ d26049f0-a0ef-472b-ac4c-8a74c6969444
+md"""
+Note that we can reuse interactive input components.
 """
-LocalResource("r_figure.png")
-end
+
+# ╔═╡ 6820d1c9-4233-49ee-bd87-068a83cf98fa
+choose
+
+# ╔═╡ e24b0cc2-f4cb-417c-967a-84f64cd9010e
+R"ggsave('r_figure.png', plot=$p, height=4)"; LocalResource("r_figure.png")
 
 # ╔═╡ 7fa31165-3ec4-4fa1-b551-4885cbe4e6e4
 md"""
@@ -122,19 +158,14 @@ md"""
 Works too.
 """
 
-# ╔═╡ 549518e0-45d5-4754-a414-26c02491989c
-begin
-# pseudo dependency for auto triggering
-png_plot
-	
-R"""
-library(plotly)
-ply = ggplotly(p)
-htmlwidgets::saveWidget(ply, "r_figure.html")
-"""
+# ╔═╡ 679eaee0-f783-4985-a939-26f75a11c6f9
+choose
 
-JolinPluto.embedLargeHTML(read("r_figure.html", String); width="100%", height=400)
-end
+# ╔═╡ 549518e0-45d5-4754-a414-26c02491989c
+R"""
+ply = ggplotly($p)
+htmlwidgets::saveWidget(ply, "r_figure.html")
+"""; JolinPluto.embedLargeHTML(read("r_figure.html", String); width="100%", height=400)
 
 # ╔═╡ e77ae33b-6f2f-416e-ad73-e5682e122900
 md"""
@@ -145,9 +176,6 @@ md"""
 
 Happy dashboarding 📈 📊!
 """
-
-# ╔═╡ d3d65f1f-5c78-40bf-9664-8565319d7597
-PlutoUI.TableOfContents()
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -170,7 +198,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "4382b8414e01bc1f75202300601d380821c2f648"
+project_hash = "b149e3abe67f92c7783b53fae48e8a7fea7647e2"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
@@ -237,9 +265,9 @@ version = "0.11.4"
 
 [[deps.Compat]]
 deps = ["UUIDs"]
-git-tree-sha1 = "7a60c856b9fa189eb34f5f8a6f6b5529b7942957"
+git-tree-sha1 = "4e88377ae7ebeaf29a047aa1ee40826e0b708a5d"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "4.6.1"
+version = "4.7.0"
 weakdeps = ["Dates", "LinearAlgebra"]
 
     [deps.Compat.extensions]
@@ -310,11 +338,17 @@ git-tree-sha1 = "5837a837389fccf076445fce071c8ddaea35a566"
 uuid = "fa6b7ba4-c1ee-5f82-b5fc-ecf0adba8f74"
 version = "0.6.8"
 
+[[deps.ExceptionUnwrapping]]
+deps = ["Test"]
+git-tree-sha1 = "e90caa41f5a86296e014e148ee061bd6c3edec96"
+uuid = "460bff9d-24e4-43bc-9d9f-a8973cb893f4"
+version = "0.1.9"
+
 [[deps.Expat_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "bad72f730e9e91c08d9427d5e8db95478a3c323d"
+deps = ["Artifacts", "JLLWrappers", "Libdl"]
+git-tree-sha1 = "4558ab818dcceaab612d1bb8c19cee87eda2b83c"
 uuid = "2e619515-83b5-522b-bb60-26c02a35a201"
-version = "2.4.8+0"
+version = "2.5.0+0"
 
 [[deps.ExprTools]]
 git-tree-sha1 = "c1d06d129da9f55715c6c212866f5b1bddc5fa00"
@@ -365,10 +399,10 @@ uuid = "f8c6e375-362e-5223-8a59-34ff63f689eb"
 version = "2.36.1+2"
 
 [[deps.HTTP]]
-deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
-git-tree-sha1 = "5e77dbf117412d4f164a464d610ee6050cc75272"
+deps = ["Base64", "CodecZlib", "ConcurrentUtilities", "Dates", "ExceptionUnwrapping", "Logging", "LoggingExtras", "MbedTLS", "NetworkOptions", "OpenSSL", "Random", "SimpleBufferStream", "Sockets", "URIs", "UUIDs"]
+git-tree-sha1 = "2613d054b0e18a3dea99ca1594e9a3960e025da4"
 uuid = "cd3eb016-35fb-5094-929b-558a96fad6f3"
-version = "1.9.6"
+version = "1.9.7"
 
 [[deps.HypergeometricFunctions]]
 deps = ["DualNumbers", "LinearAlgebra", "OpenLibm_jll", "SpecialFunctions"]
@@ -610,9 +644,9 @@ version = "10.42.0+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "b32107a634205cdcc64e2a3070c3eb0d56d54181"
+git-tree-sha1 = "4b2e829ee66d4218e0cef22c0a64ee37cf258c29"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.6.0"
+version = "2.7.1"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -730,9 +764,9 @@ version = "0.1.1"
 
 [[deps.SortingAlgorithms]]
 deps = ["DataStructures"]
-git-tree-sha1 = "a4ada03f999bd01b3a25dcaa30b2d929fe537e00"
+git-tree-sha1 = "c60ec5c62180f27efea3ba2908480f8055e17cee"
 uuid = "a2af1166-a08f-5f64-846c-94a0d3cef48c"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.SparseArrays]]
 deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
@@ -740,9 +774,9 @@ uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
 
 [[deps.SpecialFunctions]]
 deps = ["IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
-git-tree-sha1 = "ef28127915f4229c971eb43f3fc075dd3fe91880"
+git-tree-sha1 = "7beb031cf8145577fbccacd94b8a8f4ce78428d3"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
-version = "2.2.0"
+version = "2.3.0"
 
     [deps.SpecialFunctions.extensions]
     SpecialFunctionsChainRulesCoreExt = "ChainRulesCore"
@@ -905,6 +939,7 @@ version = "17.4.0+0"
 # ╟─7d64d3df-fdd0-4ca8-978d-81bf5de5f67e
 # ╠═0058d8f2-eaac-11ed-1b10-7fcdeb83d83a
 # ╠═97f5fd46-aa22-4bf8-8066-28600db4ad50
+# ╠═d0bd14e3-8d31-49d3-b0ce-5ce8a8bd4066
 # ╟─45e5fe58-a4b8-41d7-bfd8-f2e18926d068
 # ╟─f7b267a6-2322-4c0c-a3f4-314ae35afc12
 # ╠═2f873bd7-437a-4547-ac2f-13b0dd2fa4b9
@@ -916,12 +951,20 @@ version = "17.4.0+0"
 # ╠═1e87466f-85f9-4807-9b0c-054779e936f0
 # ╠═05d43752-6324-43a1-b012-946e378f136e
 # ╟─6dd1a7e4-f42d-4400-adb8-0436f5f7bd51
-# ╟─7ea6abdf-5597-42d7-a1c4-f3e56fa3ec3e
+# ╟─36d171b3-1b6d-458a-a7cd-d21ad4efd35d
+# ╠═7ea6abdf-5597-42d7-a1c4-f3e56fa3ec3e
+# ╠═d4a29ec1-f0e3-4edd-a42e-42c97509c204
+# ╠═b0cbfb71-8d8d-42b2-a42c-0c729200b1f2
 # ╠═2aaf5b19-8bf8-4a01-89c0-874e64f23bab
+# ╠═a97befe2-35ee-416c-bac0-ca92cc5ba939
+# ╟─1ea69a2a-6f07-43cf-b78c-858132e5137b
 # ╠═3e3f8262-60f2-4189-b767-a83d20b3fde9
+# ╟─d26049f0-a0ef-472b-ac4c-8a74c6969444
+# ╠═6820d1c9-4233-49ee-bd87-068a83cf98fa
+# ╠═e24b0cc2-f4cb-417c-967a-84f64cd9010e
 # ╟─7fa31165-3ec4-4fa1-b551-4885cbe4e6e4
+# ╠═679eaee0-f783-4985-a939-26f75a11c6f9
 # ╠═549518e0-45d5-4754-a414-26c02491989c
 # ╟─e77ae33b-6f2f-416e-ad73-e5682e122900
-# ╟─d3d65f1f-5c78-40bf-9664-8565319d7597
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
