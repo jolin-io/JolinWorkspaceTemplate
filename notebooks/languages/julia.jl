@@ -163,7 +163,7 @@ Having the cell_ids which auto-update themselves, we can construct a link for th
 """
 
 # ╔═╡ a6e9add8-195a-4647-8662-d7c5b0251763
-url = "https://cloud.jolin.io/env/$(ENV["JOLIN_ENVIRONMENT"])/github.com/jolin-io/JolinWorkspaceTemplate/open?path=%2Fhome%2Fjolin_user%2Frepo%2Fnotebooks%2Flanguages%2Fjulia.jl"
+url = "https://cloud.jolin.io/env/$(ENV["JOLIN_ENVIRONMENT"])/$(ENV["JOLIN_REPO"])/open?path=%2Fhome%2Fjolin_user%2Frepo%2Fnotebooks%2Flanguages%2Fjulia.jl"
 
 # ╔═╡ 797c7401-cae3-449f-b29c-0592da2da69b
 suffix_cell_ids = join("&isolated_cell_id=$id" for id in cell_ids)
@@ -213,7 +213,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.2"
 manifest_format = "2.0"
-project_hash = "e4daf285d874776ad2e6eca94c8b88a110180042"
+project_hash = "29d4fe3889f9d69a2c626c866fb7486c774791a4"
 
 [[deps.AWS]]
 deps = ["Base64", "Compat", "Dates", "Downloads", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Random", "SHA", "Sockets", "URIs", "UUIDs", "XMLDict"]
