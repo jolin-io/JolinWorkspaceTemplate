@@ -35,6 +35,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    # set JOLIN_REPO environment variable
+    - run: echo "JOLIN_REPO=github.com/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
     - run: |
         julia -e '
           import Pkg
