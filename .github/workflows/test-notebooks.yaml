@@ -71,13 +71,12 @@ jobs:
           import Pkg
           Pkg.instantiate()
 
-          # instantiating CondaPkg is a bit more complicated, but this is still the easiest way to do it
-          file = joinpath(dirname(Base.active_project()), "CondaPkg.toml")
-          if isfile(file)
-            # if CondaPkg.toml exists, then also CondaPkg is in the dependencies
+          if Base.identify_package("CondaPkg") !== nothing
+            # instantiating CondaPkg is a bit more complicated, but this is still the easiest way to do it
             import CondaPkg
 
             # delete local conda channels which do not exist here
+            file = CondaPkg.cur_deps_file()
             toml = CondaPkg.read_deps(; file)
             channels = get!(Vector{String}, toml, "channels")
             filter!(channels) do name
@@ -95,6 +94,14 @@ jobs:
 
             # Finally install conda packages via resolve. This uses cur_deps_file() implicitly
             CondaPkg.resolve()
+
+            # RCall
+            if Base.identify_package("RCall") !== nothing
+              # RCall needs to be rebuild with R_HOME set
+              ENV["R_HOME"] = CondaPkg.envdir() * "/lib/R"
+              import Pkg
+              Pkg.build("RCall")
+            end
           end
         '
 
