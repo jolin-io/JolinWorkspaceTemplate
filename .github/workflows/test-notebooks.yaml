@@ -72,7 +72,7 @@ jobs:
           Pkg.instantiate()
 
           # instantiating CondaPkg is a bit more complicated, but this is still the easiest way to do it
-          file = CondaPkg.cur_deps_file()
+          file = joinpath(dirname(Base.active_project()), "CondaPkg.toml")
           if isfile(file)
             # if CondaPkg.toml exists, then also CondaPkg is in the dependencies
             import CondaPkg
