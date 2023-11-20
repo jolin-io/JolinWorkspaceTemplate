@@ -70,8 +70,8 @@ jobs:
         julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
           import Pkg
           Pkg.instantiate()
-          import JolinPluto
-          JolinPluto.@resolve_condapkg
+          import JolinPlutoCICD
+          JolinPlutoCICD.@resolve_condapkg
         '
 
     - working-directory: ./
