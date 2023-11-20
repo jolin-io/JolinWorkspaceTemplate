@@ -66,7 +66,25 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
-    - run: julia --project=$GITHUB_WORKSPACE/$notebook_env -e 'import Pkg; Pkg.instantiate()'
+    - run: |
+        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+          import Pkg
+          Pkg.instantiate()
+          if isfile(joinpath(dirname(Base.active_project()), "CondaPkg.toml"))
+            import CondaPkg
+            CondaPkg.resolve()
+          end
+        '
 
-    - working-directory: ./notebooks
-      run: julia --project=$GITHUB_WORKSPACE/$notebook_env "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
+    - working-directory: ./
+      run: julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+          if endswith(ARGS[1], ".jl")
+            include(ARGS[1])
+          elseif endswith(ARGS[1], ".py")
+            import PythonCall
+            PythonCall.pyexec(@NamedTuple(), readchomp(ARGS[1]), Main)
+          elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
+            import RCall
+            reval(readchomp(ARGS[1]))
+          end
+        ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
