@@ -67,11 +67,36 @@ jobs:
         restore-keys: ${{ runner.os }}-
 
     - run: |
-        julia --project=$GITHUB_WORKSPACE/$notebook_env -e 'import Pkg; Pkg.instantiate()'
-        julia -e 'if isfile(joinpath(ARGS[1], "CondaPkg.toml"))
-            import CondaPkg, JolinPlutoCICD
-            JolinPlutoCICD.resolve_condapkg(ARGS[1])
-          end' "$GITHUB_WORKSPACE/$notebook_env"
+        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+          import Pkg
+          Pkg.instantiate()
+
+          # instantiating CondaPkg is a bit more complicated, but this is still the easiest way to do it
+          file = CondaPkg.cur_deps_file()
+          if isfile(file)
+            # if CondaPkg.toml exists, then also CondaPkg is in the dependencies
+            import CondaPkg
+
+            # delete local conda channels which do not exist here
+            toml = CondaPkg.read_deps(; file)
+            channels = get!(Vector{String}, toml, "channels")
+            filter!(channels) do name
+                if startswith(name, "file://")
+                    path = name[begin+length("file://"):end]
+                    return isdir(path)  # only keep local channels which exist
+                else
+                    return true  # keep all other channels
+                end
+            end
+
+            # TODO possibly add extra local conda channels which are needed
+            # - should not really be needed on amd64/arch64
+            CondaPkg.write_deps(toml; file)
+
+            # Finally install conda packages via resolve. This uses cur_deps_file() implicitly
+            CondaPkg.resolve()
+          end
+        '
 
     - working-directory: ./
       run: |
