@@ -67,14 +67,11 @@ jobs:
         restore-keys: ${{ runner.os }}-
 
     - run: |
-        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
-          import Pkg
-          Pkg.instantiate()
-          if isfile(joinpath(dirname(Base.active_project()), "CondaPkg.toml"))
-            import JolinPlutoCICD, CondaPkg
-            JolinPlutoCICD.resolve_condapkg(CondaPkg)
-          end
-        '
+        julia --project=$GITHUB_WORKSPACE/$notebook_env -e 'import Pkg; Pkg.instantiate()'
+        julia -e 'if isfile(joinpath(ARGS[1], "CondaPkg.toml"))
+            import CondaPkg, JolinPlutoCICD
+            JolinPlutoCICD.resolve_condapkg(ARGS[1])
+          end' "$GITHUB_WORKSPACE/$notebook_env"
 
     - working-directory: ./
       run: |
