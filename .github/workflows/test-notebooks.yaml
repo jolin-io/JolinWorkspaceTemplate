@@ -72,6 +72,27 @@ jobs:
           Pkg.instantiate()
           if isfile(joinpath(dirname(Base.active_project()), "CondaPkg.toml"))
             import CondaPkg
+
+            # delete local conda channels which do not exist here
+            file = CondaPkg.cur_deps_file()
+            toml = CondaPkg.read_deps(; file)
+            channels = get!(Vector{Any}, toml, "channels")
+            filter!(channels) do ch
+              if startswith(ch.name, "file://")
+                path = ch.name[begin+length("file://"):end]
+                # only keep local channels which also exist
+                return isdir(path)
+              else
+                # keep all other channels
+                return true
+              end
+            end
+            # TODO possibly add extra local conda channels which are needed
+            # - should not really be needed on amd64/arch64
+
+            CondaPkg.write_deps(toml)
+
+            # now CondaPkg.resolve() should not fail
             CondaPkg.resolve()
           end
         '
