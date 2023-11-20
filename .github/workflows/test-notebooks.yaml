@@ -83,7 +83,7 @@ jobs:
             include(ARGS[1])
           elseif endswith(ARGS[1], ".py")
             import PythonCall
-            PythonCall.pyexec(@NamedTuple(), readchomp(ARGS[1]), Main)
+            PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
           elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
             import RCall
             reval(readchomp(ARGS[1]))
