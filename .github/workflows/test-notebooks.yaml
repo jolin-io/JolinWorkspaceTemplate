@@ -77,9 +77,9 @@ jobs:
             file = CondaPkg.cur_deps_file()
             toml = CondaPkg.read_deps(; file)
             channels = get!(Vector{Any}, toml, "channels")
-            filter!(channels) do ch
-              if startswith(ch.name, "file://")
-                path = ch.name[begin+length("file://"):end]
+            filter!(channels) do name
+              if startswith(name, "file://")
+                path = name[begin+length("file://"):end]
                 # only keep local channels which also exist
                 return isdir(path)
               else
