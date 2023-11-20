@@ -70,7 +70,6 @@ jobs:
         julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
           import Pkg
           Pkg.instantiate()
-          # fail
           if isfile(joinpath(dirname(Base.active_project()), "CondaPkg.toml"))
             import JolinPlutoCICD, CondaPkg
             JolinPlutoCICD.resolve_condapkg(CondaPkg)
