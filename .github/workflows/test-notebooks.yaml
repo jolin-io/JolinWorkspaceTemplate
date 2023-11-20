@@ -77,7 +77,8 @@ jobs:
         '
 
     - working-directory: ./
-      run: julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+      run: |
+        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
           if endswith(ARGS[1], ".jl")
             include(ARGS[1])
           elseif endswith(ARGS[1], ".py")
