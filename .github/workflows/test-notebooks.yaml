@@ -70,6 +70,7 @@ jobs:
         julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
           import Pkg
           Pkg.instantiate()
+          # lt's see whether this breaks everything
           import JolinPlutoCICD
           JolinPlutoCICD.@resolve_condapkg
         '
