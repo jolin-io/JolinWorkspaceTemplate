@@ -57,7 +57,9 @@ jobs:
           mkpath(joinpath(env_dir, ".CondaPkg"))
 
           # we need to strip the GITHUB_WORKSPACE because hashFiles only works with paths relative to GITHUB_WORKSPACE
-          env_dir_relative = lstrip(env_dir[begin+length(ENV["GITHUB_WORKSPACE"]) : end], ' "'/'" ')
+          # see https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
+          # Char(47) == "/" (as char, but we cannot easily use single quotes here)
+          env_dir_relative = lstrip(env_dir[begin+length(ENV["GITHUB_WORKSPACE"]) : end], Char(47))
           print(env_dir_relative)
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
