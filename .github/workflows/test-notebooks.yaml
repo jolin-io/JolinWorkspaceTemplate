@@ -115,7 +115,7 @@ jobs:
           elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
             import RCall
 
-            # it is a bit unbelievable, but RCall's missing dynamic linking forces us to install JolinPlutoCICD a third time
+            # it is a bit unbelievable, but RCalls missing dynamic linking forces us to install JolinPlutoCICD a third time
             import Pkg
             Pkg.Registry.add("General")
             Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
