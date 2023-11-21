@@ -113,6 +113,6 @@ jobs:
             PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
           elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
             import RCall
-            reval(readchomp(ARGS[1]))
+            RCall.reval(readchomp(ARGS[1]))
           end
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
