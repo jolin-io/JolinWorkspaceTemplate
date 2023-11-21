@@ -2,6 +2,7 @@ name: Test
 run-name: 👷 Testing all reactive notebooks
 on: [pull_request]
 env:
+  JOLIN_SITE: "nosite.nosite"
   JOLIN_ENVIRONMENT: "test"
 jobs:
   job-matrix:
@@ -70,7 +71,7 @@ jobs:
         # initialize conda first
         julia -e '
           import JolinPlutoCICD
-          @eval $(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
+          eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
         ' "$GITHUB_WORKSPACE/$notebook_env"
 
         # set R_HOME if conda was actually initialized - needed before Pkg.instantiate()
