@@ -67,42 +67,21 @@ jobs:
         restore-keys: ${{ runner.os }}-
 
     - run: |
+        # initialize conda first
+        julia -e '
+          import JolinPlutoCICD
+          @eval $(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
+        ' "$GITHUB_WORKSPACE/$notebook_env"
+
+        # set R_HOME if conda was actually initialized - needed before Pkg.instantiate()
+        if [ -d "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg" ]; then
+          echo R_HOME="$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/lib/R" >> "$GITHUB_ENV"
+        fi
+
+    - run: |
         julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
           import Pkg
           Pkg.instantiate()
-
-          if Base.identify_package("CondaPkg") !== nothing
-            # instantiating CondaPkg is a bit more complicated, but this is still the easiest way to do it
-            import CondaPkg
-
-            # delete local conda channels which do not exist here
-            file = CondaPkg.cur_deps_file()
-            toml = CondaPkg.read_deps(; file)
-            channels = get!(Vector{String}, toml, "channels")
-            filter!(channels) do name
-                if startswith(name, "file://")
-                    path = name[begin+length("file://"):end]
-                    return isdir(path)  # only keep local channels which exist
-                else
-                    return true  # keep all other channels
-                end
-            end
-
-            # TODO possibly add extra local conda channels which are needed
-            # - should not really be needed on amd64/arch64
-            CondaPkg.write_deps(toml; file)
-
-            # Finally install conda packages via resolve. This uses cur_deps_file() implicitly
-            CondaPkg.resolve()
-
-            # RCall
-            if Base.identify_package("RCall") !== nothing
-              # RCall needs to be rebuild with R_HOME set
-              ENV["R_HOME"] = CondaPkg.envdir() * "/lib/R"
-              import Pkg
-              Pkg.build("RCall")
-            end
-          end
         '
 
     - working-directory: ./
