@@ -78,13 +78,13 @@ jobs:
     - run: |
         # initialize conda first
         julia -e '
-          # because of the caching JolinPlutoCICD might be no longer installed
-          if Base.identify_package("JolinPlutoCICD") === nothing
-            import Pkg
-            Pkg.Registry.add("General")
-            Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
-            Pkg.add("JolinPlutoCICD")
-          end
+          # because of the caching we need to reinstall JolinPlutoCICD
+          # alternatively we could construct a complex logic to merge old and new .julia folder
+          import Pkg
+          Pkg.Registry.add("General")
+          Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+          Pkg.add("JolinPlutoCICD")
+
           import JolinPlutoCICD
           eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
         ' "$GITHUB_WORKSPACE/$notebook_env"
