@@ -79,8 +79,8 @@ jobs:
 
     - run: |
         # initialize conda first, because RCall cannot be build without R_HOME being set (pseudo R_HOME also do not work)
-        # we
-        julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
+        # we cannot do this inside the notebook_env because adding JolinPlutoCICD would already trigger a build of RCall if it is there in the Manifest.toml
+        julia -e '
           # because of the caching we need to reinstall JolinPlutoCICD
           # (alternatively we could merge old and new .julia folder)
           import Pkg
@@ -90,8 +90,8 @@ jobs:
           Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
 
           import JolinPlutoCICD
-          eval(JolinPlutoCICD.expr_resolve_condapkg(dirname(Base.active_project())))
-        '
+          eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
+        ' "$GITHUB_WORKSPACE/$notebook_env"
 
         # set R_HOME if conda was actually initialized - needed before Pkg.instantiate()
         if [ -d "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg" ]; then
@@ -114,8 +114,16 @@ jobs:
             PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
           elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
             import RCall
+
+            # it is a bit unbelievable, but RCall's missing dynamic linking forces us to install JolinPlutoCICD a third time
+            import Pkg
+            Pkg.Registry.add("General")
+            Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+            Pkg.Registry.update()  # needed because registries might already exist with outdated information
+            Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
             import JolinPlutoCICD
             eval(JolinPlutoCICD.expr_fix_RCall())
+
             RCall.reval(readchomp(ARGS[1]))
           end
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
