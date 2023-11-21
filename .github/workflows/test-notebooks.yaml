@@ -64,7 +64,7 @@ jobs:
       with:
         path: |
           ~/.julia
-          ${{ GITHUB_WORKSPACE }}/${{ env.notebook_env }}/.CondaPkg
+          $GITHUB_WORKSPACE/$notebook_env/.CondaPkg
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
