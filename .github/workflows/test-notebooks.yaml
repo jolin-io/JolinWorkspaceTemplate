@@ -4,6 +4,7 @@ on: [pull_request]
 env:
   JOLIN_SITE: "nosite.nosite"
   JOLIN_ENVIRONMENT: "test"
+  JOLINPLUTOCICD_VERSION: "0.1.18"
 jobs:
   job-matrix:
     runs-on: ubuntu-latest
@@ -18,7 +19,7 @@ jobs:
             import Pkg
             Pkg.Registry.add("General")
             Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
-            Pkg.add("JolinPlutoCICD")
+            Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
             using JolinPlutoCICD
             print(JolinPlutoCICD.json_common_prefix_common_suffix_and_all_notebook_paths(ARGS[1]))
           ' .) >> "$GITHUB_OUTPUT"
@@ -83,7 +84,7 @@ jobs:
           import Pkg
           Pkg.Registry.add("General")
           Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
-          Pkg.add("JolinPlutoCICD")
+          Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
 
           import JolinPlutoCICD
           eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
