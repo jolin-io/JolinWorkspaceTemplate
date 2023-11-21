@@ -45,6 +45,7 @@ jobs:
           import Pkg
           Pkg.Registry.add("General")
           Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+          # Pkg.Registry.update() # not needed because the registries are added the first time
           Pkg.add("JolinPlutoCICD")
         '
 
@@ -84,6 +85,7 @@ jobs:
           import Pkg
           Pkg.Registry.add("General")
           Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+          Pkg.Registry.update()  # needed because registries might already exist with outdated information
           Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
 
           import JolinPlutoCICD
