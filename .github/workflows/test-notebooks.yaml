@@ -4,7 +4,7 @@ on: [pull_request]
 env:
   JOLIN_SITE: "nosite.nosite"
   JOLIN_ENVIRONMENT: "test"
-  JOLINPLUTOCICD_VERSION: "0.1.18"
+  JOLINPLUTOCICD_VERSION: "0.1.19"
 jobs:
   job-matrix:
     runs-on: ubuntu-latest
@@ -49,7 +49,8 @@ jobs:
           Pkg.add("JolinPlutoCICD")
         '
 
-    # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory will be hashed
+    # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory can be hashed
+    # see https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
     - run: |
         echo notebook_env=$(julia -e '
           using JolinPlutoCICD
@@ -59,7 +60,6 @@ jobs:
           mkpath(joinpath(env_dir, ".CondaPkg"))
 
           # we need to strip the GITHUB_WORKSPACE because hashFiles only works with paths relative to GITHUB_WORKSPACE
-          # see https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
           # Char(47) == "/" (as char, but we cannot easily use single quotes here)
           env_dir_relative = lstrip(env_dir[begin+length(ENV["GITHUB_WORKSPACE"]) : end], Char(47))
           print(env_dir_relative)
@@ -78,10 +78,11 @@ jobs:
         restore-keys: ${{ runner.os }}-
 
     - run: |
-        # initialize conda first
-        julia -e '
+        # initialize conda first, because RCall cannot be build without R_HOME being set (pseudo R_HOME also do not work)
+        # we
+        julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           # because of the caching we need to reinstall JolinPlutoCICD
-          # alternatively we could construct a complex logic to merge old and new .julia folder
+          # (alternatively we could merge old and new .julia folder)
           import Pkg
           Pkg.Registry.add("General")
           Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
@@ -89,8 +90,8 @@ jobs:
           Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
 
           import JolinPlutoCICD
-          eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
-        ' "$GITHUB_WORKSPACE/$notebook_env"
+          eval(JolinPlutoCICD.expr_resolve_condapkg(dirname(Base.active_project())))
+        '
 
         # set R_HOME if conda was actually initialized - needed before Pkg.instantiate()
         if [ -d "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg" ]; then
@@ -98,14 +99,14 @@ jobs:
         fi
 
     - run: |
-        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+        julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           import Pkg
           Pkg.instantiate()
         '
 
     - working-directory: ./
       run: |
-        julia --project=$GITHUB_WORKSPACE/$notebook_env -e '
+        julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           if endswith(ARGS[1], ".jl")
             include(ARGS[1])
           elseif endswith(ARGS[1], ".py")
@@ -113,6 +114,8 @@ jobs:
             PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
           elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
             import RCall
+            import JolinPlutoCICD
+            eval(JolinPlutoCICD.expr_fix_RCall())
             RCall.reval(readchomp(ARGS[1]))
           end
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
