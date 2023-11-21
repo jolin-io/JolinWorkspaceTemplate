@@ -47,13 +47,12 @@ jobs:
           Pkg.add("JolinPlutoCICD")
         '
 
-    # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory will be cached
+    # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory will be hashed
     - run: |
         echo notebook_env=$(julia -e '
           using JolinPlutoCICD
           print(JolinPlutoCICD.create_pluto_env(ARGS[1],
-            tempdir_parent=ENV["GITHUB_WORKSPACE"],
-            prefix="_tmp_envs/jl_",
+            parentdir=joinpath(ENV["GITHUB_WORKSPACE"], "_temp_envs"),
             return_relative_path=true))
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
@@ -63,13 +62,22 @@ jobs:
 
     - uses: actions/cache@v3
       with:
-        path: ~/.julia
+        path: |
+          ~/.julia
+          ${{ GITHUB_WORKSPACE }}/${{ env.notebook_env }}/.CondaPkg
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
     - run: |
         # initialize conda first
         julia -e '
+          # because of the caching JolinPlutoCICD might be no longer installed
+          if Base.identify_package("JolinPlutoCICD") === nothing
+            import Pkg
+            Pkg.Registry.add("General")
+            Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
+            Pkg.add("JolinPlutoCICD")
+          end
           import JolinPlutoCICD
           eval(JolinPlutoCICD.expr_resolve_condapkg(ARGS[1]))
         ' "$GITHUB_WORKSPACE/$notebook_env"
