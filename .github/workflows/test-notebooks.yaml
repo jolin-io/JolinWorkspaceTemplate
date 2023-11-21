@@ -51,9 +51,14 @@ jobs:
     - run: |
         echo notebook_env=$(julia -e '
           using JolinPlutoCICD
-          print(JolinPlutoCICD.create_pluto_env(ARGS[1],
-            parentdir=joinpath(ENV["GITHUB_WORKSPACE"], "_temp_envs"),
-            return_relative_path=true))
+          env_dir = JolinPlutoCICD.create_pluto_env(ARGS[1], parentdir=joinpath(ENV["GITHUB_WORKSPACE"], "_temp_envs"))
+
+          # we want to cache .CondaPkg, hence it already needs to exist
+          mkpath(joinpath(env_dir, ".CondaPkg"))
+
+          # we need to strip the GITHUB_WORKSPACE because hashFiles only works with paths relative to GITHUB_WORKSPACE
+          env_dir_relative = lstrip(env_dir[begin+length(ENV["GITHUB_WORKSPACE"]) : end], '/')
+          print(env_dir_relative)
         ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}") >> "$GITHUB_ENV"
 
     # fixing permission error for hashfiles (actually works)
