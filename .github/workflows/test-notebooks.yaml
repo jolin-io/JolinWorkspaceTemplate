@@ -5,6 +5,9 @@ env:
   JOLIN_SITE: "nosite.nosite"
   JOLIN_ENVIRONMENT: "test"
   JOLINPLUTOCICD_VERSION: "0.1.19"
+defaults:
+  run:
+    shell: bash  # we want to use bash as the default shell
 jobs:
   job-matrix:
     runs-on: ubuntu-latest
@@ -13,7 +16,8 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v3
-      - id: set-matrix
+      - name: List all notebooks.
+        id: set-matrix
         run: |
           echo matrix=$(julia -e '
             import Pkg
@@ -38,9 +42,11 @@ jobs:
     - uses: actions/checkout@v3
 
     # set JOLIN_REPO environment variable
-    - run: echo "JOLIN_REPO=github.com/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+    - name: Set environment variable "JOLIN_REPO".
+      run: echo "JOLIN_REPO=github.com/${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
 
-    - run: |
+    - name: Add julia registries and JolinPlutoCICD (our cicd helper).
+      run: |
         julia -e '
           import Pkg
           Pkg.Registry.add("General")
@@ -51,7 +57,8 @@ jobs:
 
     # we need to create temporary environment under GITHUB_WORKSPACE, because only files under this directory can be hashed
     # see https://docs.github.com/en/actions/learn-github-actions/expressions#hashfiles
-    - run: |
+    - name: Setup julia project environment for the notebook and export the directory to environment variable "notebook_env".
+      run: |
         echo notebook_env=$(julia -e '
           using JolinPlutoCICD
           env_dir = JolinPlutoCICD.create_pluto_env(ARGS[1], parentdir=joinpath(ENV["GITHUB_WORKSPACE"], "_temp_envs"))
@@ -67,9 +74,11 @@ jobs:
 
     # fixing permission error for hashfiles (actually works)
     # adapted from https://github.com/cypress-io/github-action/issues/446#issuecomment-968192021
-    - run: chown -R 1001:1001 $GITHUB_WORKSPACE/$notebook_env
+    - name: Fix caching.
+      run: chown -R 1001:1001 $GITHUB_WORKSPACE/$notebook_env
 
-    - uses: actions/cache@v3
+    - name: Apply caching.
+      uses: actions/cache@v3
       with:
         path: |
           ~/.julia
@@ -77,7 +86,8 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
-    - run: |
+    - name: Instantiate (i.e. download and install) julia project and conda packages.
+      run: |
         # initialize conda first, because RCall cannot be build without R_HOME being set (pseudo R_HOME also do not work)
         # we cannot do this inside the notebook_env because adding JolinPlutoCICD would already trigger a build of RCall if it is there in the Manifest.toml
         julia -e '
@@ -98,14 +108,14 @@ jobs:
           echo R_HOME="$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/lib/R" >> "$GITHUB_ENV"
         fi
 
-    - run: |
         # this will build RCall if it is a dependency and will fail if R_HOME is not correct
         julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           import Pkg
           Pkg.instantiate()
         '
 
-    - working-directory: ./
+    - name: Run notebook.
+      working-directory: ./
       run: |
         FILE="${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
         if [[ "$FILE" == *.jl ]]; then
