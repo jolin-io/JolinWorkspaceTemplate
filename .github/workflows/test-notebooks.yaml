@@ -126,13 +126,6 @@ jobs:
         elif [[ "$FILE" == *.py ]]; then
           # special env because of https://github.com/JuliaPy/PythonCall.jl/issues/426
           PYTHON_JULIAPKG_OFFLINE=yes PYTHON_JULIAPKG_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/python" "$FILE"
-
-          # we need to start python from julia, because of https://github.com/JuliaPy/PythonCall.jl/issues/426
-          # and because PythonCall sets up a pseudo juliacall without actually loading the juliacall package
-          # JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" julia -e '
-          #   import PythonCall
-          #   PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
-          # ' "$FILE"
         elif [[ "$FILE" == *.R ]] || [[ "$FILE" == *.r ]]; then
           JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/Rscript" "$FILE"
         fi
