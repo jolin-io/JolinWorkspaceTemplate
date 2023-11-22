@@ -99,6 +99,7 @@ jobs:
         fi
 
     - run: |
+        # this will build RCall if it is a dependency and will fail if R_HOME is not correct
         julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           import Pkg
           Pkg.instantiate()
@@ -106,24 +107,11 @@ jobs:
 
     - working-directory: ./
       run: |
-        julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
-          if endswith(ARGS[1], ".jl")
-            include(ARGS[1])
-          elseif endswith(ARGS[1], ".py")
-            import PythonCall
-            PythonCall.pyexec(@NamedTuple{}, readchomp(ARGS[1]), Main)
-          elseif endswith(ARGS[1], ".R") || endswith(ARGS[1], ".r")
-            import RCall
-
-            # it is a bit unbelievable, but RCalls missing dynamic linking forces us to install JolinPlutoCICD a third time
-            import Pkg
-            Pkg.Registry.add("General")
-            Pkg.Registry.add(Pkg.RegistrySpec(url="https://github.com/jolin-io/JolinRegistry.jl"))
-            Pkg.Registry.update()  # needed because registries might already exist with outdated information
-            Pkg.add(name="JolinPlutoCICD", version=ENV["JOLINPLUTOCICD_VERSION"])
-            import JolinPlutoCICD
-            eval(JolinPlutoCICD.expr_fix_RCall())
-
-            RCall.reval(readchomp(ARGS[1]))
-          end
-        ' "${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
+        FILE="${{ matrix.prefix }}${{ matrix.notebook_path }}${{ matrix.suffix }}"
+        if [[ "$FILE" == *.jl ]]; then
+          JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" julia "$FILE"
+        elif [[ "$FILE" == *.py ]]; then
+          JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/python" "$FILE"
+        elif [[ "$FILE" == *.R ]] || [[ "$FILE" == *.r ]]; then
+          JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/Rscript" "$FILE"
+        fi
