@@ -121,7 +121,8 @@ jobs:
         if [[ "$FILE" == *.jl ]]; then
           JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" julia "$FILE"
         elif [[ "$FILE" == *.py ]]; then
-          JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/python" "$FILE"
+          # special env because of https://github.com/JuliaPy/PythonCall.jl/issues/426
+          PYTHON_JULIAPKG_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/python" "$FILE"
         elif [[ "$FILE" == *.R ]] || [[ "$FILE" == *.r ]]; then
           JULIA_PROJECT="$GITHUB_WORKSPACE/$notebook_env" "$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/bin/Rscript" "$FILE"
         fi
