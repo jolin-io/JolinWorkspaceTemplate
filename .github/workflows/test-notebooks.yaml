@@ -86,7 +86,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles(format('{0}/*.toml', env.notebook_env)) }}
         restore-keys: ${{ runner.os }}-
 
-    - name: Instantiate (i.e. download and install) julia project and conda packages.
+    - name: Conda instantiate (i.e. download and install conda packages).
       run: |
         # initialize conda first, because RCall cannot be build without R_HOME being set (pseudo R_HOME also do not work)
         # we cannot do this inside the notebook_env because adding JolinPlutoCICD would already trigger a build of RCall if it is there in the Manifest.toml
@@ -108,7 +108,10 @@ jobs:
           echo R_HOME="$GITHUB_WORKSPACE/$notebook_env/.CondaPkg/env/lib/R" >> "$GITHUB_ENV"
         fi
 
+    - name: Julia instantiate (i.e. download and install julia packages).
+      run: |
         # this will build RCall if it is a dependency and will fail if R_HOME is not correct
+        # this is why conda packages are instantiated before julia packages
         julia --project="$GITHUB_WORKSPACE/$notebook_env" -e '
           import Pkg
           Pkg.instantiate()
