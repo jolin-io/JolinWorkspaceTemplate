@@ -8,7 +8,7 @@ using InteractiveUtils
 using Plots
 
 # ╔═╡ ea288781-065c-42b9-9f8a-959677cc4566
-rand(10)
+plot(rand(10))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
