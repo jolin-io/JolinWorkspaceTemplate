@@ -94,6 +94,8 @@ channels = ["conda-forge", "file:///home/jolin_user/.julia/dev/JolinWorkspace/co
 
 [deps]
 pyjuliacall = "0.9.23"
+matplotlib = "3.9.1"
+numpy = "2.1.0"
 """
 
 
