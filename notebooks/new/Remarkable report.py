@@ -1,208 +1,43 @@
 ### A Pluto.jl notebook ###
 # v0.19.4201
+# ╔═╡ 96c7e8f2-8bb2-11ef-0e34-49d58558a2b5
+from juliacall import Main as jl
+jl.seval("using Jolin")
 
-#> [frontmatter]
-#> title = "stream"
-#> date = "2024-10-14"
-#> tags = ["jolin"]
-#> description = "How to react on incoming streaming data in julia"
-#> 
-#>     [[frontmatter.author]]
-#>     name = "Jolin"
-#>     url = "https://www.jolin.io"
+# ╔═╡ 96c7e87a-8bb2-11ef-0a3c-9193a2515b17
+jl.MD("""
+# Welcome to Python
+""")
 
-using Markdown
-using InteractiveUtils
+# ╔═╡ 96c7e906-8bb2-11ef-0c12-81872db9a7f8
+a = 10
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
-macro bind(def, element)
-    quote
-        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
-        local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
-        el
-    end
-end
+# ╔═╡ 1f4a2739-9858-408d-b119-3c0a5e57a9ab
+b = 100 * a
+
+# ╔═╡ 78309512-b9d4-4fd8-bbe1-7226ab46b2f3
 
 
-# ╔═╡ b9e65ffc-18c4-48ca-a657-13bdcfa338ac
-using Jolin, Dates
+# ╔═╡ 00000000-0000-0000-0000-000000000000
+PLUTO_CONDAPKG_TOML_CONTENTS = """
+channels = ["conda-forge", "file:///home/jolin_user/.julia/dev/JolinWorkspace/conda/channel"]
 
-# ╔═╡ f982f685-56a7-40ca-b9b3-e7a783c49bd7
-using DataStructures
-
-# ╔═╡ eed504cc-83d8-11ee-1256-c1fec17d8788
-md"""
-# Self-updating Reactive Notebooks 
-
-This is a small introduction about how to include and process continuous updates right in your reactive notebook.
+[deps]
+pyjuliacall = "0.9.23"
 """
 
-# ╔═╡ ef0a6231-faac-42f3-af5a-f0dd168538f6
-md"""
-We are simulating **financial data** (also called random walk) which is streamed onto a `Channel` object, read from it, and processed.
-
-You should be able to take this demo and adapt to whatever continuous updates you may have at your company.
-"""
-
-# ╔═╡ cc9eef49-8785-42ad-a30f-995858d31045
-output_below()
-
-# ╔═╡ 30ae245f-f4a8-4aa2-8992-d564e5d0f563
-TableOfContents()
-
-# ╔═╡ e6f1e1ef-8fc9-46f8-a7a9-9e174305de09
-md"""
-##  Create updates
-
-The simplest way to create updates is to repeatedly look whether some updates are available, and if so, putting them onto a queue, also called channel.
-"""
-
-# ╔═╡ 698985dd-b081-4da8-a3ba-ac35a2e86b59
-# This channel object holds a single item.
-# Channel(2) would hold 2 elements. 
-channel = @Channel(1) do ch
-	while true
-		put!(ch, randn())
-		sleep(2)
-	end
-end
-
-# ╔═╡ 113e0c89-1589-45ab-9646-8cfc71768842
-md"""
-Every second this tries to put a random value into the channel. If the channel is full, it simply blocks until it has capacity again.
-"""
-
-# ╔═╡ 8d2ee184-4012-4706-b0ac-8d4e35d1dc9d
-md"""
-## Fetch updates
-
-Having a channel full of updates, we can make Pluto read updates again and again and again.
-
-You can even disable updates for some time by opening the cell *menu* (the three dots top-right in the cell) and choose *Disable Cell*.
-"""
-
-# ╔═╡ 95c9d8eb-fcd7-48e0-a607-ffa4c9f9b8ac
-update = @repeat_take! channel
-
-# ╔═╡ 1831e3f6-0067-4516-b596-40c3cc5a1db7
-md"""
-Let's collect these updates.
-"""
-
-# ╔═╡ 9284050f-13b9-433f-9b35-49555faf698b
-begin
-	max_length = 20
-	first_element = 0.0
-	
-	bounded_collection = CircularBuffer{Float64}(max_length)
-	push!(bounded_collection, first_element)
-end
-
-# ╔═╡ 960dbccd-f8e7-43b1-babb-c046c5501b92
-md"""
-## User Interfaces
-
-Let's control `shift` and `variance` using user inputs.
-"""
-
-# ╔═╡ 3b0ebdf4-f318-411a-8734-f45701969e02
-begin
-	ui1 = @bind shift Slider([-3, -1, 0, 1, 3], default=0, show_value=true)
-	ui2 = @bind variance Slider([1, 2, 10, 100], default=1, show_value=true)
-	ui1, ui2
-end
-
-# ╔═╡ c46a7eed-5357-4031-8e0b-8d96473d3a16
-begin
-	noise = update * sqrt(variance) + shift
-	prev_value = bounded_collection[end]
-	next_value = prev_value + noise
-	push!(bounded_collection, next_value)
-end
-
-# ╔═╡ 1b0a3564-a78c-4f76-b367-6d2366cb3f86
-md"""
-The above two lines create ui elements which update `shift` and `variance` respectively.
-
-You can try it by moving the above sliders.
-"""
-
-# ╔═╡ 8999f0f1-3604-49e5-bf3b-b31e8a7f305e
-shift, variance
-
-# ╔═╡ f2eef049-e715-4e1a-b9e9-280325193ad9
-md"""
-You can combine multiple input elements into arbitrary Markdown or HTML.
-"""
-
-# ╔═╡ ffba49c2-6dc3-4a78-985c-0f6c4e2448d3
-choose = md"""
-|          | choose |
-|----------|:-------|
-| shift    | $ui1   |
-| variance | $ui2   |
-"""
-
-# ╔═╡ bd6e7590-b9a4-4d07-86e7-ed6a28a3da0d
-choose
-
-# ╔═╡ 883f5836-f233-4a48-a659-c47d55aed05f
-md"""
-## Plotting
-
-Finally we build or graph.
-"""
-
-# ╔═╡ b8085389-9679-432f-ae5a-fb9b29148f42
-begin
-	# depend on update to auto trigger this cells
-	update
-	output = plot(bounded_collection)
-end
-
-# ╔═╡ 084b7ac4-6874-48fa-a79d-24fb13490bf9
-output
-
-# ╔═╡ 1b7274fc-826d-4510-a3df-2f7c3a4b3a31
-md"""
-# Resources
-
-- [OnlineStats.jl](https://github.com/joshday/OnlineStats.jl) for more awesome visualizations and realtime analysis
-
-That was probably your first streaming report ever 😎.
-"""
-
-# ╔═╡ 95002bdd-0f7e-45a4-ad4c-1b9f04216094
-md"""
-# Memory tracking
-
-For long running notebooks, it is important to make sure that no memory leaks appear.
-"""
-
-# ╔═╡ f8e9230e-3181-4bc1-ae12-816b1c9e0e1b
-memory_tracking = CircularBuffer{Float64}(400)
-
-# ╔═╡ 57a4a0f8-9d50-4a26-86d4-bb99d5697aa6
-begin
-	@repeat_at ceil(now(), Second(10))
-	# run Garbage Collector (it is recommended to run both versions)
-	GC.gc(true); GC.gc(false)
-	push!(memory_tracking, Base.gc_live_bytes() / 2^20)
-	plot(memory_tracking, ylabel="MB")
-end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 Jolin = "87100c7f-5f96-485a-944e-f6ba66ec4971"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
 [compat]
-DataStructures = "~0.18.20"
+CondaPkg = "~0.2.23"
 Jolin = "~0.1.3"
+PythonCall = "~0.9.23"
 """
 
 
@@ -212,7 +47,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "34204f26a433b10c8ccb46b59ba7cb8bc18787cc"
+project_hash = "732eb866a61416c3df16ad7891b3aea36dde229f"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -234,12 +69,6 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 git-tree-sha1 = "0691e34b3bb8be9307330f88d1a3c3f25466c24d"
 uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
 version = "0.1.9"
-
-[[deps.CodeTracking]]
-deps = ["InteractiveUtils", "UUIDs"]
-git-tree-sha1 = "7eee164f122511d3e4e1ebadb7956939ea7e1c77"
-uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
-version = "1.3.6"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -304,6 +133,12 @@ git-tree-sha1 = "ea32b83ca4fefa1768dc84e504cc0a94fb1ab8d1"
 uuid = "f0e56b4a-5159-44fe-b623-3e5288b988bb"
 version = "2.4.2"
 
+[[deps.CondaPkg]]
+deps = ["JSON3", "Markdown", "MicroMamba", "Pidfile", "Pkg", "Preferences", "TOML"]
+git-tree-sha1 = "8f7faef2ca039ee068cd971a80ccd710d23fb2eb"
+uuid = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
+version = "0.2.23"
+
 [[deps.Continuables]]
 deps = ["DataTypesBasic", "ExprParsers", "OrderedCollections", "SimpleMatch"]
 git-tree-sha1 = "96107b5ecb77d0397395cec4a95a28873e124204"
@@ -315,16 +150,20 @@ git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 version = "4.1.1"
 
-[[deps.DataStructures]]
-deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "1d0a14036acb104d9e89698bd408f63ab58cdc82"
-uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.20"
+[[deps.DataAPI]]
+git-tree-sha1 = "abe83f3a2f1b857aac70ef8b269080af17764bbe"
+uuid = "9a962f9c-6df0-11e9-0e5d-c546b8b5ee8a"
+version = "1.16.0"
 
 [[deps.DataTypesBasic]]
 git-tree-sha1 = "0ebf9d9def6135849a9da8d2a1f144d0c467b81c"
 uuid = "83eed652-29e8-11e9-12da-a7c29d64ffc9"
 version = "2.0.3"
+
+[[deps.DataValueInterfaces]]
+git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
+uuid = "e2d170a0-9d28-54be-80f0-106bbe20a464"
+version = "1.0.0"
 
 [[deps.Dates]]
 deps = ["Printf"]
@@ -335,10 +174,6 @@ deps = ["Mmap"]
 git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 version = "1.9.1"
-
-[[deps.Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -429,6 +264,11 @@ version = "0.2.5"
 deps = ["Markdown"]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
+[[deps.IteratorInterfaceExtensions]]
+git-tree-sha1 = "a3f24677c21f5bbe9d2a714f95dcd58337fb2856"
+uuid = "82899510-4779-5014-852e-03e436cf321d"
+version = "1.0.0"
+
 [[deps.JLLWrappers]]
 deps = ["Artifacts", "Preferences"]
 git-tree-sha1 = "be3dc50a92e5a386872a493a10050136d4703f9b"
@@ -486,16 +326,14 @@ version = "0.1.89"
     PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
     RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
-[[deps.JuliaInterpreter]]
-deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
-git-tree-sha1 = "2984284a8abcfcc4784d95a9e2ea4e352dd8ede7"
-uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.9.36"
-
 [[deps.LaTeXStrings]]
-git-tree-sha1 = "50901ebc375ed41dbf8058da26f9de442febbbec"
+git-tree-sha1 = "dda21b8cbd6a6c40d9d02a73230f9d70fed6918c"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-version = "1.3.1"
+version = "1.4.0"
+
+[[deps.LazyArtifacts]]
+deps = ["Artifacts", "Pkg"]
+uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
@@ -543,16 +381,16 @@ git-tree-sha1 = "c1dd6d7978c12545b4179fb6153b9250c96b0075"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "1.0.3"
 
-[[deps.LoweredCodeUtils]]
-deps = ["JuliaInterpreter"]
-git-tree-sha1 = "260dc274c1bc2cb839e758588c63d9c8b5e639d1"
-uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
-version = "3.0.5"
-
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
 version = "0.1.4"
+
+[[deps.MacroTools]]
+deps = ["Markdown", "Random"]
+git-tree-sha1 = "2fa9ee3e63fd3a4f7a9a4f4744a52f4856de82df"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.13"
 
 [[deps.Markdown]]
 deps = ["Base64"]
@@ -568,6 +406,12 @@ version = "1.1.9"
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
 version = "2.28.2+1"
+
+[[deps.MicroMamba]]
+deps = ["Pkg", "Scratch", "micromamba_jll"]
+git-tree-sha1 = "011cab361eae7bcd7d278f0a7a00ff9c69000c51"
+uuid = "0b3b1443-0f03-428d-bdfb-f27f9c1191ea"
+version = "0.1.14"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -618,6 +462,12 @@ deps = ["Dates", "PrecompileTools", "UUIDs"]
 git-tree-sha1 = "8489905bcdbcfac64d1daa51ca07c0d8f0283821"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.8.1"
+
+[[deps.Pidfile]]
+deps = ["FileWatching", "Test"]
+git-tree-sha1 = "2d8aaf8ee10df53d0dfb9b8ee44ae7c04ced2b03"
+uuid = "fa939f87-e72e-5be4-a000-7fc836dbe307"
+version = "1.3.0"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -671,6 +521,12 @@ git-tree-sha1 = "848a4470b54820cba8c4642840e9cea8345ff520"
 uuid = "9b3bf0c4-f070-48bc-ae01-f2584e9c23bc"
 version = "1.1.1"
 
+[[deps.PythonCall]]
+deps = ["CondaPkg", "Dates", "Libdl", "MacroTools", "Markdown", "Pkg", "REPL", "Requires", "Serialization", "Tables", "UnsafePointers"]
+git-tree-sha1 = "06a778ec6d6e76b0c2fb661436a18bce853ec45f"
+uuid = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+version = "0.9.23"
+
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
@@ -689,12 +545,6 @@ deps = ["UUIDs"]
 git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
-
-[[deps.Revise]]
-deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "REPL", "Requires", "UUIDs", "Unicode"]
-git-tree-sha1 = "7f4228017b83c66bd6aa4fddeb170ce487e53bc7"
-uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
-version = "3.6.2"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
@@ -760,6 +610,18 @@ deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 version = "1.0.3"
 
+[[deps.TableTraits]]
+deps = ["IteratorInterfaceExtensions"]
+git-tree-sha1 = "c06b2f539df1c6efa794486abfb6ed2022561a39"
+uuid = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
+version = "1.0.1"
+
+[[deps.Tables]]
+deps = ["DataAPI", "DataValueInterfaces", "IteratorInterfaceExtensions", "OrderedCollections", "TableTraits"]
+git-tree-sha1 = "598cd7c1f68d1e205689b1c2fe65a9f85846f297"
+uuid = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
+version = "1.12.0"
+
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
@@ -802,6 +664,11 @@ version = "1.0.2"
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
+[[deps.UnsafePointers]]
+git-tree-sha1 = "c81331b3b2e60a982be57c046ec91f599ede674a"
+uuid = "e17b2a0c-0bdf-430a-bd0c-3a23cae4ff39"
+version = "1.0.0"
+
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Zlib_jll"]
 git-tree-sha1 = "1165b0443d0eca63ac1e32b8c0eb69ed2f4f8127"
@@ -818,6 +685,12 @@ deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
 version = "5.11.0+0"
 
+[[deps.micromamba_jll]]
+deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl"]
+git-tree-sha1 = "b4a5a3943078f9fd11ae0b5ab1bdbf7718617945"
+uuid = "f8abcde7-e9b7-5caa-b8af-a437887ae8e4"
+version = "1.5.8+0"
+
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
@@ -831,33 +704,11 @@ version = "17.4.0+2"
 
 
 # ╔═╡ Cell order:
-# ╟─eed504cc-83d8-11ee-1256-c1fec17d8788
-# ╟─bd6e7590-b9a4-4d07-86e7-ed6a28a3da0d
-# ╟─084b7ac4-6874-48fa-a79d-24fb13490bf9
-# ╟─ef0a6231-faac-42f3-af5a-f0dd168538f6
-# ╠═b9e65ffc-18c4-48ca-a657-13bdcfa338ac
-# ╠═cc9eef49-8785-42ad-a30f-995858d31045
-# ╠═30ae245f-f4a8-4aa2-8992-d564e5d0f563
-# ╟─e6f1e1ef-8fc9-46f8-a7a9-9e174305de09
-# ╠═698985dd-b081-4da8-a3ba-ac35a2e86b59
-# ╟─113e0c89-1589-45ab-9646-8cfc71768842
-# ╟─8d2ee184-4012-4706-b0ac-8d4e35d1dc9d
-# ╠═95c9d8eb-fcd7-48e0-a607-ffa4c9f9b8ac
-# ╟─1831e3f6-0067-4516-b596-40c3cc5a1db7
-# ╠═f982f685-56a7-40ca-b9b3-e7a783c49bd7
-# ╠═9284050f-13b9-433f-9b35-49555faf698b
-# ╠═c46a7eed-5357-4031-8e0b-8d96473d3a16
-# ╟─960dbccd-f8e7-43b1-babb-c046c5501b92
-# ╠═3b0ebdf4-f318-411a-8734-f45701969e02
-# ╟─1b0a3564-a78c-4f76-b367-6d2366cb3f86
-# ╠═8999f0f1-3604-49e5-bf3b-b31e8a7f305e
-# ╟─f2eef049-e715-4e1a-b9e9-280325193ad9
-# ╠═ffba49c2-6dc3-4a78-985c-0f6c4e2448d3
-# ╟─883f5836-f233-4a48-a659-c47d55aed05f
-# ╠═b8085389-9679-432f-ae5a-fb9b29148f42
-# ╟─1b7274fc-826d-4510-a3df-2f7c3a4b3a31
-# ╟─95002bdd-0f7e-45a4-ad4c-1b9f04216094
-# ╠═f8e9230e-3181-4bc1-ae12-816b1c9e0e1b
-# ╠═57a4a0f8-9d50-4a26-86d4-bb99d5697aa6
+# ╠═96c7e87a-8bb2-11ef-0a3c-9193a2515b17
+# ╠═96c7e8f2-8bb2-11ef-0e34-49d58558a2b5
+# ╠═96c7e906-8bb2-11ef-0c12-81872db9a7f8
+# ╠═1f4a2739-9858-408d-b119-3c0a5e57a9ab
+# ╠═78309512-b9d4-4fd8-bbe1-7226ab46b2f3
+# ╟─00000000-0000-0000-0000-000000000000
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
