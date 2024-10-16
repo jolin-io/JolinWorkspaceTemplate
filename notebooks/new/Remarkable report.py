@@ -10,7 +10,7 @@ jl.MD("""
 """)
 
 # ╔═╡ 96c7e906-8bb2-11ef-0c12-81872db9a7f8
-a = 1
+a, ui = jl.viewof("a", jl.Slider(range(10)))
 
 # ╔═╡ 1f4a2739-9858-408d-b119-3c0a5e57a9ab
 b = 100 * a
