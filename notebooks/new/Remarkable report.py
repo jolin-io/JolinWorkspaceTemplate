@@ -68,7 +68,7 @@ def mandelbrot(c, max_iter):
 # ╔═╡ 1f9baba2-8bb3-11ef-19fa-c169c58767b7
 # Calculate the Mandelbrot set
 
-mandelbrot_set = np.frompyfunc(lambda x: mandelbrot(x, max_iterations), 1, 1, dtype=np.float64)(c)
+mandelbrot_set = np.frompyfunc(lambda x: mandelbrot(x, max_iterations), 1, 1)(c).dtype(np.float64)
 
 # ╔═╡ 1f9babc8-8bb3-11ef-1d9d-235ea17e1087
 jl.MD("""
