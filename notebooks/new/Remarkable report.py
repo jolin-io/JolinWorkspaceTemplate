@@ -105,7 +105,6 @@ PLUTO_PROJECT_TOML_CONTENTS = """
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 Jolin = "87100c7f-5f96-485a-944e-f6ba66ec4971"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 
 [compat]
 CondaPkg = "~0.2.23"
@@ -120,7 +119,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.10.5"
 manifest_format = "2.0"
-project_hash = "fb26343bc64ec91cc7840c2c05b23b9437df258f"
+project_hash = "732eb866a61416c3df16ad7891b3aea36dde229f"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -142,12 +141,6 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 git-tree-sha1 = "0691e34b3bb8be9307330f88d1a3c3f25466c24d"
 uuid = "d1d4a3ce-64b1-5f1a-9ba4-7e7e69966f35"
 version = "0.1.9"
-
-[[deps.CodeTracking]]
-deps = ["InteractiveUtils", "UUIDs"]
-git-tree-sha1 = "7eee164f122511d3e4e1ebadb7956939ea7e1c77"
-uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
-version = "1.3.6"
 
 [[deps.CodecZlib]]
 deps = ["TranscodingStreams", "Zlib_jll"]
@@ -253,10 +246,6 @@ deps = ["Mmap"]
 git-tree-sha1 = "9e2f36d3c96a820c678f2f1f1782582fcf685bae"
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 version = "1.9.1"
-
-[[deps.Distributed]]
-deps = ["Random", "Serialization", "Sockets"]
-uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -409,12 +398,6 @@ version = "0.1.89"
     PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
     RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
-[[deps.JuliaInterpreter]]
-deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
-git-tree-sha1 = "2984284a8abcfcc4784d95a9e2ea4e352dd8ede7"
-uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
-version = "0.9.36"
-
 [[deps.LaTeXStrings]]
 git-tree-sha1 = "dda21b8cbd6a6c40d9d02a73230f9d70fed6918c"
 uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
@@ -469,12 +452,6 @@ deps = ["Dates", "Logging"]
 git-tree-sha1 = "c1dd6d7978c12545b4179fb6153b9250c96b0075"
 uuid = "e6f89c97-d47a-5376-807f-9c37f3926c36"
 version = "1.0.3"
-
-[[deps.LoweredCodeUtils]]
-deps = ["JuliaInterpreter"]
-git-tree-sha1 = "260dc274c1bc2cb839e758588c63d9c8b5e639d1"
-uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
-version = "3.0.5"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
@@ -640,12 +617,6 @@ deps = ["UUIDs"]
 git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
-
-[[deps.Revise]]
-deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "REPL", "Requires", "UUIDs", "Unicode"]
-git-tree-sha1 = "7f4228017b83c66bd6aa4fddeb170ce487e53bc7"
-uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
-version = "3.6.2"
 
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
